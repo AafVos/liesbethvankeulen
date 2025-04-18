@@ -1,4 +1,5 @@
 import { createClient } from 'contentful';
+import Slideshow from './components/Slideshow';
 
 // Configure Contentful client
 const client = createClient({
@@ -42,41 +43,52 @@ async function getContentfulEntry() {
   }
 }
 
-// Function to get the background image from Contentful
-async function getContentfulBackgroundImage() {
+// Function to get all media assets from Contentful
+async function getAllContentfulMedia() {
   try {
-    // Fetch the image asset directly
-    const imageAsset = await client.getAsset('27Q1BBeeOwCqL3NdaNaNT');
-    return imageAsset?.fields?.file?.url || null;
+    // Fetch all assets from Contentful
+    const response = await client.getAssets({
+      limit: 100, // Increase if you have more assets
+      order: 'sys.createdAt'
+    });
+    
+    console.log(`Found ${response.items.length} media assets in Contentful`);
+    
+    // Filter for just image assets and extract URLs
+    const mediaAssets = response.items
+      .filter(asset => asset.fields.file.contentType.startsWith('image/'))
+      .map(asset => ({
+        id: asset.sys.id,
+        url: asset.fields.file.url,
+        title: asset.fields.title || '',
+        description: asset.fields.description || '',
+        contentType: asset.fields.file.contentType
+      }));
+      
+    return mediaAssets;
   } catch (error) {
-    console.error('Error fetching background image from Contentful:', error);
-    return null;
+    console.error('Error fetching media assets from Contentful:', error);
+    return [];
   }
 }
 
 export default async function Home() {
   // Fetch data from Contentful
   const entry = await getContentfulEntry();
-  
-  // Fetch background image from Contentful
-  const backgroundImageUrl = await getContentfulBackgroundImage();
+  const mediaAssets = await getAllContentfulMedia();
   
   // Extract the title text from the rich text field
   const titleText = entry?.fields?.title1 ? extractTextFromRichText(entry.fields.title1) : 'Liesbeth van Keulen';
   
-  // Create background style with the Contentful image
-  const backgroundStyle = {
-    backgroundImage: backgroundImageUrl ? `url(https:${backgroundImageUrl})` : "url('/boot.jpeg')",
-    backgroundSize: 'cover',
-    backgroundPosition: 'center center',
-    backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
-  };
-  
   return (
-    <div className="flex flex-col min-h-screen w-full" style={backgroundStyle}>
-      {/* Header */}
-      <header className="p-6 w-full">
+    <div className="flex flex-col min-h-screen w-full">
+      {/* Slideshow as full background */}
+      <div className="fixed inset-0 w-full h-full">
+        <Slideshow images={mediaAssets} />
+      </div>
+      
+      {/* Header - now fully transparent */}
+      <header className="relative p-6 w-full z-20">
         <div className="text-left">
           <h2 
             className="text-3xl text-white tracking-wide drop-shadow-md" 
@@ -91,10 +103,8 @@ export default async function Home() {
         </div>
       </header>
       
-      {/* Main content area */}
-      <main className="flex-grow flex items-center justify-center">
-        {/* Main content can be added here if needed */}
-      </main>
+      {/* Empty main content */}
+      <main className="flex-grow"></main>
     </div>
   );
 }
