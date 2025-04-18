@@ -161,16 +161,8 @@ export default function Sculptures() {
             </nav>
           </div>
 
-          {/* Home link */}
-          <div>
-            <Link
-              href="/"
-              className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-              style={navLinkStyle}
-            >
-              Home
-            </Link>
-          </div>
+          {/* Empty space for alignment */}
+          <div style={{ width: '200px' }}></div>
         </div>
 
         {/* Mobile layout - stacked with title at top and centered nav below */}
@@ -219,16 +211,6 @@ export default function Sculptures() {
               </li>
             </ul>
           </nav>
-          
-          <div className="flex justify-center">
-            <Link
-              href="/"
-              className="text-white text-lg hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-              style={navLinkStyle}
-            >
-              Home
-            </Link>
-          </div>
         </div>
       </header>
       
