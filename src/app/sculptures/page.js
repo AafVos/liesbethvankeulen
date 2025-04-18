@@ -4,11 +4,23 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from 'contentful';
 
-// Configure Contentful client
-const client = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
-});
+// Configure Contentful client - with error handling
+function getContentfulClient() {
+  try {
+    if (!process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || !process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN) {
+      console.error('Contentful environment variables are missing');
+      return null;
+    }
+    
+    return createClient({
+      space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
+      accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
+    });
+  } catch (error) {
+    console.error('Error creating Contentful client:', error);
+    return null;
+  }
+}
 
 export default function Sculptures() {
   // Style for navigation links
@@ -21,19 +33,32 @@ export default function Sculptures() {
   const [isMounted, setIsMounted] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
   
   // Fetch the video from Contentful
   useEffect(() => {
     async function fetchVideo() {
       try {
         setIsLoading(true);
+        setError('');
+        
+        const client = getContentfulClient();
+        if (!client) {
+          setError('Contentful client could not be initialized');
+          setIsLoading(false);
+          return;
+        }
+        
         const videoAsset = await client.getAsset('53FQoUiUIGTOLTAsRLW6RH');
         if (videoAsset && videoAsset.fields && videoAsset.fields.file) {
           const videoFileUrl = videoAsset.fields.file.url;
           setVideoUrl(`https:${videoFileUrl}`);
+        } else {
+          setError('Video asset not found');
         }
       } catch (error) {
         console.error('Error fetching video from Contentful:', error);
+        setError('Error loading video: ' + (error.message || 'Unknown error'));
       } finally {
         setIsLoading(false);
       }
@@ -67,6 +92,16 @@ export default function Sculptures() {
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center z-5 bg-black">
           <div className="text-white">Loading video...</div>
+        </div>
+      )}
+      
+      {/* Error state */}
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center z-5 bg-black">
+          <div className="text-white text-center max-w-md p-4">
+            <p className="mb-4">Unable to load video.</p>
+            <p className="text-sm opacity-75">{error}</p>
+          </div>
         </div>
       )}
       
