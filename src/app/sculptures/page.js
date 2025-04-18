@@ -1,222 +1,98 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { createClient } from 'contentful';
+import Slideshow from '../components/Slideshow';
+import Header from '../components/Header';
 
-// Configure Contentful client - with error handling
-function getContentfulClient() {
-  try {
-    if (!process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || !process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN) {
-      console.error('Contentful environment variables are missing');
-      return null;
+// Configure Contentful client
+const client = createClient({
+  space: process.env.CONTENTFUL_SPACE_ID || '1z6huih0p4zo',
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || 'Txn-WQTpRlMJOgPkZu-ifKIM1x52cW95lwJ3-I6DKWY',
+});
+
+// Helper function to extract text from rich text field
+function extractTextFromRichText(richTextField) {
+  if (!richTextField || !richTextField.content) return '';
+  
+  let extractedText = '';
+  
+  // Process each content block
+  richTextField.content.forEach(block => {
+    if (block.nodeType === 'paragraph' && block.content) {
+      // Process each text node in the paragraph
+      block.content.forEach(textNode => {
+        if (textNode.nodeType === 'text') {
+          extractedText += textNode.value;
+        }
+      });
     }
+  });
+  
+  return extractedText;
+}
+
+// Use async/await for data fetching
+async function getContentfulEntry() {
+  try {
+    const entryId = process.env.CONTENTFUL_ENTRY_ID || 'VK4FUyRfriPg9Aa2UP2Rc';
+    console.log('Fetching Contentful entry with ID:', entryId);
+    console.log('Using Contentful space:', process.env.CONTENTFUL_SPACE_ID || '1z6huih0p4zo');
     
-    return createClient({
-      space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
-      accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
-    });
+    const entry = await client.getEntry(entryId);
+    return entry;
   } catch (error) {
-    console.error('Error creating Contentful client:', error);
+    console.error('Error fetching Contentful data:', error);
     return null;
   }
 }
 
-export default function Sculptures() {
-  // Style for navigation links
-  const navLinkStyle = {
-    fontFamily: "'Courier New', Courier, monospace",
-    fontWeight: 400,
-    letterSpacing: '0.07em'
-  };
-
-  const [isMounted, setIsMounted] = useState(false);
-  const [videoUrl, setVideoUrl] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-  
-  // Fetch the video from Contentful
-  useEffect(() => {
-    async function fetchVideo() {
-      try {
-        setIsLoading(true);
-        setError('');
-        
-        const client = getContentfulClient();
-        if (!client) {
-          setError('Contentful client could not be initialized');
-          setIsLoading(false);
-          return;
-        }
-        
-        const videoAsset = await client.getAsset('53FQoUiUIGTOLTAsRLW6RH');
-        if (videoAsset && videoAsset.fields && videoAsset.fields.file) {
-          const videoFileUrl = videoAsset.fields.file.url;
-          setVideoUrl(`https:${videoFileUrl}`);
-        } else {
-          setError('Video asset not found');
-        }
-      } catch (error) {
-        console.error('Error fetching video from Contentful:', error);
-        setError('Error loading video: ' + (error.message || 'Unknown error'));
-      } finally {
-        setIsLoading(false);
-      }
+// Function to get the specific sculpture video asset
+async function getSculptureVideo() {
+  try {
+    // Fetch the specific asset with ID 53FQoUiUIGTOLTAsRLW6RH
+    const assetId = '53FQoUiUIGTOLTAsRLW6RH';
+    console.log(`Fetching specific sculpture video asset with ID: ${assetId}`);
+    
+    const asset = await client.getAsset(assetId);
+    
+    if (!asset || !asset.fields || !asset.fields.file) {
+      console.error('Asset not found or incomplete');
+      return null;
     }
     
-    fetchVideo();
-  }, []);
+    // Return the asset in the expected format for the Slideshow component
+    return [{
+      id: asset.sys.id,
+      url: asset.fields.file.url,
+      title: asset.fields.title || '',
+      description: asset.fields.description || '',
+      contentType: asset.fields.file.contentType
+    }];
+  } catch (error) {
+    console.error(`Error fetching sculpture video with ID 53FQoUiUIGTOLTAsRLW6RH:`, error);
+    return [];
+  }
+}
+
+export default async function Sculptures() {
+  // Fetch data from Contentful
+  const entry = await getContentfulEntry();
+  const sculptureAssets = await getSculptureVideo();
   
-  // Ensure component is mounted before playing video (for hydration)
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
+  // Extract the title text from the rich text field
+  const titleText = entry?.fields?.title1 ? extractTextFromRichText(entry.fields.title1) : 'Liesbeth van Keulen';
+  
   return (
-    <div className="flex flex-col min-h-screen w-full relative overflow-hidden">
-      {/* Video Background */}
-      {isMounted && videoUrl && (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute top-0 left-0 min-w-full min-h-full object-cover z-0"
-        >
-          <source src={videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
+    <div className="flex flex-col min-h-screen w-full">
+      {/* Slideshow as full background */}
+      <div className="fixed inset-0 w-full h-full">
+        <Slideshow images={sculptureAssets} />
+      </div>
       
-      {/* Loading state */}
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center z-5 bg-black">
-          <div className="text-white">Loading video...</div>
-        </div>
-      )}
+      {/* Use the new Header component */}
+      <Header title={titleText} />
       
-      {/* Error state */}
-      {error && (
-        <div className="absolute inset-0 flex items-center justify-center z-5 bg-black">
-          <div className="text-white text-center max-w-md p-4">
-            <p className="mb-4">Unable to load video.</p>
-            <p className="text-sm opacity-75">{error}</p>
-          </div>
-        </div>
-      )}
-      
-      {/* Dark overlay for better text visibility */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black/30 z-10"></div>
-      
-      {/* Header with navigation */}
-      <header className="relative w-full z-20 py-6 px-6">
-        {/* Desktop layout */}
-        <div className="hidden md:flex items-center justify-between w-full">
-          {/* Title on the left */}
-          <div>
-            <h2 
-              className="text-3xl text-white tracking-wide drop-shadow-md" 
-              style={{ 
-                fontFamily: "'Courier New', Courier, monospace",
-                fontWeight: 400,
-                letterSpacing: '0.05em'
-              }}
-            >
-              Liesbeth van Keulen
-            </h2>
-          </div>
-          
-          {/* Navigation links in the center */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
-            <nav>
-              <ul className="flex space-x-12">
-                <li>
-                  <Link 
-                    href="/landscapes" 
-                    className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                    style={navLinkStyle}
-                  >
-                    Landscapes
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/sculptures" 
-                    className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md underline"
-                    style={navLinkStyle}
-                  >
-                    Sculptures
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/portraits" 
-                    className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                    style={navLinkStyle}
-                  >
-                    Portraits
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          {/* Empty space for alignment */}
-          <div style={{ width: '200px' }}></div>
-        </div>
-
-        {/* Mobile layout - stacked with title at top and centered nav below */}
-        <div className="flex flex-col md:hidden w-full space-y-6">
-          <div className="text-center">
-            <h2 
-              className="text-2xl text-white tracking-wide drop-shadow-md" 
-              style={{ 
-                fontFamily: "'Courier New', Courier, monospace",
-                fontWeight: 400,
-                letterSpacing: '0.05em'
-              }}
-            >
-              Liesbeth van Keulen
-            </h2>
-          </div>
-          
-          <nav className="flex justify-center">
-            <ul className="flex space-x-6">
-              <li>
-                <Link 
-                  href="/landscapes" 
-                  className="text-white text-lg hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                  style={navLinkStyle}
-                >
-                  Landscapes
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/sculptures" 
-                  className="text-white text-lg hover:text-gray-300 transition-colors duration-300 drop-shadow-md underline"
-                  style={navLinkStyle}
-                >
-                  Sculptures
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/portraits" 
-                  className="text-white text-lg hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                  style={navLinkStyle}
-                >
-                  Portraits
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-      
-      {/* Page Content - Removed the text */}
-      <main className="flex-grow flex items-center justify-center z-20">
-        {/* Content area left empty intentionally */}
+      {/* Main content */}
+      <main className="flex-grow flex items-center justify-center">
+        {/* You can add additional content here */}
       </main>
     </div>
   );

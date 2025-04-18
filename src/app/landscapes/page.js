@@ -1,5 +1,6 @@
 import { createClient } from 'contentful';
 import Slideshow from '../components/Slideshow';
+import Header from '../components/Header';
 import Link from 'next/link';
 
 // Configure Contentful client
@@ -95,114 +96,13 @@ export default async function Landscapes() {
         <Slideshow images={mediaAssets} />
       </div>
       
-      {/* Header with navigation - structure differs between mobile and desktop */}
-      <header className="relative w-full z-20 py-6 px-6">
-        {/* Desktop layout */}
-        <div className="hidden md:flex items-center justify-between w-full">
-          {/* Title on the left */}
-          <div>
-            <h2 
-              className="text-3xl text-white tracking-wide drop-shadow-md" 
-              style={{ 
-                fontFamily: "'Courier New', Courier, monospace",
-                fontWeight: 400,
-                letterSpacing: '0.05em'
-              }}
-            >
-              {titleText}
-            </h2>
-          </div>
-          
-          {/* Navigation links in the center */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
-            <nav>
-              <ul className="flex space-x-12">
-                <li>
-                  <Link 
-                    href="/landscapes" 
-                    className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md underline"
-                    style={navLinkStyle}
-                  >
-                    Landscapes
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/sculptures" 
-                    className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                    style={navLinkStyle}
-                  >
-                    Sculptures
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/portraits" 
-                    className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                    style={navLinkStyle}
-                  >
-                    Portraits
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          {/* Empty space for alignment */}
-          <div style={{ width: '200px' }}></div>
-        </div>
-
-        {/* Mobile layout - stacked with title at top and centered nav below */}
-        <div className="flex flex-col md:hidden w-full space-y-6">
-          <div className="text-center">
-            <h2 
-              className="text-2xl text-white tracking-wide drop-shadow-md" 
-              style={{ 
-                fontFamily: "'Courier New', Courier, monospace",
-                fontWeight: 400,
-                letterSpacing: '0.05em'
-              }}
-            >
-              {titleText}
-            </h2>
-          </div>
-          
-          <nav className="flex justify-center">
-            <ul className="flex space-x-6">
-              <li>
-                <Link 
-                  href="/landscapes" 
-                  className="text-white text-lg hover:text-gray-300 transition-colors duration-300 drop-shadow-md underline"
-                  style={navLinkStyle}
-                >
-                  Landscapes
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/sculptures" 
-                  className="text-white text-lg hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                  style={navLinkStyle}
-                >
-                  Sculptures
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/portraits" 
-                  className="text-white text-lg hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                  style={navLinkStyle}
-                >
-                  Portraits
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      {/* Use the new Header component */}
+      <Header title={titleText} />
       
-      {/* Empty main content */}
-      <main className="flex-grow"></main>
+      {/* Main content */}
+      <main className="flex-grow flex items-center justify-center">
+        {/* You can add additional content here */}
+      </main>
     </div>
   );
 } 

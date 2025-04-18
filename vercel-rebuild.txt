@@ -1,2 +1,0 @@
-Vercel rebuild trigger - This file helps to force a clean rebuild when pushed to the repository.
-Timestamp: <%= new Date().toISOString() %> 

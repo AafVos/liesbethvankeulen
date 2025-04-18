@@ -5,36 +5,53 @@ import { useState, useEffect } from 'react';
 export default function Slideshow({ images }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
-  // Debug logging
-  console.log("Slideshow received images:", images);
-  
   useEffect(() => {
-    // Change image every 5 seconds
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000);
-    
-    return () => clearInterval(interval);
-  }, [images.length]);
+    // Change image every 5 seconds if there are multiple images (don't rotate for videos)
+    if (images.length > 1 && !images.some(item => item.contentType.startsWith('video/'))) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => 
+          prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 5000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [images.length, images]);
   
   // If no images, show nothing
   if (!images || images.length === 0) {
     return (
       <div className="flex items-center justify-center h-full w-full">
         <div className="text-white text-center bg-black/50 p-6 rounded">
-          <p>No images available from Contentful</p>
+          <p>No media available from Contentful</p>
           <p className="text-sm mt-2">Please check your Contentful space for media assets</p>
         </div>
       </div>
     );
   }
   
-  // Debug the current image
-  const currentImage = images[currentImageIndex];
-  console.log("Current image:", currentImage);
+  // Check if we're dealing with a video
+  const isVideo = images[0]?.contentType?.startsWith('video/');
   
+  // For videos, just display the first one
+  if (isVideo) {
+    return (
+      <div className="w-full h-full bg-black">
+        <video 
+          src={`https:${images[0].url}`}
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    );
+  }
+  
+  // For images, use slideshow
   return (
     <div className="relative w-full h-full">
       {images.map((image, index) => (
