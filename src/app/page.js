@@ -42,15 +42,39 @@ async function getContentfulEntry() {
   }
 }
 
+// Function to get the background image from Contentful
+async function getContentfulBackgroundImage() {
+  try {
+    // Fetch the image asset directly
+    const imageAsset = await client.getAsset('27Q1BBeeOwCqL3NdaNaNT');
+    return imageAsset?.fields?.file?.url || null;
+  } catch (error) {
+    console.error('Error fetching background image from Contentful:', error);
+    return null;
+  }
+}
+
 export default async function Home() {
   // Fetch data from Contentful
   const entry = await getContentfulEntry();
   
+  // Fetch background image from Contentful
+  const backgroundImageUrl = await getContentfulBackgroundImage();
+  
   // Extract the title text from the rich text field
   const titleText = entry?.fields?.title1 ? extractTextFromRichText(entry.fields.title1) : 'Liesbeth van Keulen';
   
+  // Create background style with the Contentful image
+  const backgroundStyle = {
+    backgroundImage: backgroundImageUrl ? `url(https:${backgroundImageUrl})` : "url('/boot.jpeg')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+  };
+  
   return (
-    <div className="flex flex-col min-h-screen w-full">
+    <div className="flex flex-col min-h-screen w-full" style={backgroundStyle}>
       {/* Header */}
       <header className="p-6 w-full">
         <div className="text-left">
@@ -67,9 +91,9 @@ export default async function Home() {
         </div>
       </header>
       
-      {/* Main content with centered title - removed to only show header title */}
+      {/* Main content area */}
       <main className="flex-grow flex items-center justify-center">
-        {/* Main centered title removed as requested */}
+        {/* Main content can be added here if needed */}
       </main>
     </div>
   );
