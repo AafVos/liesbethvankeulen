@@ -1,5 +1,6 @@
 import { createClient } from 'contentful';
 import Image from 'next/image';
+import Link from 'next/link';
 import Header from '../components/Header';
 import { getThemeColors } from '../styles/theme';
 
@@ -111,9 +112,10 @@ export default async function Gallery() {
         {/* Image grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {allImages.map((image, index) => (
-            <div 
+            <Link 
               key={image.id} 
-              className="relative aspect-square overflow-hidden rounded shadow-lg hover:opacity-90 transition-opacity"
+              href={`/gallery/${image.id}`}
+              className="block relative aspect-square overflow-hidden rounded shadow-lg hover:opacity-90 transition-opacity cursor-pointer"
             >
               <Image 
                 src={`https:${image.url}`}
@@ -136,7 +138,7 @@ export default async function Gallery() {
                   SOLD
                 </div>
               )}
-            </div>
+            </Link>
           ))}
         </div>
       </main>

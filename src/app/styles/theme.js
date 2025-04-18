@@ -5,7 +5,8 @@ export const themes = {
     background: '#1c1c1c',
     text: '#ffffff',
     heading: '#ffffff',
-    accent: '#d3d3d3'
+    accent: '#d3d3d3',
+    link: '#d3d3d3'
   },
   
   // Option 2: Light theme with green text
@@ -13,7 +14,8 @@ export const themes = {
     background: '#ffffff',
     text: '#6a7b4f',
     heading: '#6a7b4f',
-    accent: '#9cac7f'
+    accent: '#9cac7f',
+    link: '#6a7b4f'
   }
 };
 
