@@ -110,8 +110,11 @@ export default async function Gallery() {
         
         {/* Image grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allImages.map((image) => (
-            <div key={image.id} className="relative aspect-square overflow-hidden rounded shadow-lg hover:opacity-90 transition-opacity">
+          {allImages.map((image, index) => (
+            <div 
+              key={image.id} 
+              className="relative aspect-square overflow-hidden rounded shadow-lg hover:opacity-90 transition-opacity"
+            >
               <Image 
                 src={`https:${image.url}`}
                 alt={image.title || "Liesbeth van Keulen artwork"}
@@ -119,8 +122,20 @@ export default async function Gallery() {
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover"
-                priority={false}
+                priority={index === 0}
               />
+
+              {/* SOLD label for the first item */}
+              {index === 0 && (
+                <div className="absolute top-2 right-2 bg-white text-black py-1 px-3 rounded-sm shadow-lg z-10"
+                     style={{ 
+                       fontFamily: "'Courier New', Courier, monospace",
+                       fontWeight: 400,
+                       letterSpacing: '0.05em'
+                     }}>
+                  SOLD
+                </div>
+              )}
             </div>
           ))}
         </div>
