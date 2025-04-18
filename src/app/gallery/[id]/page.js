@@ -153,8 +153,8 @@ export default async function GalleryItem({ params }) {
       {/* Main content */}
       <main className="container mx-auto px-4 py-12 mt-8">
         <div className="mb-6">
-          <Link href="/gallery" className="text-xl" style={{ color: theme.link }}>
-            ←
+          <Link href="/gallery" className="underline" style={{ color: theme.link }}>
+            ← Back to gallery
           </Link>
         </div>
         
