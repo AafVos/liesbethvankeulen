@@ -25,6 +25,14 @@ const Header = ({ title, themeName }) => {
     color: theme.text
   };
 
+  // Style for menu overlay links
+  const menuLinkStyle = {
+    fontFamily: "'Courier New', Courier, monospace",
+    fontWeight: 400,
+    letterSpacing: '0.07em',
+    color: '#ffffff' // Always white in the menu overlay
+  };
+
   return (
     <header className="relative w-full z-30 py-6 px-6">
       {/* Desktop layout */}
@@ -94,14 +102,19 @@ const Header = ({ title, themeName }) => {
             <ul className="space-y-8">
               <li>
                 <Link 
+                  href="/landscapes" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link 
                   href="/gallery" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={{
-                    fontFamily: "'Courier New', Courier, monospace",
-                    fontWeight: 400,
-                    letterSpacing: '0.07em',
-                    color: '#ffffff' // Always white in the menu overlay
-                  }}
+                  style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
                   Gallery
@@ -111,12 +124,7 @@ const Header = ({ title, themeName }) => {
                 <Link 
                   href="#" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={{
-                    fontFamily: "'Courier New', Courier, monospace",
-                    fontWeight: 400,
-                    letterSpacing: '0.07em',
-                    color: '#ffffff' // Always white in the menu overlay
-                  }}
+                  style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
                   Webshop
@@ -126,12 +134,7 @@ const Header = ({ title, themeName }) => {
                 <Link 
                   href="#" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={{
-                    fontFamily: "'Courier New', Courier, monospace",
-                    fontWeight: 400,
-                    letterSpacing: '0.07em',
-                    color: '#ffffff' // Always white in the menu overlay
-                  }}
+                  style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
                   Contact
