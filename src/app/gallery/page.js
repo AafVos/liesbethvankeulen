@@ -90,15 +90,20 @@ export default async function Gallery() {
   
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      {/* Header with theme name passed */}
-      <Header title={titleText} themeName={themeName} />
+      {/* Header with theme name passed and navigation hidden */}
+      <Header 
+        title={titleText} 
+        themeName={themeName} 
+        showNavigation={false} 
+      />
       
       {/* Main content */}
       <main className="container mx-auto px-4 py-12 mt-8">
-        <h1 className="text-3xl font-semibold mb-8 text-center" 
+        <h1 className="text-3xl mb-8 text-center" 
             style={{ 
               fontFamily: "'Courier New', Courier, monospace",
-              color: theme.heading
+              color: theme.heading,
+              fontWeight: 400
             }}>
           Gallery
         </h1>

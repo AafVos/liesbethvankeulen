@@ -7,7 +7,7 @@ import { getThemeColors } from '../styles/theme';
 // By default, use the dark theme if no theme is specified
 const defaultTheme = getThemeColors('dark');
 
-const Header = ({ title, themeName }) => {
+const Header = ({ title, themeName, showNavigation = true }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   
   // Use the provided theme name or default to dark
@@ -53,45 +53,47 @@ const Header = ({ title, themeName }) => {
         </div>
         
         {/* Navigation links in the center visible on large screens */}
-        <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
-          <nav>
-            <ul className="flex space-x-12">
-              <li>
-                <Link 
-                  href="/landscapes" 
-                  className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
-                  style={{...navLinkStyle}}
-                >
-                  Landscapes
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/sculptures" 
-                  className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
-                  style={{...navLinkStyle}}
-                >
-                  Sculptures
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/portraits" 
-                  className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
-                  style={{...navLinkStyle}}
-                >
-                  Portraits
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        {showNavigation && (
+          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
+            <nav>
+              <ul className="flex space-x-12">
+                <li>
+                  <Link 
+                    href="/landscapes" 
+                    className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                    style={{...navLinkStyle}}
+                  >
+                    Landscapes
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    href="/sculptures" 
+                    className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                    style={{...navLinkStyle}}
+                  >
+                    Sculptures
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    href="/portraits" 
+                    className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                    style={{...navLinkStyle}}
+                  >
+                    Portraits
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        )}
 
-        {/* Hamburger menu icon on the right */}
+        {/* Hamburger menu icon on the right - thinner lines */}
         <div className="cursor-pointer z-50" onClick={toggleMenu}>
-          <div className="w-8 h-1 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-          <div className="w-8 h-1 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-          <div className="w-8 h-1 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+          <div className="w-8 h-0.5 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+          <div className="w-8 h-0.5 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+          <div className="w-8 h-0.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
         </div>
       </div>
 
