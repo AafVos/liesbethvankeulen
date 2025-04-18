@@ -50,10 +50,27 @@ export default async function Home() {
   const titleText = entry?.fields?.title1 ? extractTextFromRichText(entry.fields.title1) : 'Liesbeth van Keulen';
   
   return (
-    <div className="min-h-screen w-full flex items-center justify-center">
-      <h1 className="text-[10rem] font-extrabold text-white drop-shadow-2xl tracking-tight text-center">
-        {titleText}
-      </h1>
+    <div className="flex flex-col min-h-screen w-full">
+      {/* Header */}
+      <header className="p-6 w-full">
+        <div className="text-left">
+          <h2 
+            className="text-3xl text-white tracking-wide drop-shadow-md" 
+            style={{ 
+              fontFamily: "'Courier New', Courier, monospace",
+              fontWeight: 400,
+              letterSpacing: '0.05em'
+            }}
+          >
+            {titleText}
+          </h2>
+        </div>
+      </header>
+      
+      {/* Main content with centered title - removed to only show header title */}
+      <main className="flex-grow flex items-center justify-center">
+        {/* Main centered title removed as requested */}
+      </main>
     </div>
   );
 }
