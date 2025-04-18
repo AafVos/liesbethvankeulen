@@ -2,9 +2,16 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { getThemeColors } from '../styles/theme';
 
-const Header = ({ title }) => {
+// By default, use the dark theme if no theme is specified
+const defaultTheme = getThemeColors('dark');
+
+const Header = ({ title, themeName }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  
+  // Use the provided theme name or default to dark
+  const theme = themeName ? getThemeColors(themeName) : defaultTheme;
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -14,7 +21,8 @@ const Header = ({ title }) => {
   const navLinkStyle = {
     fontFamily: "'Courier New', Courier, monospace",
     fontWeight: 400,
-    letterSpacing: '0.07em'
+    letterSpacing: '0.07em',
+    color: theme.text
   };
 
   return (
@@ -24,11 +32,12 @@ const Header = ({ title }) => {
         {/* Title on the left */}
         <div>
           <h2 
-            className="text-3xl text-white tracking-wide drop-shadow-md" 
+            className="text-3xl tracking-wide drop-shadow-md" 
             style={{ 
               fontFamily: "'Courier New', Courier, monospace",
               fontWeight: 400,
-              letterSpacing: '0.05em'
+              letterSpacing: '0.05em',
+              color: theme.text
             }}
           >
             {title}
@@ -42,8 +51,8 @@ const Header = ({ title }) => {
               <li>
                 <Link 
                   href="/landscapes" 
-                  className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                  style={navLinkStyle}
+                  className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                  style={{...navLinkStyle}}
                 >
                   Landscapes
                 </Link>
@@ -51,8 +60,8 @@ const Header = ({ title }) => {
               <li>
                 <Link 
                   href="/sculptures" 
-                  className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                  style={navLinkStyle}
+                  className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                  style={{...navLinkStyle}}
                 >
                   Sculptures
                 </Link>
@@ -60,8 +69,8 @@ const Header = ({ title }) => {
               <li>
                 <Link 
                   href="/portraits" 
-                  className="text-white text-xl hover:text-gray-300 transition-colors duration-300 drop-shadow-md"
-                  style={navLinkStyle}
+                  className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                  style={{...navLinkStyle}}
                 >
                   Portraits
                 </Link>
@@ -72,9 +81,9 @@ const Header = ({ title }) => {
 
         {/* Hamburger menu icon on the right */}
         <div className="cursor-pointer z-50" onClick={toggleMenu}>
-          <div className="w-8 h-1 bg-white mb-1.5 drop-shadow-md"></div>
-          <div className="w-8 h-1 bg-white mb-1.5 drop-shadow-md"></div>
-          <div className="w-8 h-1 bg-white drop-shadow-md"></div>
+          <div className="w-8 h-1 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+          <div className="w-8 h-1 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+          <div className="w-8 h-1 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
         </div>
       </div>
 
@@ -85,9 +94,14 @@ const Header = ({ title }) => {
             <ul className="space-y-8">
               <li>
                 <Link 
-                  href="/landscapes" 
-                  className="text-white text-3xl hover:text-gray-300 transition-colors duration-300 drop-shadow-lg"
-                  style={navLinkStyle}
+                  href="/gallery" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={{
+                    fontFamily: "'Courier New', Courier, monospace",
+                    fontWeight: 400,
+                    letterSpacing: '0.07em',
+                    color: '#ffffff' // Always white in the menu overlay
+                  }}
                   onClick={toggleMenu}
                 >
                   Gallery
@@ -96,8 +110,13 @@ const Header = ({ title }) => {
               <li>
                 <Link 
                   href="#" 
-                  className="text-white text-3xl hover:text-gray-300 transition-colors duration-300 drop-shadow-lg"
-                  style={navLinkStyle}
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={{
+                    fontFamily: "'Courier New', Courier, monospace",
+                    fontWeight: 400,
+                    letterSpacing: '0.07em',
+                    color: '#ffffff' // Always white in the menu overlay
+                  }}
                   onClick={toggleMenu}
                 >
                   Webshop
@@ -106,8 +125,13 @@ const Header = ({ title }) => {
               <li>
                 <Link 
                   href="#" 
-                  className="text-white text-3xl hover:text-gray-300 transition-colors duration-300 drop-shadow-lg"
-                  style={navLinkStyle}
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={{
+                    fontFamily: "'Courier New', Courier, monospace",
+                    fontWeight: 400,
+                    letterSpacing: '0.07em',
+                    color: '#ffffff' // Always white in the menu overlay
+                  }}
                   onClick={toggleMenu}
                 >
                   Contact
