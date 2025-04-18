@@ -78,8 +78,8 @@ const Header = ({ title }) => {
         </div>
       </div>
 
-      {/* Fullscreen menu overlay - now with transparent background */}
-      <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-all duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      {/* Fullscreen menu overlay - now transparent with backdrop blur */}
+      <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex flex-col items-center justify-center h-full">
           <nav className="text-center">
             <ul className="space-y-8">
