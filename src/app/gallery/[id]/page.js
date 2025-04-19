@@ -104,30 +104,29 @@ export default async function GalleryItem({ params }) {
   // Extract the ID from the params
   const { id } = params;
   
-  // Fetch data from Contentful
-  const entry = await getContentfulEntry();
+  // Fetch data from Contentful - only get the specific item
   const item = await getMediaAssetById(id);
   
   // If the item doesn't exist, show a message
   if (!item) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
+      <div className="h-screen flex flex-col overflow-hidden" style={{ backgroundColor: theme.background }}>
         <Header 
           title="Liesbeth van Keulen" 
           themeName={themeName} 
           showNavigation={false} 
         />
-        <main className="container mx-auto px-4 py-12 mt-8">
-          <h1 className="text-3xl mb-8 text-center" style={{ 
+        <main className="flex-1 flex flex-col items-center justify-center px-4">
+          <h1 className="text-3xl mb-4" style={{ 
             fontFamily: "'Courier New', Courier, monospace",
             color: theme.heading,
             fontWeight: 400
           }}>
             Artwork not found
           </h1>
-          <p className="text-center mb-8">
-            <Link href="/gallery" className="underline" style={{ color: theme.link }}>
-              Return to gallery
+          <p>
+            <Link href="/gallery" className="text-2xl hover:opacity-80 transition-opacity" style={{ color: theme.link }}>
+              ←
             </Link>
           </p>
         </main>
@@ -135,14 +134,14 @@ export default async function GalleryItem({ params }) {
     );
   }
   
-  // Extract the title text from the rich text field
-  const titleText = entry?.fields?.title1 ? extractTextFromRichText(entry.fields.title1) : 'Liesbeth van Keulen';
+  // Use hardcoded title instead of extracting from Contentful
+  const titleText = 'Liesbeth van Keulen';
   
   // Check if the item is sold (first item)
   const isSold = id === '0'; // Replace with actual logic to determine if sold
   
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
+    <div className="h-screen flex flex-col overflow-hidden" style={{ backgroundColor: theme.background }}>
       {/* Header with theme name passed and navigation hidden */}
       <Header 
         title={titleText} 
@@ -150,31 +149,31 @@ export default async function GalleryItem({ params }) {
         showNavigation={false} 
       />
       
-      {/* Main content */}
-      <main className="container mx-auto px-4 py-12 mt-8">
-        <div className="mb-6">
-          <Link href="/gallery" className="underline" style={{ color: theme.link }}>
-            ← Back to gallery
+      {/* Main content - using flex-1 to take remaining height */}
+      <main className="flex-1 flex flex-col px-4 py-2">
+        <div className="mb-2">
+          <Link href="/gallery" className="text-2xl hover:opacity-80 transition-opacity" style={{ color: theme.link }}>
+            ←
           </Link>
         </div>
         
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex-1 flex flex-col md:flex-row gap-4 overflow-hidden">
           {/* Image on the left */}
-          <div className="md:w-1/2 relative">
-            <div className="relative aspect-square overflow-hidden rounded shadow-lg">
+          <div className="md:w-1/2 relative flex-1 flex items-center">
+            <div className="relative w-full h-[calc(100%-16px)] overflow-hidden rounded">
               <Image 
                 src={`https:${item.url}`}
                 alt={item.title || "Liesbeth van Keulen artwork"}
                 title={item.description || ""}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
+                className="object-contain"
                 priority
               />
               
               {/* SOLD label if applicable */}
               {isSold && (
-                <div className="absolute top-2 right-2 bg-white text-black py-1 px-3 rounded-sm shadow-lg z-10"
+                <div className="absolute top-2 right-2 bg-white text-black py-1 px-3 rounded-sm z-10"
                      style={{ 
                        fontFamily: "'Courier New', Courier, monospace",
                        fontWeight: 400,
@@ -187,8 +186,8 @@ export default async function GalleryItem({ params }) {
           </div>
           
           {/* Text content on the right */}
-          <div className="md:w-1/2">
-            <h1 className="text-2xl mb-4" style={{ 
+          <div className="md:w-1/2 flex-1 overflow-y-auto pr-2">
+            <h1 className="text-xl mb-2" style={{ 
               fontFamily: "'Courier New', Courier, monospace",
               color: theme.heading,
               fontWeight: 400
@@ -196,23 +195,23 @@ export default async function GalleryItem({ params }) {
               {item.title || "Untitled"}
             </h1>
             
-            <div className="prose" style={{ color: theme.text }}>
-              <p className="mb-4">{item.description || "No description available."}</p>
+            <div style={{ color: theme.text }}>
+              <p className="mb-2 text-sm">{item.description || "No description available."}</p>
               
-              {/* Additional artwork details can be added here */}
-              <div className="mt-8">
+              {/* Additional artwork details */}
+              <div className="mt-4 text-sm">
                 <p><strong>Medium:</strong> Oil on canvas</p>
                 <p><strong>Dimensions:</strong> 60 × 80 cm</p>
                 <p><strong>Year:</strong> 2023</p>
                 
                 {isSold ? (
-                  <p className="mt-4"><strong>Status:</strong> Sold</p>
+                  <p className="mt-2"><strong>Status:</strong> Sold</p>
                 ) : (
-                  <p className="mt-4"><strong>Price:</strong> €1,200</p>
+                  <p className="mt-2"><strong>Price:</strong> €1,200</p>
                 )}
                 
-                <p className="mt-6">
-                  <a href="mailto:info@liesbethvankeulen.nl" className="inline-block bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-700 transition-colors">
+                <p className="mt-4">
+                  <a href="mailto:info@liesbethvankeulen.nl" className="inline-block bg-gray-800 text-white py-1 px-3 rounded text-sm hover:bg-gray-700 transition-colors border border-transparent">
                     Inquire about this piece
                   </a>
                 </p>

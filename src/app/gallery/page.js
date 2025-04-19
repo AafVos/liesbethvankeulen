@@ -83,11 +83,10 @@ async function getAllContentfulMedia() {
 
 export default async function Gallery() {
   // Fetch data from Contentful
-  const entry = await getContentfulEntry();
   const allImages = await getAllContentfulMedia();
   
-  // Extract the title text from the rich text field
-  const titleText = entry?.fields?.title1 ? extractTextFromRichText(entry.fields.title1) : 'Liesbeth van Keulen';
+  // Use hardcoded title instead of extracting from Contentful
+  const titleText = 'Liesbeth van Keulen';
   
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
