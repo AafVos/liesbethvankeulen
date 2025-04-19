@@ -1,8 +1,8 @@
 import { createClient } from 'contentful';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '../../components/Header';
-import { getThemeColors } from '../../styles/theme';
+import Header from '../../../components/Header';
+import { getThemeColors } from '../../../styles/theme';
 
 // Choose theme option 2 (light theme)
 const themeName = 'light';
