@@ -1,23 +1,32 @@
 'use client';
 
 import { useState } from 'react';
-import mailchimp from '@mailchimp/mailchimp_marketing';
 
 export default function MailchimpButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [formData, setFormData] = useState({
+    email: '',
+    firstName: '',
+    lastName: ''
+  });
 
-  const handleClick = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     try {
-      mailchimp.setConfig({
-        apiKey: "85b0c626d433e9517ce93b93e1ecc987-us12",
-        server: "us12",
+      const response = await fetch('/api/mailchimp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-
-      const response = await mailchimp.lists.getList("list_id");
-      setResult(response);
-      console.log(response);
+      const data = await response.json();
+      setResult(data);
+      if (!data.error) {
+        setFormData({ email: '', firstName: '', lastName: '' });
+      }
     } catch (error) {
       console.error('Error:', error);
       setResult({ error: error.message });
@@ -26,24 +35,84 @@ export default function MailchimpButton() {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   return (
     <div className="mt-8">
-      <button
-        onClick={handleClick}
-        disabled={isLoading}
-        className="px-6 py-3 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 transition-colors duration-300 disabled:opacity-50"
-        style={{ 
-          fontFamily: "'Courier New', Courier, monospace",
-          letterSpacing: '0.05em'
-        }}
-      >
-        {isLoading ? 'Loading...' : 'Get Mailchimp List'}
-      </button>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter your email"
+          required
+          className="px-3 py-2 border focus:outline-none focus:ring-2 bg-white"
+          style={{ 
+            fontFamily: "'Courier New', Courier, monospace", 
+            letterSpacing: '0.07em',
+            color: '#6a7b4f',
+            borderColor: '#6a7b4f'
+          }}
+        />
+        <input
+          type="text"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+          placeholder="First Name"
+          required
+          className="px-3 py-2 border focus:outline-none focus:ring-2 bg-white"
+          style={{ 
+            fontFamily: "'Courier New', Courier, monospace", 
+            letterSpacing: '0.07em',
+            color: '#6a7b4f',
+            borderColor: '#6a7b4f'
+          }}
+        />
+        <input
+          type="text"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+          placeholder="Last Name"
+          required
+          className="px-3 py-2 border focus:outline-none focus:ring-2 bg-white"
+          style={{ 
+            fontFamily: "'Courier New', Courier, monospace", 
+            letterSpacing: '0.07em',
+            color: '#6a7b4f',
+            borderColor: '#6a7b4f'
+          }}
+        />
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="px-6 py-3 hover:bg-opacity-80 transition-colors"
+          style={{ 
+            fontFamily: "'Courier New', Courier, monospace", 
+            letterSpacing: '0.07em',
+            color: '#ffffff',
+            backgroundColor: '#6a7b4f',
+            border: '1px solid #6a7b4f'
+          }}
+        >
+          {isLoading ? 'Subscribing...' : 'Subscribe to Newsletter'}
+        </button>
+      </form>
       {result && (
         <div className="mt-4 p-4 bg-white/80 rounded-lg">
-          <pre className="text-sm overflow-auto">
-            {JSON.stringify(result, null, 2)}
-          </pre>
+          {result.error ? (
+            <p className="text-red-600">Error: {result.error}</p>
+          ) : (
+            <p className="text-green-600">Successfully subscribed!</p>
+          )}
         </div>
       )}
     </div>
