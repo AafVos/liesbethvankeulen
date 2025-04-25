@@ -1,6 +1,7 @@
 import { createClient } from 'contentful';
 import Slideshow from '../components/Slideshow';
 import Header from '../components/Header';
+import NewsletterSubscription from '../components/NewsletterSubscription';
 import Link from 'next/link';
 
 // Configure Contentful client
@@ -99,6 +100,9 @@ export default async function Portraits() {
       
       {/* Use the new Header component */}
       <Header title={titleText} />
+      
+      {/* Newsletter Subscription */}
+      <NewsletterSubscription />
       
       {/* Main content */}
       <main className="flex-grow flex items-center justify-center">
