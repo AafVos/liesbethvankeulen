@@ -51,7 +51,7 @@ export default function DropdownNav({ label, items, href, color }) {
         </button>
       </div>
       <div
-        className={`absolute left-1/2 -translate-x-1/2 min-w-[180px] bg-white border border-gray-200 shadow-lg rounded z-50 transition-all duration-200 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}${isMobile ? ' top-full mt-1' : ''}`}
+        className={`absolute left-1/2 -translate-x-1/2 min-w-[180px] bg-white border border-gray-200 rounded z-50 transition-all duration-200 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}${isMobile ? ' top-full mt-1' : ''}`}
       >
         <ul className="flex flex-col">
           {items.map((item) => (
