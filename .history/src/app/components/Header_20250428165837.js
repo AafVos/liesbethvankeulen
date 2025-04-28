@@ -36,9 +36,34 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
 
   return (
     <header className="relative w-full z-30 py-6 px-2">
+      {/* Instagram logo always visible, fixed top right */}
+      <a 
+        href="https://www.instagram.com/portretliesbeth/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed top-4 right-4 flex items-center hover:opacity-80 transition-colors duration-300 z-[100] md:top-6 md:right-8"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke={theme.text}
+          strokeWidth="1" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+          className="drop-shadow-md"
+        >
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+      </a>
       {/* Mobile layout */}
       <div className="md:hidden w-full flex flex-col items-center justify-center gap-1">
-        {/* Top row: Hamburger | Title | Instagram */}
+        {/* Top row: Hamburger | Title */}
         <div className={`w-full flex items-center justify-between mb-0 ${menuOpen ? 'fixed top-4 left-0 right-0 z-50' : ''}`}>
           {/* Hamburger left */}
           <div className="cursor-pointer z-50 ml-0.5" onClick={toggleMenu}>
@@ -64,30 +89,6 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
               </Link>
             </div>
           )}
-          {/* Instagram right */}
-          <a 
-            href="https://www.instagram.com/portretliesbeth/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center hover:opacity-80 transition-colors duration-300 z-50 mr-0.5"
-          >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="24" 
-              height="24" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke={theme.text}
-              strokeWidth="1" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-              className="drop-shadow-md"
-            >
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </a>
         </div>
         {/* Subtitle below, centered (hide when menu open) */}
         {!menuOpen && subtitle && (
@@ -141,7 +142,6 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             </Link>
           </div>
         </div>
-        
         {/* Navigation links in the center visible on large screens */}
         {showNavigation && (
           <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
@@ -176,43 +176,13 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             </nav>
           </div>
         )}
-
-        {/* Right side container for Instagram and hamburger menu */}
-        <div className="flex items-center gap-6">
-          {/* Instagram link */}
-          <a 
-            href="https://www.instagram.com/portretliesbeth/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center hover:opacity-80 transition-colors duration-300"
-          >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="24" 
-              height="24" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke={theme.text}
-              strokeWidth="1" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-              className="drop-shadow-md"
-            >
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </a>
-
-          {/* Hamburger menu icon */}
-          <div className="cursor-pointer z-50" onClick={toggleMenu}>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-          </div>
+        {/* Hamburger menu icon */}
+        <div className="cursor-pointer z-50" onClick={toggleMenu}>
+          <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+          <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+          <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
         </div>
       </div>
-
       {/* Fullscreen menu overlay - now transparent with backdrop blur */}
       <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex flex-col items-center justify-center h-full">
@@ -220,72 +190,22 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             <ul className="space-y-8">
               <li>
                 <Link 
-                  href="/home" 
+                  href="/paintings" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                   style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
-                  Home
+                  Paintings
                 </Link>
               </li>
               <li>
                 <Link 
-                  href="/work" 
+                  href="/sculptures" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                   style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
-                  Work
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/news" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  News
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/about" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/studio" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Studio
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/lessons" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Lessons
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/shop" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Shop
+                  Sculptures
                 </Link>
               </li>
             </ul>

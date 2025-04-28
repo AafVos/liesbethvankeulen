@@ -220,78 +220,53 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             <ul className="space-y-8">
               <li>
                 <Link 
-                  href="/home" 
+                  href="/paintings" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                   style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
-                  Home
+                  Paintings
                 </Link>
               </li>
               <li>
                 <Link 
-                  href="/work" 
+                  href="/sculptures" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                   style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
-                  Work
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/news" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  News
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/about" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/studio" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Studio
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/lessons" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Lessons
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/shop" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Shop
+                  Sculptures
                 </Link>
               </li>
             </ul>
           </nav>
         </div>
       </div>
+      {/* Instagram logo always visible, fixed top right, above overlay */}
+      <a 
+        href="https://www.instagram.com/portretliesbeth/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed top-6 right-4 z-50 flex items-center hover:opacity-80 transition-colors duration-300 md:static md:top-auto md:right-auto md:ml-auto md:mr-0.5"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke={theme.text}
+          strokeWidth="1" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+          className="drop-shadow-md"
+        >
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+      </a>
     </header>
   );
 };
