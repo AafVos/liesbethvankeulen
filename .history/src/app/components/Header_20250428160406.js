@@ -36,32 +36,38 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
   return (
     <header className="relative w-full z-30 py-6 px-6">
       {/* Mobile layout */}
-      <div className="md:hidden w-full flex flex-col items-center justify-center gap-1">
-        {/* Top row: Hamburger | Title | Instagram */}
-        <div className="w-full flex items-center justify-between mb-0">
-          {/* Hamburger left */}
-          <div className="cursor-pointer z-50" onClick={toggleMenu}>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-          </div>
-          {/* Title center */}
-          <div className="flex-1 flex items-center justify-center">
-            <Link href="/home" className="cursor-pointer inline-block">
-              <h2 
-                className="text-2xl tracking-wide drop-shadow-md text-center" 
-                style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
-                  fontWeight: 400,
-                  letterSpacing: '0.05em',
-                  color: theme.text
-                }}
-              >
-                {title}
-              </h2>
-            </Link>
-          </div>
-          {/* Instagram right */}
+      <div className="flex flex-col items-center justify-center w-full md:hidden gap-2">
+        <Link href="/home" className="cursor-pointer inline-block">
+          <h2 
+            className="text-2xl tracking-wide drop-shadow-md text-center" 
+            style={{ 
+              fontFamily: "'Courier New', Courier, monospace",
+              fontWeight: 400,
+              letterSpacing: '0.05em',
+              color: theme.text
+            }}
+          >
+            {title}
+          </h2>
+          {subtitle && (
+            <div className="text-base mt-1 tracking-wide text-center" style={{
+              fontFamily: "'Courier New', Courier, monospace",
+              color: theme.text,
+              opacity: 0.8,
+              letterSpacing: '0.03em',
+              fontWeight: 300
+            }}>
+              {subtitle}
+            </div>
+          )}
+        </Link>
+        {showNavigation && (
+          <nav className="flex flex-col items-center gap-1 mt-2">
+            <Link href="/paintings" className="text-lg font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Paintings</Link>
+            <Link href="/sculptures" className="text-lg font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Sculptures</Link>
+          </nav>
+        )}
+        <div className="flex items-center justify-center gap-6 mt-2">
           <a 
             href="https://www.instagram.com/portretliesbeth/" 
             target="_blank" 
@@ -75,7 +81,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
               viewBox="0 0 24 24" 
               fill="none" 
               stroke={theme.text}
-              strokeWidth="1" 
+              strokeWidth="2" 
               strokeLinecap="round" 
               strokeLinejoin="round"
               className="drop-shadow-md"
@@ -85,26 +91,12 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
           </a>
-        </div>
-        {/* Subtitle below, centered */}
-        {subtitle && (
-          <div className="w-full text-center text-base mt-1 tracking-wide" style={{
-            fontFamily: "'Courier New', Courier, monospace",
-            color: theme.text,
-            opacity: 0.8,
-            letterSpacing: '0.03em',
-            fontWeight: 300
-          }}>
-            {subtitle}
+          <div className="cursor-pointer z-50" onClick={toggleMenu}>
+            <div className="w-8 h-0.5 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-0.5 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-0.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
           </div>
-        )}
-        {/* Navigation links below */}
-        {showNavigation && (
-          <nav className="flex flex-row items-center justify-center gap-4 mt-2">
-            <Link href="/paintings" className="text-lg font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Paintings</Link>
-            <Link href="/sculptures" className="text-lg font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Sculptures</Link>
-          </nav>
-        )}
+        </div>
       </div>
 
       {/* Desktop layout */}
@@ -183,7 +175,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
               viewBox="0 0 24 24" 
               fill="none" 
               stroke={theme.text}
-              strokeWidth="1" 
+              strokeWidth="2" 
               strokeLinecap="round" 
               strokeLinejoin="round"
               className="drop-shadow-md"
@@ -196,9 +188,9 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
 
           {/* Hamburger menu icon */}
           <div className="cursor-pointer z-50" onClick={toggleMenu}>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-0.5 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-0.5 mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-0.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
           </div>
         </div>
       </div>
@@ -210,22 +202,52 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             <ul className="space-y-8">
               <li>
                 <Link 
-                  href="/paintings" 
+                  href="/landscapes" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                   style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
-                  Paintings
+                  Home
                 </Link>
               </li>
               <li>
                 <Link 
-                  href="/sculptures" 
+                  href="/gallery" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                   style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
-                  Sculptures
+                  Gallery
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="#" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  Webshop
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/about" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  About Me
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="#" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -236,4 +258,4 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
   );
 };
 
-export default Header;
+export default Header; 

@@ -81,42 +81,13 @@ async function getAllContentfulMedia() {
   }
 }
 
-// Function to get a single media asset by ID
-async function getMediaAssetById(id) {
-  try {
-    const asset = await client.getAsset(id);
-    
-    if (!asset || !asset.fields) {
-      throw new Error('Asset not found');
-    }
-    
-    return {
-      id: asset.sys.id,
-      url: asset.fields.file.url,
-      title: asset.fields.title || '',
-      description: asset.fields.description || '',
-      contentType: asset.fields.file.contentType,
-      width: asset.fields.file.details.image?.width || 800,
-      height: asset.fields.file.details.image?.height || 600
-    };
-  } catch (error) {
-    console.error('Error fetching media asset:', error);
-    return null;
-  }
-}
-
 export default async function Gallery() {
   const titleText = 'Liesbeth van Keulen';
-  
-  // Fetch the specific image for Maastricht section
-  const maastrichtImage = await getMediaAssetById('16zAmgLbilRFZ6kAfBkKdE');
-  const maastrichtImageUrl = maastrichtImage ? `https:${maastrichtImage.url}` : "https://images.ctfassets.net/1z6huih0p4zo/3GjopkBdEuIAw9gvOz0Hvj/7cd5cd9f3aee8e04320fc84709fbab20/boy_portrait_1.jpg";
   
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
       <Header 
         title={titleText} 
-        subtitle="In search of unexpected beauty"
         themeName={themeName} 
         showNavigation={false} 
       />
@@ -124,15 +95,15 @@ export default async function Gallery() {
       <main className="container mx-auto px-4 py-12">
         <div className="flex flex-col gap-8">
           {/* Maastricht Feature Section */}
-          <div className="relative h-[80vh] w-full overflow-hidden">
+          <Link href="/gallery/landscapes" className="relative h-[80vh] w-full overflow-hidden group">
             <div className="absolute inset-0 flex">
               {/* Image section (2/3 width) */}
               <div className="w-2/3 relative">
                 <Image 
-                  src={maastrichtImageUrl}
+                  src="https://images.ctfassets.net/1z6huih0p4zo/3GjopkBdEuIAw9gvOz0Hvj/7cd5cd9f3aee8e04320fc84709fbab20/boy_portrait_1.jpg"
                   alt="Maastricht Gallery"
                   fill
-                  className="object-cover"
+                  className="object-cover transform group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-30"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -172,7 +143,7 @@ export default async function Gallery() {
                 </p>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Portraits Block */}
           <Link href="/gallery/portraits" className="relative h-[40vh] w-full overflow-hidden group">

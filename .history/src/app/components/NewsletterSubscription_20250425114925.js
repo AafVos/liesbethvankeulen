@@ -3,7 +3,6 @@
 import { useState } from 'react';
 
 export default function NewsletterSubscription() {
-  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [formData, setFormData] = useState({
@@ -45,28 +44,9 @@ export default function NewsletterSubscription() {
     }));
   };
 
-  if (!isOpen) {
-    return (
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 md:left-4 md:translate-x-0 p-4" style={{ fontFamily: "'Courier New', Courier, monospace", letterSpacing: '0.07em' }}>
-        <button
-          onClick={() => setIsOpen(true)}
-          className="px-4 py-2 min-w-[220px] whitespace-nowrap hover:bg-opacity-80 transition-colors"
-          style={{
-            fontFamily: "'Courier New', Courier, monospace",
-            letterSpacing: '0.07em',
-            color: '#6a7b4f',
-            backgroundColor: '#fff',
-            border: '1px solid #6a7b4f'
-          }}
-        >
-          Subscribe to Newsletter
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="fixed bottom-4 left-4 p-4" style={{ fontFamily: "'Courier New', Courier, monospace", letterSpacing: '0.07em' }}>
+      <h3 className="text-lg font-normal mb-2 text-white">Subscribe to Newsletter</h3>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <div className="flex gap-2">
           <input

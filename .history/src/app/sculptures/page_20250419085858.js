@@ -1,9 +1,6 @@
 import { createClient } from 'contentful';
 import Slideshow from '../components/Slideshow';
 import Header from '../components/Header';
-import NewsletterSubscription from '../components/NewsletterSubscription';
-import Link from 'next/link';
-import { getThemeColors } from '../styles/theme';
 
 // Configure Contentful client
 const client = createClient({
@@ -75,15 +72,28 @@ async function getSculptureVideo() {
   }
 }
 
-const themeName = 'light';
-const theme = getThemeColors(themeName);
-
-export default function Sculptures() {
+export default async function Sculptures() {
+  // Fetch data from Contentful
+  const entry = await getContentfulEntry();
+  const sculptureAssets = await getSculptureVideo();
+  
+  // Extract the title text from the rich text field
+  const titleText = entry?.fields?.title1 ? extractTextFromRichText(entry.fields.title1) : 'Liesbeth van Keulen';
+  
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      <Header title="Liesbeth van Keulen" subtitle="In search of unexpected beauty" themeName={themeName} showNavigation={true} />
-      <NewsletterSubscription />
-      {/* Add your content here */}
+    <div className="flex flex-col min-h-screen w-full">
+      {/* Slideshow as full background */}
+      <div className="fixed inset-0 w-full h-full">
+        <Slideshow images={sculptureAssets} />
+      </div>
+      
+      {/* Use the new Header component */}
+      <Header title={titleText} />
+      
+      {/* Main content */}
+      <main className="flex-grow flex items-center justify-center">
+        {/* You can add additional content here */}
+      </main>
     </div>
   );
 } 

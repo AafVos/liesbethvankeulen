@@ -116,7 +116,6 @@ export default async function Gallery() {
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
       <Header 
         title={titleText} 
-        subtitle="In search of unexpected beauty"
         themeName={themeName} 
         showNavigation={false} 
       />

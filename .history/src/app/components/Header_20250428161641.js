@@ -41,9 +41,9 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
         <div className="w-full flex items-center justify-between mb-0">
           {/* Hamburger left */}
           <div className="cursor-pointer z-50" onClick={toggleMenu}>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
           </div>
           {/* Title center */}
           <div className="flex-1 flex items-center justify-center">
@@ -75,7 +75,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
               viewBox="0 0 24 24" 
               fill="none" 
               stroke={theme.text}
-              strokeWidth="1" 
+              strokeWidth="2" 
               strokeLinecap="round" 
               strokeLinejoin="round"
               className="drop-shadow-md"
@@ -183,7 +183,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
               viewBox="0 0 24 24" 
               fill="none" 
               stroke={theme.text}
-              strokeWidth="1" 
+              strokeWidth="2" 
               strokeLinecap="round" 
               strokeLinejoin="round"
               className="drop-shadow-md"
@@ -196,9 +196,9 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
 
           {/* Hamburger menu icon */}
           <div className="cursor-pointer z-50" onClick={toggleMenu}>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-8 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
           </div>
         </div>
       </div>
@@ -210,22 +210,52 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             <ul className="space-y-8">
               <li>
                 <Link 
-                  href="/paintings" 
+                  href="/landscapes" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                   style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
-                  Paintings
+                  Home
                 </Link>
               </li>
               <li>
                 <Link 
-                  href="/sculptures" 
+                  href="/gallery" 
                   className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                   style={menuLinkStyle}
                   onClick={toggleMenu}
                 >
-                  Sculptures
+                  Gallery
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="#" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  Webshop
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/about" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  About Me
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="#" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -236,4 +266,4 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
   );
 };
 
-export default Header;
+export default Header; 

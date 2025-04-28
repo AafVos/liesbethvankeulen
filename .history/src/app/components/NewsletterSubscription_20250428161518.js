@@ -50,7 +50,7 @@ export default function NewsletterSubscription() {
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 md:left-4 md:translate-x-0 p-4" style={{ fontFamily: "'Courier New', Courier, monospace", letterSpacing: '0.07em' }}>
         <button
           onClick={() => setIsOpen(true)}
-          className="px-4 py-2 min-w-[220px] whitespace-nowrap hover:bg-opacity-80 transition-colors"
+          className="px-4 py-2 hover:bg-opacity-80 transition-colors"
           style={{
             fontFamily: "'Courier New', Courier, monospace",
             letterSpacing: '0.07em',

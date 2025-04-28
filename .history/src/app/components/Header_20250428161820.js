@@ -204,36 +204,4 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
       </div>
 
       {/* Fullscreen menu overlay - now transparent with backdrop blur */}
-      <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="flex flex-col items-center justify-center h-full">
-          <nav className="text-center">
-            <ul className="space-y-8">
-              <li>
-                <Link 
-                  href="/paintings" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Paintings
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/sculptures" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Sculptures
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </header>
-  );
-};
-
-export default Header;
+      <div className={`
