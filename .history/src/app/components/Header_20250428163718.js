@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { getThemeColors } from '../styles/theme';
-import DropdownNav from './DropdownNav';
 
 // By default, use the dark theme if no theme is specified
 const defaultTheme = getThemeColors('dark');
@@ -35,7 +34,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
   };
 
   return (
-    <header className="relative w-full z-30 py-6 px-2">
+    <header className="relative w-full z-30 py-6 px-3">
       {/* Mobile layout */}
       <div className="md:hidden w-full flex flex-col items-center justify-center gap-1">
         {/* Top row: Hamburger | Title | Instagram */}
@@ -91,7 +90,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
         </div>
         {/* Subtitle below, centered (hide when menu open) */}
         {!menuOpen && subtitle && (
-          <div className="w-full text-center text-base mt-0 tracking-wide" style={{
+          <div className="w-full text-center text-base mt-1 tracking-wide" style={{
             fontFamily: "'Courier New', Courier, monospace",
             color: theme.text,
             opacity: 0.8,
@@ -148,29 +147,22 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             <nav>
               <ul className="flex space-x-12">
                 <li>
-                  <DropdownNav
-                    label="Paintings"
-                    href="/paintings"
-                    color={theme.text}
-                    items={[
-                      { label: 'Landscapes', href: '/paintings/landscapes' },
-                      { label: 'Birds', href: '/paintings/birds' },
-                      { label: 'Portraits', href: '/paintings/portraits' },
-                      { label: 'Abstract works', href: '/paintings/abstract' },
-                    ]}
-                  />
+                  <Link 
+                    href="/paintings" 
+                    className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                    style={{...navLinkStyle}}
+                  >
+                    Paintings
+                  </Link>
                 </li>
                 <li>
-                  <DropdownNav
-                    label="Sculptures"
-                    href="/sculptures"
-                    color={theme.text}
-                    items={[
-                      { label: 'Landscapes', href: '/sculptures/landscapes' },
-                      { label: 'Birds', href: '/sculptures/birds' },
-                      { label: 'Motherhood', href: '/sculptures/motherhood' },
-                    ]}
-                  />
+                  <Link 
+                    href="/sculptures" 
+                    className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                    style={{...navLinkStyle}}
+                  >
+                    Sculptures
+                  </Link>
                 </li>
               </ul>
             </nav>

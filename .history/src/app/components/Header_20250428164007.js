@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { getThemeColors } from '../styles/theme';
-import DropdownNav from './DropdownNav';
 
 // By default, use the dark theme if no theme is specified
 const defaultTheme = getThemeColors('dark');
@@ -148,29 +147,22 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             <nav>
               <ul className="flex space-x-12">
                 <li>
-                  <DropdownNav
-                    label="Paintings"
-                    href="/paintings"
-                    color={theme.text}
-                    items={[
-                      { label: 'Landscapes', href: '/paintings/landscapes' },
-                      { label: 'Birds', href: '/paintings/birds' },
-                      { label: 'Portraits', href: '/paintings/portraits' },
-                      { label: 'Abstract works', href: '/paintings/abstract' },
-                    ]}
-                  />
+                  <Link 
+                    href="/paintings" 
+                    className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                    style={{...navLinkStyle}}
+                  >
+                    Paintings
+                  </Link>
                 </li>
                 <li>
-                  <DropdownNav
-                    label="Sculptures"
-                    href="/sculptures"
-                    color={theme.text}
-                    items={[
-                      { label: 'Landscapes', href: '/sculptures/landscapes' },
-                      { label: 'Birds', href: '/sculptures/birds' },
-                      { label: 'Motherhood', href: '/sculptures/motherhood' },
-                    ]}
-                  />
+                  <Link 
+                    href="/sculptures" 
+                    className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md"
+                    style={{...navLinkStyle}}
+                  >
+                    Sculptures
+                  </Link>
                 </li>
               </ul>
             </nav>

@@ -151,7 +151,6 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
                   <DropdownNav
                     label="Paintings"
                     href="/paintings"
-                    color={theme.text}
                     items={[
                       { label: 'Landscapes', href: '/paintings/landscapes' },
                       { label: 'Birds', href: '/paintings/birds' },
@@ -164,7 +163,6 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
                   <DropdownNav
                     label="Sculptures"
                     href="/sculptures"
-                    color={theme.text}
                     items={[
                       { label: 'Landscapes', href: '/sculptures/landscapes' },
                       { label: 'Birds', href: '/sculptures/birds' },
