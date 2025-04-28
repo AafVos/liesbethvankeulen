@@ -38,37 +38,35 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
       {/* Mobile layout */}
       <div className="md:hidden w-full flex flex-col items-center justify-center gap-1">
         {/* Top row: Hamburger | Title | Instagram */}
-        <div className={`w-full flex items-center justify-between mb-0 ${menuOpen ? 'fixed top-4 left-0 right-0 z-50' : ''}`}>
+        <div className="w-full flex items-center justify-between mb-0">
           {/* Hamburger left */}
-          <div className="cursor-pointer z-50 ml-1" onClick={toggleMenu}>
+          <div className="cursor-pointer z-50" onClick={toggleMenu}>
             <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
             <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
             <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
           </div>
-          {/* Title center (hide when menu open) */}
-          {!menuOpen && (
-            <div className="flex-1 flex items-center justify-center">
-              <Link href="/home" className="cursor-pointer inline-block">
-                <h2 
-                  className="text-2xl tracking-wide drop-shadow-md text-center" 
-                  style={{ 
-                    fontFamily: "'Courier New', Courier, monospace",
-                    fontWeight: 400,
-                    letterSpacing: '0.05em',
-                    color: theme.text
-                  }}
-                >
-                  {title}
-                </h2>
-              </Link>
-            </div>
-          )}
+          {/* Title center */}
+          <div className="flex-1 flex items-center justify-center">
+            <Link href="/home" className="cursor-pointer inline-block">
+              <h2 
+                className="text-2xl tracking-wide drop-shadow-md text-center" 
+                style={{ 
+                  fontFamily: "'Courier New', Courier, monospace",
+                  fontWeight: 400,
+                  letterSpacing: '0.05em',
+                  color: theme.text
+                }}
+              >
+                {title}
+              </h2>
+            </Link>
+          </div>
           {/* Instagram right */}
           <a 
             href="https://www.instagram.com/portretliesbeth/" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="flex items-center hover:opacity-80 transition-colors duration-300 z-50 mr-1"
+            className="flex items-center hover:opacity-80 transition-colors duration-300"
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -88,8 +86,8 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             </svg>
           </a>
         </div>
-        {/* Subtitle below, centered (hide when menu open) */}
-        {!menuOpen && subtitle && (
+        {/* Subtitle below, centered */}
+        {subtitle && (
           <div className="w-full text-center text-base mt-1 tracking-wide" style={{
             fontFamily: "'Courier New', Courier, monospace",
             color: theme.text,
@@ -100,8 +98,8 @@ const Header = ({ title, subtitle, themeName, showNavigation = true }) => {
             {subtitle}
           </div>
         )}
-        {/* Navigation links below (hide when menu open) */}
-        {!menuOpen && showNavigation && (
+        {/* Navigation links below */}
+        {showNavigation && (
           <nav className="flex flex-row items-center justify-center gap-4 mt-2">
             <Link href="/paintings" className="text-lg font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Paintings</Link>
             <Link href="/sculptures" className="text-lg font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Sculptures</Link>
