@@ -8,11 +8,6 @@ import MapComponent from '../components/MapComponent';
 const themeName = 'light';
 const theme = getThemeColors(themeName);
 
-export const metadata = {
-  title: 'Contact | Liesbeth van Keulen',
-  description: 'Contact page for Liesbeth van Keulen',
-};
-
 export default function ContactPage() {
   // Studio location data
   const studioLocation = {
