@@ -23,6 +23,8 @@ export default function ARViewer({ painting }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [useAdvancedMode, setUseAdvancedMode] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSafari, setIsSafari] = useState(false);
+  const [permissionAsked, setPermissionAsked] = useState(false);
 
   // Check device and if AR is supported in this browser
   useEffect(() => {
@@ -31,7 +33,15 @@ export default function ARViewer({ painting }) {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     };
     
+    // Check if we're on Safari
+    const checkSafari = () => {
+      const ua = navigator.userAgent.toLowerCase();
+      return (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) || 
+             /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    };
+    
     setIsMobile(checkMobile());
+    setIsSafari(checkSafari());
     
     // Check if the browser supports the features we need
     const isWebXRSupported = 'xr' in navigator;
@@ -46,9 +56,9 @@ export default function ARViewer({ painting }) {
       }
     })();
     
-    // Prioritize simpler version on mobile for better performance
+    // Always use basic mode on Safari for better compatibility
     if (isWebGLSupported && isWebRTCSupported) {
-      setUseAdvancedMode(!checkMobile()); // Use basic mode on mobile for better performance
+      setUseAdvancedMode(!checkSafari() && !checkMobile());
     }
     
     setIsARSupported(isWebRTCSupported); // We'll use WebRTC for a simpler version first
@@ -68,6 +78,8 @@ export default function ARViewer({ painting }) {
 
   // Start camera access when user clicks the button
   const startARExperience = async () => {
+    setPermissionAsked(true);
+    
     // If we're using the advanced mode, we'll handle camera access there
     if (useAdvancedMode) {
       setIsCameraActive(true);
@@ -79,23 +91,55 @@ export default function ARViewer({ painting }) {
         throw new Error('Camera access is not supported by your browser');
       }
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { 
-          facingMode: 'environment', // Use the back camera if available
+      // On Safari, we need to use specific constraints
+      const videoConstraints = {
+        facingMode: 'environment' // Use the back camera if available
+      };
+      
+      if (isSafari) {
+        // Safari specific settings
+        Object.assign(videoConstraints, {
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        });
+      } else {
+        // Other browsers
+        Object.assign(videoConstraints, {
           width: { ideal: isMobile ? 1280 : 1920 },
           height: { ideal: isMobile ? 720 : 1080 }
-        }
+        });
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: videoConstraints,
+        audio: false
       });
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.play();
-        setIsCameraActive(true);
-        setShowInstructions(true);
+        
+        // For Safari, we need to ensure the video is properly loaded before playing
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current.play().then(() => {
+            setIsCameraActive(true);
+            setShowInstructions(true);
+          }).catch(err => {
+            console.error('Error playing video:', err);
+            setErrorMessage(`Error starting video: ${err.message}. Please check your camera permissions.`);
+          });
+        };
       }
     } catch (err) {
       console.error('Error accessing camera:', err);
-      setErrorMessage(`Error accessing camera: ${err.message}`);
+      
+      // Provide more helpful error messages for common permission issues
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+        setErrorMessage('Camera access was denied. Please enable camera permissions in your browser settings to use AR features.');
+      } else if (err.name === 'NotFoundError') {
+        setErrorMessage('No camera found. Please make sure your device has a camera that can be used.');
+      } else {
+        setErrorMessage(`Error accessing camera: ${err.message}`);
+      }
     }
   };
 
@@ -119,34 +163,41 @@ export default function ARViewer({ painting }) {
     
     // Draw function to render video and painting overlay
     const draw = () => {
-      // Ensure canvas dimensions match video dimensions
+      // Safari may need a moment to get video dimensions
       if (video.videoWidth && video.videoHeight) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
+      } else if (isSafari && canvas.width === 0) {
+        // Default size for Safari if video dimensions aren't available yet
+        canvas.width = 640;
+        canvas.height = 480;
       }
 
-      // Clear canvas and draw video frame
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
-      // Draw painting
-      if (paintingImg.complete) {
-        ctx.drawImage(
-          paintingImg, 
-          paintingPosition.x, 
-          paintingPosition.y, 
-          paintingSize.width, 
-          paintingSize.height
-        );
+      // Only draw if we have a context and dimensions
+      if (ctx && canvas.width > 0 && canvas.height > 0) {
+        // Clear canvas and draw video frame
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         
-        // Draw a frame around the painting
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(
-          paintingPosition.x, 
-          paintingPosition.y, 
-          paintingSize.width, 
-          paintingSize.height
-        );
+        // Draw painting
+        if (paintingImg.complete) {
+          ctx.drawImage(
+            paintingImg, 
+            paintingPosition.x, 
+            paintingPosition.y, 
+            paintingSize.width, 
+            paintingSize.height
+          );
+          
+          // Draw a frame around the painting
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(
+            paintingPosition.x, 
+            paintingPosition.y, 
+            paintingSize.width, 
+            paintingSize.height
+          );
+        }
       }
       
       requestAnimationFrame(draw);
@@ -155,94 +206,113 @@ export default function ARViewer({ painting }) {
     // Start animation loop
     const animationId = requestAnimationFrame(draw);
     
-    // Handle interactions
-    const handleTouchStart = (e) => {
+    // Handle interactions - both touch and mouse
+    const handleStart = (e) => {
       e.preventDefault();
-      const touch = e.touches[0];
-      startPosition = { 
-        x: touch.clientX - canvas.getBoundingClientRect().left, 
-        y: touch.clientY - canvas.getBoundingClientRect().top 
-      };
+      const pos = getEventPosition(e);
+      startPosition = pos;
       
-      // Check if touch is within painting bounds
+      // Check if interaction is within painting bounds
       if (
-        startPosition.x >= paintingPosition.x && 
-        startPosition.x <= paintingPosition.x + paintingSize.width && 
-        startPosition.y >= paintingPosition.y && 
-        startPosition.y <= paintingPosition.y + paintingSize.height
+        pos.x >= paintingPosition.x && 
+        pos.x <= paintingPosition.x + paintingSize.width && 
+        pos.y >= paintingPosition.y && 
+        pos.y <= paintingPosition.y + paintingSize.height
       ) {
         isDragging = true;
       }
     };
     
-    const handleTouchMove = (e) => {
+    const handleMove = (e) => {
       e.preventDefault();
       if (!isDragging) return;
       
-      const touch = e.touches[0];
-      const currentPosition = { 
-        x: touch.clientX - canvas.getBoundingClientRect().left, 
-        y: touch.clientY - canvas.getBoundingClientRect().top 
-      };
-      
-      const deltaX = currentPosition.x - startPosition.x;
-      const deltaY = currentPosition.y - startPosition.y;
+      const pos = getEventPosition(e);
+      const deltaX = pos.x - startPosition.x;
+      const deltaY = pos.y - startPosition.y;
       
       paintingPosition = {
         x: paintingPosition.x + deltaX,
         y: paintingPosition.y + deltaY
       };
       
-      startPosition = currentPosition;
+      startPosition = pos;
     };
     
-    const handleTouchEnd = () => {
+    const handleEnd = () => {
       isDragging = false;
+    };
+    
+    // Helper to get position from either touch or mouse event
+    const getEventPosition = (e) => {
+      let clientX, clientY;
+      
+      if (e.touches && e.touches.length > 0) {
+        // Touch event
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else {
+        // Mouse event
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      
+      const rect = canvas.getBoundingClientRect();
+      return { 
+        x: clientX - rect.left, 
+        y: clientY - rect.top 
+      };
     };
     
     // Handle pinch to resize
     let initialDistance = 0;
     
     const handlePinchStart = (e) => {
-      if (e.touches.length !== 2) return;
-      
-      const touch1 = e.touches[0];
-      const touch2 = e.touches[1];
-      initialDistance = Math.hypot(
-        touch2.clientX - touch1.clientX,
-        touch2.clientY - touch1.clientY
-      );
+      if (e.touches && e.touches.length === 2) {
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        initialDistance = Math.hypot(
+          touch2.clientX - touch1.clientX,
+          touch2.clientY - touch1.clientY
+        );
+      }
     };
     
     const handlePinchMove = (e) => {
-      if (e.touches.length !== 2 || initialDistance === 0) return;
-      
-      const touch1 = e.touches[0];
-      const touch2 = e.touches[1];
-      const currentDistance = Math.hypot(
-        touch2.clientX - touch1.clientX,
-        touch2.clientY - touch1.clientY
-      );
-      
-      // Calculate scale factor
-      const scale = currentDistance / initialDistance;
-      
-      // Adjust size but maintain aspect ratio
-      const newWidth = paintingSize.width * scale;
-      paintingSize = {
-        width: newWidth,
-        height: newWidth * (painting.height / painting.width)
-      };
-      
-      initialDistance = currentDistance;
+      if (e.touches && e.touches.length === 2 && initialDistance > 0) {
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        const currentDistance = Math.hypot(
+          touch2.clientX - touch1.clientX,
+          touch2.clientY - touch1.clientY
+        );
+        
+        // Calculate scale factor
+        const scale = currentDistance / initialDistance;
+        
+        // Adjust size but maintain aspect ratio
+        const newWidth = paintingSize.width * scale;
+        paintingSize = {
+          width: newWidth,
+          height: newWidth * (painting.height / painting.width)
+        };
+        
+        initialDistance = currentDistance;
+      }
     };
     
-    // Add event listeners
-    canvas.addEventListener('touchstart', handleTouchStart);
-    canvas.addEventListener('touchmove', handleTouchMove);
-    canvas.addEventListener('touchend', handleTouchEnd);
+    // Add event listeners for both touch and mouse
+    canvas.addEventListener('touchstart', handleStart);
+    canvas.addEventListener('touchmove', handleMove);
+    canvas.addEventListener('touchend', handleEnd);
     canvas.addEventListener('touchstart', handlePinchStart);
     canvas.addEventListener('touchmove', handlePinchMove);
+    
+    // Add mouse event listeners for non-touch devices
+    canvas.addEventListener('mousedown', handleStart);
+    canvas.addEventListener('mousemove', handleMove);
+    canvas.addEventListener('mouseup', handleEnd);
+    canvas.addEventListener('mouseleave', handleEnd);
     
     // Remove instructions after 5 seconds
     const instructionsTimer = setTimeout(() => {
@@ -252,14 +322,20 @@ export default function ARViewer({ painting }) {
     // Clean up
     return () => {
       cancelAnimationFrame(animationId);
-      canvas.removeEventListener('touchstart', handleTouchStart);
-      canvas.removeEventListener('touchmove', handleTouchMove);
-      canvas.removeEventListener('touchend', handleTouchEnd);
+      canvas.removeEventListener('touchstart', handleStart);
+      canvas.removeEventListener('touchmove', handleMove);
+      canvas.removeEventListener('touchend', handleEnd);
       canvas.removeEventListener('touchstart', handlePinchStart);
       canvas.removeEventListener('touchmove', handlePinchMove);
+      
+      canvas.removeEventListener('mousedown', handleStart);
+      canvas.removeEventListener('mousemove', handleMove);
+      canvas.removeEventListener('mouseup', handleEnd);
+      canvas.removeEventListener('mouseleave', handleEnd);
+      
       clearTimeout(instructionsTimer);
     };
-  }, [isCameraActive, painting, useAdvancedMode]);
+  }, [isCameraActive, painting, useAdvancedMode, isSafari]);
 
   // Stop camera when component unmounts or when the user exits AR mode
   const stopARExperience = () => {
@@ -269,6 +345,7 @@ export default function ARViewer({ painting }) {
       videoRef.current.srcObject = null;
     }
     setIsCameraActive(false);
+    setPermissionAsked(false); // Reset permission state to allow retrying
   };
 
   return (
@@ -276,6 +353,17 @@ export default function ARViewer({ painting }) {
       {errorMessage && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {errorMessage}
+          {permissionAsked && (
+            <button 
+              onClick={() => {
+                setErrorMessage(null); 
+                setPermissionAsked(false);
+              }}
+              className="ml-2 underline"
+            >
+              Try again
+            </button>
+          )}
         </div>
       )}
       
@@ -305,9 +393,14 @@ export default function ARViewer({ painting }) {
           )}
           
           {isMobile && (
-            <p className="text-sm text-gray-600 text-center mt-2">
-              For best results, hold your device upright and point at a wall with good lighting.
-            </p>
+            <div className="text-sm text-gray-600 text-center mt-2">
+              <p className="mb-1">For best results, hold your device upright and point at a wall with good lighting.</p>
+              {isSafari && (
+                <p className="font-medium">
+                  On Safari, you must allow camera access when prompted for AR to work correctly.
+                </p>
+              )}
+            </div>
           )}
         </div>
       ) : useAdvancedMode ? (
@@ -334,7 +427,7 @@ export default function ARViewer({ painting }) {
           {/* Canvas for AR rendering */}
           <canvas 
             ref={canvasRef} 
-            className="w-full h-full rounded-lg object-contain touch-manipulation"
+            className="w-full h-[400px] rounded-lg object-contain touch-manipulation"
           />
           
           {/* Instructions overlay */}

@@ -94,18 +94,38 @@ function ARScene({ painting, videoRef }) {
   useEffect(() => {
     if (!videoRef.current) return;
     
-    // Create video texture
-    const videoTexture = new THREE.VideoTexture(videoRef.current);
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.format = THREE.RGBFormat;
+    // Create video texture - ensuring it's properly loaded
+    const checkVideoTexture = () => {
+      if (videoRef.current.readyState < 2) {
+        // Video not ready yet, check again in 100ms
+        setTimeout(checkVideoTexture, 100);
+        return;
+      }
+      
+      // Video is ready, create texture
+      try {
+        const videoTexture = new THREE.VideoTexture(videoRef.current);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+        
+        // Safari compatibility fix
+        if (videoTexture.format === undefined) {
+          videoTexture.format = THREE.RGBAFormat;
+        } else {
+          videoTexture.format = THREE.RGBFormat;
+        }
+        
+        // Create background
+        scene.background = videoTexture;
+      } catch (error) {
+        console.error('Error creating video texture:', error);
+      }
+    };
     
-    // Create background
-    scene.background = videoTexture;
+    checkVideoTexture();
     
     return () => {
       scene.background = null;
-      videoTexture.dispose();
     };
   }, [videoRef, scene]);
   
@@ -128,6 +148,18 @@ export default function ThreeARViewer({ painting, onExit }) {
   const videoRef = useRef(null);
   const [videoReady, setVideoReady] = useState(false);
   const [error, setError] = useState(null);
+  const [isSafari, setIsSafari] = useState(false);
+  
+  // Check if we're on Safari
+  useEffect(() => {
+    const checkSafari = () => {
+      const ua = navigator.userAgent.toLowerCase();
+      return (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) || 
+             /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    };
+    
+    setIsSafari(checkSafari());
+  }, []);
   
   // Start camera when component mounts
   useEffect(() => {
@@ -137,23 +169,50 @@ export default function ThreeARViewer({ painting, onExit }) {
           throw new Error('Camera access is not supported by your browser');
         }
 
+        // Safari has specific camera constraints requirements
+        const videoConstraints = {
+          facingMode: 'environment', // Use back camera if available
+        };
+        
+        if (isSafari) {
+          Object.assign(videoConstraints, {
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          });
+        } else {
+          Object.assign(videoConstraints, {
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
+          });
+        }
+
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment' } // Use back camera if available
+          video: videoConstraints,
+          audio: false
         });
         
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
+          
+          // For Safari, we need to handle video loading differently
           videoRef.current.onloadedmetadata = () => {
             videoRef.current.play().then(() => {
               setVideoReady(true);
             }).catch(err => {
+              console.error('Error playing video:', err);
               setError(`Error playing video: ${err.message}`);
             });
           };
         }
       } catch (err) {
         console.error('Error accessing camera:', err);
-        setError(`Error accessing camera: ${err.message}`);
+        
+        // Provide more specific error messages
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          setError('Camera access was denied. Please enable camera permissions to use AR.');
+        } else {
+          setError(`Error accessing camera: ${err.message}`);
+        }
       }
     }
     
@@ -166,7 +225,7 @@ export default function ThreeARViewer({ painting, onExit }) {
         tracks.forEach(track => track.stop());
       }
     };
-  }, []);
+  }, [isSafari]);
   
   return (
     <div className="relative w-full h-full">
@@ -197,6 +256,11 @@ export default function ThreeARViewer({ painting, onExit }) {
             shadows
             camera={{ position: [0, 0, 2], fov: 75 }}
             style={{ touchAction: 'none' }} // Prevent browser touches from interfering with our controls
+            gl={{ 
+              antialias: true,
+              alpha: true,
+              preserveDrawingBuffer: true // Helps with some Safari rendering issues
+            }}
           >
             <Suspense fallback={null}>
               <ARScene painting={painting} videoRef={videoRef} />
