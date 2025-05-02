@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 
-export default function DropdownNav({ label, items, href, color }) {
+export default function DropdownNav({ label, items, href, color, fontSize = "text-xl" }) {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef(null);
@@ -33,7 +33,7 @@ export default function DropdownNav({ label, items, href, color }) {
       <div className="flex items-center justify-center">
         <Link
           href={href}
-          className="text-xl hover:opacity-80 transition-colors duration-300 drop-shadow-md px-2 py-1 block text-center cursor-pointer"
+          className={`${fontSize} hover:opacity-80 transition-colors duration-300 drop-shadow-md px-2 py-1 block text-center cursor-pointer`}
           style={{ fontFamily: "'Courier New', Courier, monospace", fontWeight: 400, letterSpacing: '0.07em', color }}
         >
           {label}

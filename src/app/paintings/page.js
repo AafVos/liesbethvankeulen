@@ -1,16 +1,14 @@
-import Header from '../components/Header';
-import NewsletterSubscription from '../components/NewsletterSubscription';
-import { getThemeColors } from '../styles/theme';
+"use client";
 
-const themeName = 'light';
-const theme = getThemeColors(themeName);
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function Paintings() {
-  return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      <Header title="Liesbeth van Keulen" subtitle="In search of unexpected beauty" themeName={themeName} showNavigation={true} />
-      <NewsletterSubscription />
-      {/* Add your content here */}
-    </div>
-  );
+export default function PaintingsRedirect() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/work/paintings');
+  }, [router]);
+
+  return null;
 } 

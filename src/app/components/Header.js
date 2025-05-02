@@ -8,11 +8,14 @@ import DropdownNav from './DropdownNav';
 // By default, use the dark theme if no theme is specified
 const defaultTheme = getThemeColors('dark');
 
-const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }) => {
+const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, textColor }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   
   // Use the provided theme name or default to dark
   const theme = themeName ? getThemeColors(themeName) : defaultTheme;
+
+  // Use textColor if provided, otherwise use theme text color
+  const headerColor = textColor || theme.text;
 
   const toggleMenu = () => {
     setMenuOpen(prev => {
@@ -27,7 +30,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
     fontFamily: "'Courier New', Courier, monospace",
     fontWeight: 400,
     letterSpacing: '0.07em',
-    color: theme.text
+    color: headerColor
   };
 
   // Style for menu overlay links
@@ -59,7 +62,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                   height="24" 
                   viewBox="0 0 24 24" 
                   fill="none" 
-                  stroke={theme.text}
+                  stroke={headerColor}
                   strokeWidth="1" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
@@ -82,7 +85,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                   height="24" 
                   viewBox="0 0 24 24" 
                   fill="none" 
-                  stroke={theme.text}
+                  stroke={headerColor}
                   strokeWidth="1" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
@@ -101,7 +104,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                   height="24" 
                   viewBox="0 0 24 24" 
                   fill="none" 
-                  stroke={theme.text}
+                  stroke={headerColor}
                   strokeWidth="1" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
@@ -113,9 +116,9 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
               </a>
             </div>
             <div className="cursor-pointer z-50 mr-2" onClick={toggleMenu}>
-              <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-              <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-              <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+              <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
+              <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
+              <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
             </div>
           </div>
           {/* Title row (hide when menu open) */}
@@ -128,7 +131,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                     fontFamily: "'Courier New', Courier, monospace",
                     fontWeight: 400,
                     letterSpacing: '0.05em',
-                    color: theme.text
+                    color: headerColor
                   }}
                 >
                   {title}
@@ -141,7 +144,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
         {!menuOpen && subtitle && (
           <div className="w-full text-center text-base mt-0 tracking-wide" style={{
             fontFamily: "'Courier New', Courier, monospace",
-            color: theme.text,
+            color: headerColor,
             opacity: 0.8,
             letterSpacing: '0.03em',
             fontWeight: 300
@@ -152,8 +155,10 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
         {/* Navigation links below (hide when menu open) */}
         {!menuOpen && showNavigation && (
           <nav className="flex flex-row items-center justify-center gap-4 mt-2">
-            <Link href="/paintings" className="text-lg font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Paintings</Link>
-            <Link href="/sculptures" className="text-lg font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Sculptures</Link>
+            <Link href="/work/paintings" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Paintings</Link>
+            <Link href="/sculptures" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Sculptures</Link>
+            <Link href="/exhibitions" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Exhibitions</Link>
+            <Link href="/ar-gallery" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>AR View</Link>
           </nav>
         )}
       </div>
@@ -170,7 +175,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                   fontFamily: "'Courier New', Courier, monospace",
                   fontWeight: 400,
                   letterSpacing: '0.05em',
-                  color: theme.text
+                  color: headerColor
                 }}
               >
                 {title}
@@ -178,7 +183,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
               {subtitle && (
                 <div className="text-base mt-1 tracking-wide" style={{
                   fontFamily: "'Courier New', Courier, monospace",
-                  color: theme.text,
+                  color: headerColor,
                   opacity: 0.8,
                   letterSpacing: '0.03em',
                   fontWeight: 300
@@ -192,7 +197,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
         {/* Center: Navigation links or PageTitle */}
         <div className="flex-1 flex items-center justify-center">
           {PageTitle ? (
-            <div className="text-2xl md:text-3xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: theme.text }}>
+            <div className="text-2xl md:text-3xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
               {PageTitle}
             </div>
           ) : (
@@ -202,13 +207,12 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                   <li>
                     <DropdownNav
                       label="Paintings"
-                      href="/paintings"
-                      color={theme.text}
+                      href="/work/paintings"
+                      color={headerColor}
+                      fontSize="text-3xl"
                       items={[
-                        { label: 'Landscapes', href: '/paintings/landscapes' },
-                        { label: 'Birds', href: '/paintings/birds' },
-                        { label: 'Portraits', href: '/paintings/portraits' },
-                        { label: 'Abstract works', href: '/paintings/abstract' },
+                        { label: 'Landscapes', href: '/work/paintings/landscapes' },
+                        { label: 'Portraits', href: '/work/paintings/portraits' },
                       ]}
                     />
                   </li>
@@ -216,12 +220,34 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                     <DropdownNav
                       label="Sculptures"
                       href="/sculptures"
-                      color={theme.text}
+                      color={headerColor}
+                      fontSize="text-3xl"
                       items={[
                         { label: 'Landscapes', href: '/sculptures/landscapes' },
                         { label: 'Birds', href: '/sculptures/birds' },
                         { label: 'Motherhood', href: '/sculptures/motherhood' },
                       ]}
+                    />
+                  </li>
+                  <li>
+                    <DropdownNav
+                      label="Exhibitions"
+                      href="/exhibitions"
+                      color={headerColor}
+                      fontSize="text-3xl"
+                      items={[
+                        { label: 'Current Exhibitions', href: '/exhibitions/current' },
+                        { label: 'Past Exhibitions', href: '/exhibitions/past' },
+                      ]}
+                    />
+                  </li>
+                  <li>
+                    <DropdownNav
+                      label="AR Gallery"
+                      href="/ar-gallery"
+                      color={headerColor}
+                      fontSize="text-3xl"
+                      items={[]}
                     />
                   </li>
                 </ul>
@@ -244,7 +270,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                 height="24" 
                 viewBox="0 0 24 24" 
                 fill="none" 
-                stroke={theme.text}
+                stroke={headerColor}
                 strokeWidth="1" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
@@ -267,7 +293,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                 height="24" 
                 viewBox="0 0 24 24" 
                 fill="none" 
-                stroke={theme.text}
+                stroke={headerColor}
                 strokeWidth="1" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
@@ -286,7 +312,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                 height="24" 
                 viewBox="0 0 24 24" 
                 fill="none" 
-                stroke={theme.text}
+                stroke={headerColor}
                 strokeWidth="1" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
@@ -298,9 +324,9 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
             </a>
           </div>
           <div className="cursor-pointer z-50" onClick={toggleMenu}>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
-            <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: theme.text }}></div>
+            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
+            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
+            <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
           </div>
         </div>
       </div>
@@ -378,6 +404,36 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle }
                   onClick={toggleMenu}
                 >
                   Shop
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/contact" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/exhibitions" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  Exhibitions
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/ar-gallery" 
+                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                  style={menuLinkStyle}
+                  onClick={toggleMenu}
+                >
+                  AR Gallery
                 </Link>
               </li>
             </ul>

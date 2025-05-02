@@ -1,6 +1,9 @@
+'use client';
+
 import Header from '../components/Header';
 import Image from 'next/image';
 import { getThemeColors } from '../styles/theme';
+import MapComponent from '../components/MapComponent';
 
 const themeName = 'light';
 const theme = getThemeColors(themeName);
@@ -11,11 +14,19 @@ export const metadata = {
 };
 
 export default function ContactPage() {
+  // Studio location data
+  const studioLocation = {
+    coordinates: [52.0907, 5.1214], // Utrecht coordinates
+    title: 'Studio Liesbeth van Keulen',
+    description: 'Please contact to arrange a studio visit'
+  };
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
       <Header title="Liesbeth van Keulen" subtitle="In search of unexpected beauty" themeName={themeName} showNavigation={true} PageTitle="Contact" />
-      <div className="container mx-auto px-8 py-8 flex-1 flex items-center justify-center">
-        <div className="border shadow-md bg-white/70 w-full max-w-5xl flex flex-col md:flex-row p-0" style={{ borderColor: theme.text }}>
+      <div className="container mx-auto px-8 py-8 flex-1">
+        {/* Contact Card */}
+        <div className="border shadow-md bg-white/70 w-full max-w-5xl mx-auto flex flex-col md:flex-row p-0 mb-12" style={{ borderColor: theme.text }}>
           {/* Left: Image area */}
           <div className="flex flex-col items-center md:items-start justify-center pb-8 md:pb-0 md:pl-8 md:pr-4 flex-1">
             <div className="w-full h-64 md:max-h-[600px] md:h-auto bg-gray-200 overflow-hidden flex-1 flex items-center justify-center">
@@ -66,6 +77,16 @@ export default function ContactPage() {
                 </button>
               </form>
             </div>
+          </div>
+        </div>
+
+        {/* Studio Map Section */}
+        <div className="border shadow-md bg-white/70 w-full max-w-5xl mx-auto p-6" style={{ borderColor: theme.text }}>
+          <h2 className="text-xl md:text-2xl font-normal mb-4 text-center" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.heading }}>
+            Studio Location
+          </h2>
+          <div className="h-[400px] w-full">
+            <MapComponent markers={[studioLocation]} zoom={14} />
           </div>
         </div>
       </div>

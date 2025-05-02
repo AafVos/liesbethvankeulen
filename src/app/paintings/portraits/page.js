@@ -3,12 +3,12 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Home() {
+export default function PortraitsRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/home');
+    router.push('/work/paintings/portraits');
   }, [router]);
 
   return null;
-}
+} 

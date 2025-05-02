@@ -2,8 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 
-// This component uses Leaflet to display a map
-export default function MapComponent({ coordinates, zoom = 13 }) {
+// This component uses Leaflet to display a map with multiple markers
+export default function MapComponent({ 
+  markers = [], 
+  defaultCenter = [52.1326, 5.2913], // Default to the Netherlands
+  zoom = 7 
+}) {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
@@ -38,18 +42,39 @@ export default function MapComponent({ coordinates, zoom = 13 }) {
       const map = L.map(mapRef.current, {
         zoomControl: true,  // Only show zoom controls
         attributionControl: false  // Hide attribution
-      }).setView(coordinates, zoom);
+      }).setView(markers.length > 0 ? markers[0].coordinates : defaultCenter, zoom);
       
       mapInstanceRef.current = map;
       
-      // Add the OpenStreetMap tile layer
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      // Add the OpenStreetMap tile layer with a cleaner style
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         maxZoom: 19,
         attribution: ''  // Empty attribution
       }).addTo(map);
       
-      // Add a marker at the specified coordinates, but without a popup
-      L.marker(coordinates).addTo(map);
+      // Add markers with popups if provided
+      if (markers.length > 0) {
+        markers.forEach(marker => {
+          const leafletMarker = L.marker(marker.coordinates).addTo(map);
+          
+          // Add popup if title or description is provided
+          if (marker.title || marker.description) {
+            const popupContent = `
+              <div style="font-family: 'Courier New', monospace;">
+                ${marker.title ? `<h3 style="margin: 0 0 5px; font-size: 16px;">${marker.title}</h3>` : ''}
+                ${marker.description ? `<p style="margin: 0; font-size: 14px;">${marker.description}</p>` : ''}
+              </div>
+            `;
+            leafletMarker.bindPopup(popupContent);
+          }
+        });
+        
+        // If we have multiple markers, adjust bounds to fit all markers
+        if (markers.length > 1) {
+          const bounds = L.latLngBounds(markers.map(m => m.coordinates));
+          map.fitBounds(bounds, { padding: [50, 50] });
+        }
+      }
     };
     
     initializeMap();
@@ -61,7 +86,7 @@ export default function MapComponent({ coordinates, zoom = 13 }) {
         mapInstanceRef.current = null;
       }
     };
-  }, [coordinates, zoom]);
+  }, [markers, defaultCenter, zoom]);
   
-  return <div ref={mapRef} style={{ width: '100%', height: '100%' }} />;
+  return <div ref={mapRef} style={{ width: '100%', height: '100%', minHeight: '400px' }} />;
 } 
