@@ -29,19 +29,25 @@ export default function ARGalleryPage() {
     // First, set the sample painting as default
     setPaintings([samplePainting]);
     setSelectedPainting(samplePainting);
+    setLoading(false); // Set loading to false immediately since we already have the sample
     
     // Then try to fetch from Contentful in the background
     async function fetchPaintings() {
       try {
         const response = await getEntries('paintings');
         
+        // If no response or items are empty, just use the sample painting
+        if (!response || !response.items || response.items.length === 0) {
+          return;
+        }
+        
         const formattedPaintings = response.items.map(item => ({
-          id: item.sys.id,
-          title: item.fields.title || 'Untitled',
-          description: item.fields.description || '',
-          url: item.fields.image?.fields?.file?.url || '',
-          width: item.fields.width || 100, // in cm
-          height: item.fields.height || 100 // in cm
+          id: item.sys?.id || `contentful-${Math.random().toString(36).substring(2, 9)}`,
+          title: item.fields?.title || 'Untitled',
+          description: item.fields?.description || '',
+          url: item.fields?.image?.fields?.file?.url || '',
+          width: item.fields?.width || 100, // in cm
+          height: item.fields?.height || 100 // in cm
         })).filter(painting => painting.url);
         
         // If we have paintings from Contentful, add them to the list (keeping sample at the beginning)
@@ -51,13 +57,10 @@ export default function ARGalleryPage() {
       } catch (err) {
         console.error('Error fetching paintings:', err);
         setError('Could not fetch additional paintings from Contentful.');
-      } finally {
-        setLoading(false);
       }
     }
     
     fetchPaintings();
-    setLoading(false); // Set loading to false immediately since we already have the sample
   }, []);
 
   return (
