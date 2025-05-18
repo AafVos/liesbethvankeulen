@@ -139,7 +139,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                 </svg>
               </a>
               <a 
-                href="https://www.facebook.com/portretliesbeth" 
+                href="https://www.facebook.com/portretschool.amsterdam" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center hover:opacity-80 transition-colors duration-300 z-50"
@@ -354,7 +354,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
               </svg>
             </a>
             <a 
-              href="https://www.facebook.com/portretliesbeth" 
+              href="https://www.facebook.com/portretschool.amsterdam" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center hover:opacity-80 transition-colors duration-300 z-50"
