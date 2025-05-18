@@ -1,5 +1,5 @@
-import Header from '../../../components/Header';
-import { getThemeColors } from '../../../styles/theme';
+import Header from '../../components/Header';
+import { getThemeColors } from '../../styles/theme';
 import { getEntries } from '@/lib/contentful';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,50 +7,48 @@ import Link from 'next/link';
 const themeName = 'light';
 const theme = getThemeColors(themeName);
 
-// Function to get landscape paintings from Contentful
-async function getLandscapePaintings() {
+// Function to get all sculptures from Contentful
+async function getAllSculptures() {
   try {
-    // Fetch paintings with the 'landscapes' tag
-    const response = await getEntries('paintings', {
-      'metadata.tags.sys.id[in]': 'landscapes'
-    });
+    // Fetch all entries with content type 'sculptures'
+    const response = await getEntries('sculptures');
     
     // Transform the data for our component
-    const paintings = response.items.map(item => ({
+    const sculptures = response.items.map(item => ({
       id: item.sys.id,
       url: item.fields.image?.fields?.file?.url || '',
       title: item.fields.title || '',
       slug: encodeURIComponent(item.fields.title || item.sys.id),
       isWide: item.metadata?.tags?.some(tag => tag.sys.id === 'wide') || false
-    })).filter(painting => painting.url);
+    })).filter(sculpture => sculpture.url);
       
-    return paintings;
+    return sculptures;
   } catch (error) {
-    console.error('Error fetching landscape paintings from Contentful:', error);
+    console.error('Error fetching sculptures from Contentful:', error);
     return [];
   }
 }
 
-export default async function Landscapes() {
-  const paintings = await getLandscapePaintings();
+export default async function Sculptures() {
+  const sculptures = await getAllSculptures();
 
-  // Separate wide paintings from regular ones
-  const widePaintings = paintings.filter(painting => painting.isWide);
-  const regularPaintings = paintings.filter(painting => !painting.isWide);
+  // Separate wide sculptures from regular ones
+  const wideSculptures = sculptures.filter(sculpture => sculpture.isWide);
+  const regularSculptures = sculptures.filter(sculpture => !sculpture.isWide);
 
-  // Create column arrays for a masonry-like layout (only for regular paintings)
+  // Create column arrays for a masonry-like layout (only for regular sculptures)
   const column1 = [];
   const column2 = [];
   const column3 = [];
   
-  // Distribute regular paintings across columns
-  regularPaintings.forEach((painting, index) => {
+  // Distribute regular sculptures across columns
+  regularSculptures.forEach((sculpture, index) => {
     if (index % 3 === 0) {
-      column1.push(painting);
+      column1.push(sculpture);
     } else if (index % 3 === 1) {
-      column2.push(painting);
+      column2.push(sculpture);
     } else {
-      column3.push(painting);
+      column3.push(sculpture);
     }
   });
 
@@ -60,31 +58,41 @@ export default async function Landscapes() {
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
-        showNavigation={false} 
+        showNavigation={false}
         PageTitle="Work" 
         currentPage="work"
       />
       
       <div className="container mx-auto px-8 py-8">
-        <Link href="/work/paintings" className="text-xl mb-8 inline-block hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
+        <Link href="/work" className="text-xl mb-8 inline-block hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
           ←
         </Link>
         
-        {paintings.length > 0 ? (
+        <h1 
+          className="text-3xl md:text-4xl mb-8 text-center"
+          style={{ 
+            fontFamily: "'Courier New', Courier, monospace",
+            color: theme.text
+          }}
+        >
+          Sculptures
+        </h1>
+        
+        {sculptures.length > 0 ? (
           <div className="flex flex-col gap-16">
-            {/* Wide paintings at the top */}
-            {widePaintings.length > 0 && (
+            {/* Wide sculptures at the top */}
+            {wideSculptures.length > 0 && (
               <div className="w-full">
-                {widePaintings.map(painting => (
+                {wideSculptures.map(sculpture => (
                   <Link 
-                    key={painting.id} 
-                    href={`/work/paintings/landscapes/${painting.slug}`} 
+                    key={sculpture.id} 
+                    href={`/work/sculptures/${sculpture.slug}`}
                     className="group block mb-16 last:mb-0"
                   >
                     <div className="aspect-w-16 aspect-h-7 overflow-hidden">
                       <Image
-                        src={`https:${painting.url}`}
-                        alt={painting.title}
+                        src={`https:${sculpture.url}`}
+                        alt={sculpture.title}
                         width={1200}
                         height={525}
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
@@ -97,29 +105,29 @@ export default async function Landscapes() {
                         color: theme.text
                       }}
                     >
-                      {painting.title}
+                      {sculpture.title}
                     </h3>
                   </Link>
                 ))}
               </div>
             )}
 
-            {/* Regular paintings in columns */}
+            {/* Regular sculptures in columns */}
             <div className="flex flex-col md:flex-row gap-8">
               {/* Column 1 */}
               <div className="flex-1 flex flex-col gap-8">
-                {column1.map((painting, index) => (
+                {column1.map((sculpture, index) => (
                   <Link 
-                    key={painting.id} 
-                    href={`/work/paintings/landscapes/${painting.slug}`} 
+                    key={sculpture.id} 
+                    href={`/work/sculptures/${sculpture.slug}`}
                     className="group"
                   >
-                    <div className="aspect-w-4 aspect-h-3 overflow-hidden">
+                    <div className="aspect-w-4 aspect-h-5 overflow-hidden">
                       <Image
-                        src={`https:${painting.url}`}
-                        alt={painting.title}
+                        src={`https:${sculpture.url}`}
+                        alt={sculpture.title}
                         width={600}
-                        height={450}
+                        height={750}
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
@@ -130,7 +138,7 @@ export default async function Landscapes() {
                         color: theme.text
                       }}
                     >
-                      {painting.title}
+                      {sculpture.title}
                     </h3>
                   </Link>
                 ))}
@@ -138,18 +146,18 @@ export default async function Landscapes() {
               
               {/* Column 2 */}
               <div className="flex-1 flex flex-col gap-8">
-                {column2.map((painting, index) => (
+                {column2.map((sculpture, index) => (
                   <Link 
-                    key={painting.id} 
-                    href={`/work/paintings/landscapes/${painting.slug}`} 
+                    key={sculpture.id} 
+                    href={`/work/sculptures/${sculpture.slug}`}
                     className={`group ${index > 0 ? 'mt-16' : ''}`}
                   >
-                    <div className="aspect-w-4 aspect-h-3 overflow-hidden">
+                    <div className="aspect-w-4 aspect-h-5 overflow-hidden">
                       <Image
-                        src={`https:${painting.url}`}
-                        alt={painting.title}
+                        src={`https:${sculpture.url}`}
+                        alt={sculpture.title}
                         width={600}
-                        height={450}
+                        height={750}
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
@@ -160,7 +168,7 @@ export default async function Landscapes() {
                         color: theme.text
                       }}
                     >
-                      {painting.title}
+                      {sculpture.title}
                     </h3>
                   </Link>
                 ))}
@@ -168,18 +176,18 @@ export default async function Landscapes() {
               
               {/* Column 3 - Only show on large screens */}
               <div className="flex-1 flex flex-col gap-8 hidden lg:flex">
-                {column3.map((painting, index) => (
+                {column3.map((sculpture, index) => (
                   <Link 
-                    key={painting.id} 
-                    href={`/work/paintings/landscapes/${painting.slug}`} 
+                    key={sculpture.id} 
+                    href={`/work/sculptures/${sculpture.slug}`}
                     className={`group ${index > 0 ? 'mt-24' : ''}`}
                   >
-                    <div className="aspect-w-4 aspect-h-3 overflow-hidden">
+                    <div className="aspect-w-4 aspect-h-5 overflow-hidden">
                       <Image
-                        src={`https:${painting.url}`}
-                        alt={painting.title}
+                        src={`https:${sculpture.url}`}
+                        alt={sculpture.title}
                         width={600}
-                        height={450}
+                        height={750}
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
@@ -190,7 +198,7 @@ export default async function Landscapes() {
                         color: theme.text
                       }}
                     >
-                      {painting.title}
+                      {sculpture.title}
                     </h3>
                   </Link>
                 ))}
@@ -199,7 +207,7 @@ export default async function Landscapes() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p style={{ color: theme.text }}>No landscape paintings found.</p>
+            <p style={{ color: theme.text }}>No sculptures found.</p>
           </div>
         )}
       </div>

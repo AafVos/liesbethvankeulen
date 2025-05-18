@@ -133,13 +133,13 @@ export default function AboutPage() {
           {/* Education Block */}
           <section className="bg-white p-6 rounded-lg shadow-sm" style={{ borderLeft: `4px solid ${theme.accent}` }}>
             <h2 className="text-2xl mb-6" style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.heading,
-              fontWeight: 400
-            }}>
+                fontFamily: "'Courier New', Courier, monospace",
+                color: theme.heading,
+                fontWeight: 400
+              }}>
               Education
             </h2>
-            
+              
             <div className="space-y-4 text-sm" style={{ color: theme.text }}>
               <ul className="space-y-3">
                 <li>
@@ -165,17 +165,17 @@ export default function AboutPage() {
               </ul>
             </div>
           </section>
-          
+              
           {/* Exhibitions Block */}
           <section className="bg-white p-6 rounded-lg shadow-sm" style={{ borderLeft: `4px solid ${theme.accent}` }}>
             <h2 className="text-2xl mb-6" style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.heading,
-              fontWeight: 400
-            }}>
+                fontFamily: "'Courier New', Courier, monospace",
+                color: theme.heading,
+                fontWeight: 400
+              }}>
               Exhibitions
             </h2>
-            
+              
             <div className="space-y-6 text-sm" style={{ color: theme.text }}>
               <div>
                 <h3 className="font-medium text-base mb-2">Solo Exhibitions</h3>

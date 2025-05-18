@@ -76,7 +76,7 @@ export default function SideDropdown({ label, items = [], color, href }) {
       
       {/* Side dropdown menu */}
       <div 
-        className={`absolute top-1/2 -translate-y-1/2 left-full ml-2 z-50 bg-white border rounded-md shadow-md transition-all duration-200 ${
+        className={`absolute top-1/2 -translate-y-1/2 left-full ml-2 z-50 bg-white border shadow-md transition-all duration-200 ${
           isHovered ? 'opacity-100 pointer-events-auto translate-x-0' : 'opacity-0 pointer-events-none -translate-x-2'
         }`}
         style={{ borderColor: color }}
@@ -131,7 +131,7 @@ export default function SideDropdown({ label, items = [], color, href }) {
               {/* Nested dropdown for subitems */}
               {item.subItems && item.subItems.length > 0 && (
                 <div 
-                  className={`absolute top-0 left-full ml-2 z-60 bg-white border rounded-md shadow-md transition-all duration-200 ${
+                  className={`absolute top-0 left-full ml-2 z-60 bg-white border shadow-md transition-all duration-200 ${
                     hoveredItemIndex === index ? 'opacity-100 pointer-events-auto translate-x-0' : 'opacity-0 pointer-events-none -translate-x-2'
                   }`}
                   style={{ borderColor: color }}

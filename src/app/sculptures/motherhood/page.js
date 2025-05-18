@@ -1,19 +1,14 @@
-import Header from '../../components/Header';
-import { getThemeColors } from '../../styles/theme';
+"use client";
 
-const themeName = 'light';
-const theme = getThemeColors(themeName);
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function SculptureMotherhood() {
-  return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      <Header 
-        title="Liesbeth van Keulen" 
-        subtitle="In search of unexpected beauty" 
-        themeName={themeName} 
-        showNavigation={true} 
-        PageTitle="Sculpture Motherhood" 
-      />
-    </div>
-  );
+export default function SculpturesMoterhoodRedirect() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/work/sculptures/motherhood');
+  }, [router]);
+
+  return null;
 } 
