@@ -68,28 +68,28 @@ export default async function News() {
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div 
+              <div 
                       className="w-full h-full bg-gray-200" 
-                      style={{ 
-                        backgroundColor: theme.text,
-                        opacity: 0.1
-                      }}
-                    />
+                style={{ 
+                  backgroundColor: theme.text,
+                  opacity: 0.1
+                }}
+              />
                   )}
                 </div>
-                <div className="flex-1 p-4 flex flex-col justify-between">
-                  <div className="text-sm" style={{ color: theme.text, opacity: 0.6 }}>
+              <div className="flex-1 p-4 flex flex-col justify-between">
+                <div className="text-sm" style={{ color: theme.text, opacity: 0.6 }}>
                     {formatDate(item.date)}
-                  </div>
-                  <h2 
-                    className="text-xl font-light tracking-wide text-center"
-                    style={{ 
-                      fontFamily: "'Courier New', Courier, monospace",
-                      color: theme.text
-                    }}
-                  >
+                </div>
+                <h2 
+                  className="text-xl font-light tracking-wide text-center"
+                  style={{ 
+                    fontFamily: "'Courier New', Courier, monospace",
+                    color: theme.text
+                  }}
+                >
                     {item.title}
-                  </h2>
+                </h2>
                   {item.excerpt && (
                     <p className="mt-2 text-sm" style={{ color: theme.text }}>
                       {item.excerpt.length > 100 

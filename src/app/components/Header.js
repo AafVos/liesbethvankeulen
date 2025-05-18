@@ -64,26 +64,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
   ];
 
   const sculpturesItems = [
-    { 
-      label: 'Landscapes', 
-      href: '/sculptures/landscapes',
-      subItems: [
-        { label: 'Metal Landscapes', href: '/sculptures/landscapes/metal' },
-        { label: 'Wood Landscapes', href: '/sculptures/landscapes/wood' },
-      ]
-    },
-    { 
-      label: 'Birds', 
-      href: '/sculptures/birds',
-      subItems: [
-        { label: 'Metal Birds', href: '/sculptures/birds/metal' },
-        { label: 'Clay Birds', href: '/sculptures/birds/clay' },
-      ]
-    },
-    { 
-      label: 'Motherhood', 
-      href: '/sculptures/motherhood'
-    }
+    // No subcategories for sculptures
   ];
 
   const workItems = [
@@ -94,7 +75,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
     },
     { 
       label: 'Sculptures', 
-      href: '/sculptures',
+      href: '/work/sculptures',
       subItems: sculpturesItems
     }
   ];
@@ -262,26 +243,6 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
             )}
           </div>
         )}
-        {/* Navigation links below (hide when menu open) */}
-        {!menuOpen && showNavigation && (
-          <nav className="flex flex-row items-center justify-center gap-4 mt-2">
-            <DropdownNav
-              label="Paintings"
-              href="/work/paintings"
-              color={headerColor}
-              fontSize="text-2xl"
-              items={paintingsItems}
-            />
-            <DropdownNav
-              label="Sculptures"
-              href="/sculptures"
-              color={headerColor}
-              fontSize="text-2xl"
-              items={sculpturesItems}
-            />
-            <Link href="/exhibitions" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Exhibitions</Link>
-          </nav>
-        )}
       </div>
 
       {/* Desktop layout */}
@@ -356,7 +317,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   <li>
                     {getNavComponent(
                       "Sculptures", 
-                      "/sculptures", 
+                      "/work/sculptures", 
                       sculpturesItems,
                       true
                     )}

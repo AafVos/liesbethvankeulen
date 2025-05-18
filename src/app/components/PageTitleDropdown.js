@@ -72,7 +72,7 @@ export default function PageTitleDropdown({ title, items = [], color }) {
       
       {/* Dropdown menu */}
       <div 
-        className={`absolute left-1/2 -translate-x-1/2 z-50 mt-2 bg-white border rounded-md shadow-md transition-all duration-200 min-w-[180px] ${
+        className={`absolute left-1/2 -translate-x-1/2 z-50 mt-2 bg-white border shadow-md transition-all duration-200 min-w-[180px] ${
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         style={{ borderColor: color }}
@@ -107,7 +107,7 @@ export default function PageTitleDropdown({ title, items = [], color }) {
               {/* Nested dropdown for subitems */}
               {item.subItems && item.subItems.length > 0 && (
                 <div 
-                  className={`absolute top-0 ${isWorkMenu ? 'left-full' : 'right-full'} ml-2 -mr-2 bg-white border rounded-md shadow-md transition-all duration-200 z-60 ${
+                  className={`absolute top-0 ${isWorkMenu ? 'left-full' : 'right-full'} ml-2 -mr-2 bg-white border shadow-md transition-all duration-200 z-60 ${
                     hoveredItemIndex === index ? 'opacity-100 pointer-events-auto translate-x-0' : 'opacity-0 pointer-events-none translate-x-2'
                   }`}
                   style={{ borderColor: color }}
