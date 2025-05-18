@@ -30,92 +30,6 @@ async function getPaintingByTitle(title) {
   }
 }
 
-// Extract text from rich text field
-function extractTextFromRichText(richTextField) {
-  if (!richTextField || !richTextField.content) return '';
-  
-  let extractedText = '';
-  
-  // Process each content block
-  try {
-    richTextField.content.forEach(block => {
-      if (block.nodeType === 'paragraph' && block.content) {
-        // Process each text node in the paragraph
-        block.content.forEach(textNode => {
-          if (textNode.nodeType === 'text') {
-            extractedText += textNode.value + ' ';
-          }
-        });
-        extractedText += '\n\n';
-      }
-    });
-  } catch (err) {
-    console.error('Error extracting text from rich text:', err);
-    return '[Complex rich text content]';
-  }
-  
-  return extractedText || '[Empty rich text]';
-}
-
-// Format various field types for display
-function formatContentfulField(field, fieldName) {
-  if (field === undefined || field === null) {
-    return 'Not provided';
-  }
-  
-  // Handle different field types
-  if (typeof field === 'string') {
-    return field;
-  } else if (typeof field === 'number') {
-    if (fieldName === 'price') {
-      return `€${field.toFixed(2)}`;
-    }
-    return field.toString();
-  } else if (typeof field === 'boolean') {
-    return field ? 'Yes' : 'No';
-  } else if (field instanceof Date) {
-    return field.toLocaleDateString();
-  } else if (typeof field === 'object') {
-    // Handle specific object types
-    if (fieldName === 'image' && field.fields && field.fields.file) {
-      return 'Image file (displayed above)';
-    }
-    
-    // Handle rich text fields from Contentful
-    if (field.nodeType === 'document' && field.content) {
-      return extractTextFromRichText(field);
-    }
-    
-    // Safely handle arrays
-    if (Array.isArray(field)) {
-      return `[Array with ${field.length} items]`;
-    }
-    
-    // Generic object handling
-    try {
-      const str = JSON.stringify(field, (key, value) => {
-        // Handle circular references and complex objects
-        if (typeof value === 'object' && value !== null) {
-          if (key === 'fields' || key === 'sys') {
-            return '[Object]';
-          }
-        }
-        return value;
-      }, 2);
-      
-      if (str.length > 100) {
-        return str.substring(0, 100) + '... [truncated]';
-      }
-      return str;
-    } catch (err) {
-      console.error('Error stringifying object:', err);
-      return '[Complex object]';
-    }
-  }
-  
-  return 'Unsupported field type';
-}
-
 export default async function LandscapePainting({ params }) {
   const { slug } = params;
   const decodedTitle = decodeURIComponent(slug);
@@ -140,43 +54,43 @@ export default async function LandscapePainting({ params }) {
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
-        showNavigation={true} 
+        showNavigation={false} 
         PageTitle="Work" 
         currentPage="work"
       />
       
-      <div className="container mx-auto px-4 md:px-8 py-8">
-        <Link href="/work/paintings/landscapes" className="text-sm mb-4 inline-block hover:underline" style={{ color: theme.text }}>
-          &larr; Back to Landscapes
+      <div className="container mx-auto px-4 md:px-8 py-8 max-w-6xl">
+        <Link href="/work/paintings/landscapes" className="text-xl mb-8 inline-block hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
+          ←
         </Link>
         
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden border mt-4" style={{ borderColor: theme.text }}>
-          <div className="md:flex">
-            {/* Image section */}
-            <div className="md:w-1/2 relative">
+        <div className="bg-white overflow-hidden border mt-6" style={{ borderColor: theme.text }}>
+          <div className="md:flex flex-col md:flex-row">
+            {/* Image section - larger on desktop */}
+            <div className="md:w-2/3 relative">
               {imageUrl ? (
-                <div className="aspect-w-4 aspect-h-3 md:h-full">
+                <div className="relative h-[50vh] md:h-[70vh]">
                   <Image
                     src={`https:${imageUrl}`}
                     alt={fields.title || 'Landscape painting'}
                     fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 66vw"
+                    className="object-contain"
                     priority
                   />
                 </div>
               ) : (
                 <div 
-                  className="aspect-w-4 aspect-h-3 md:h-full bg-gray-200" 
+                  className="h-[50vh] md:h-[70vh]" 
                   style={{ backgroundColor: theme.text, opacity: 0.1 }}
                 />
               )}
             </div>
             
-            {/* Details section */}
-            <div className="md:w-1/2 p-6">
+            {/* Details section - minimal information */}
+            <div className="md:w-1/3 p-8 flex flex-col">
               <h1 
-                className="text-2xl md:text-3xl font-light mb-4"
+                className="text-2xl md:text-3xl font-light mb-8"
                 style={{ 
                   fontFamily: "'Courier New', Courier, monospace",
                   color: theme.text
@@ -185,104 +99,34 @@ export default async function LandscapePainting({ params }) {
                 {fields.title || 'Untitled'}
               </h1>
               
-              {fields.description && (
-                <div className="mb-6">
-                  <h3 className="text-sm font-semibold mb-1" style={{ color: theme.text, opacity: 0.7 }}>Description</h3>
-                  <div style={{ color: theme.text }}>
-                    {typeof fields.description === 'string' 
-                      ? fields.description 
-                      : formatContentfulField(fields.description, 'description')}
-                  </div>
-                </div>
-              )}
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                {fields.dimensions && (
-                  <div>
-                    <h3 className="text-sm font-semibold" style={{ color: theme.text, opacity: 0.7 }}>Dimensions</h3>
-                    <p style={{ color: theme.text }}>
-                      {typeof fields.dimensions === 'string' 
-                        ? fields.dimensions 
-                        : formatContentfulField(fields.dimensions, 'dimensions')}
-                    </p>
-                  </div>
-                )}
-                
-                {fields.medium && (
-                  <div>
-                    <h3 className="text-sm font-semibold" style={{ color: theme.text, opacity: 0.7 }}>Medium</h3>
-                    <p style={{ color: theme.text }}>
-                      {typeof fields.medium === 'string' 
-                        ? fields.medium 
-                        : formatContentfulField(fields.medium, 'medium')}
-                    </p>
-                  </div>
-                )}
-                
+              <div className="space-y-6 mb-auto">
                 {fields.year && (
                   <div>
-                    <h3 className="text-sm font-semibold" style={{ color: theme.text, opacity: 0.7 }}>Year</h3>
-                    <p style={{ color: theme.text }}>
-                      {typeof fields.year === 'number' 
-                        ? fields.year 
-                        : formatContentfulField(fields.year, 'year')}
-                    </p>
-                  </div>
-                )}
-                
-                {fields.location && (
-                  <div>
-                    <h3 className="text-sm font-semibold" style={{ color: theme.text, opacity: 0.7 }}>Location</h3>
-                    <p style={{ color: theme.text }}>
-                      {typeof fields.location === 'string' 
-                        ? fields.location 
-                        : formatContentfulField(fields.location, 'location')}
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Year</h3>
+                    <p className="text-lg" style={{ color: theme.text }}>
+                      {typeof fields.year === 'number' ? fields.year : fields.year}
                     </p>
                   </div>
                 )}
                 
                 {fields.price !== undefined && (
                   <div>
-                    <h3 className="text-sm font-semibold" style={{ color: theme.text, opacity: 0.7 }}>Price</h3>
-                    <p style={{ color: theme.text }}>
-                      {typeof fields.price === 'number' 
-                        ? `€${fields.price}` 
-                        : formatContentfulField(fields.price, 'price')}
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Price</h3>
+                    <p className="text-lg" style={{ color: theme.text }}>
+                      {typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
                     </p>
                   </div>
                 )}
               </div>
               
-              <div className="mt-8">
-                <h3 
-                  className="text-xl mb-4 font-light"
-                  style={{ 
-                    fontFamily: "'Courier New', Courier, monospace",
-                    color: theme.text
-                  }}
+              <div className="mt-12">
+                <Link 
+                  href="mailto:liesbethvankeulen@gmail.com?subject=Inquiry about painting: {{fields.title}}" 
+                  className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-colors"
+                  style={{ borderColor: theme.text, color: theme.text }}
                 >
-                  All Fields
-                </h3>
-                <div className="bg-gray-50 p-4 rounded-md overflow-x-auto">
-                  <table className="min-w-full">
-                    <thead>
-                      <tr>
-                        <th className="text-left pb-2 px-2" style={{ color: theme.text }}>Field</th>
-                        <th className="text-left pb-2 px-2" style={{ color: theme.text }}>Value</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.entries(fields).map(([key, value]) => (
-                        <tr key={key} className="border-t border-gray-200">
-                          <td className="py-2 px-2 font-medium align-top" style={{ color: theme.text }}>{key}</td>
-                          <td className="py-2 px-2 whitespace-pre-wrap" style={{ color: theme.text }}>
-                            {formatContentfulField(value, key)}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                  Inquire about this painting
+                </Link>
               </div>
             </div>
           </div>

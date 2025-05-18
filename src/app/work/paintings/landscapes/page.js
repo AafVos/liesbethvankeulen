@@ -39,12 +39,16 @@ export default async function Landscapes() {
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
-        showNavigation={true} 
+        showNavigation={false} 
         PageTitle="Work" 
         currentPage="work"
       />
       
       <div className="container mx-auto px-8 py-8">
+        <Link href="/work/paintings" className="text-xl mb-8 inline-block hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
+          ←
+        </Link>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {paintings.length > 0 ? (
             paintings.map(painting => (
