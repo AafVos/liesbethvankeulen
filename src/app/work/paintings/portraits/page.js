@@ -38,7 +38,8 @@ export default async function Portraits() {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={true} 
-        PageTitle="Portraits" 
+        PageTitle="Work" 
+        currentPage="work"
       />
       
       <div className="container mx-auto px-8 py-8">

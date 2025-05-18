@@ -40,7 +40,8 @@ export default async function Landscapes() {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={true} 
-        PageTitle="Landscapes" 
+        PageTitle="Work" 
+        currentPage="work"
       />
       
       <div className="container mx-auto px-8 py-8">
