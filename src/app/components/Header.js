@@ -469,66 +469,6 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   Work
                 </Link>
               </li>
-              <li>
-                <Link 
-                  href="/news" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  News
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/about" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/studio" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Studio
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/lessons" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Lessons
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/shop" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Shop
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/contact" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Contact
-                </Link>
-              </li>
             </ul>
           </nav>
         </div>
