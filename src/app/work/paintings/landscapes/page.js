@@ -2,6 +2,7 @@ import Header from '../../../components/Header';
 import { getThemeColors } from '../../../styles/theme';
 import { getEntries } from '@/lib/contentful';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const themeName = 'light';
 const theme = getThemeColors(themeName);
@@ -14,11 +15,12 @@ async function getLandscapePaintings() {
       'metadata.tags.sys.id[in]': 'landscapes'
     });
     
-    // Transform the data for our component - only include image data
+    // Transform the data for our component
     const paintings = response.items.map(item => ({
       id: item.sys.id,
       url: item.fields.image?.fields?.file?.url || '',
       title: item.fields.title || '',
+      slug: encodeURIComponent(item.fields.title || item.sys.id)
     })).filter(painting => painting.url);
       
     return paintings;
@@ -45,7 +47,11 @@ export default async function Landscapes() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {paintings.length > 0 ? (
             paintings.map(painting => (
-              <div key={painting.id} className="group">
+              <Link 
+                key={painting.id} 
+                href={`/work/paintings/landscapes/${painting.slug}`} 
+                className="group"
+              >
                 <div className="aspect-w-4 aspect-h-3 overflow-hidden">
                   <Image
                     src={`https:${painting.url}`}
@@ -55,7 +61,16 @@ export default async function Landscapes() {
                     className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-              </div>
+                <h3 
+                  className="mt-2 text-lg font-light text-center"
+                  style={{ 
+                    fontFamily: "'Courier New', Courier, monospace",
+                    color: theme.text
+                  }}
+                >
+                  {painting.title}
+                </h3>
+              </Link>
             ))
           ) : (
             <div className="col-span-full text-center py-12">

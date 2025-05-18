@@ -41,6 +41,7 @@ export default async function Paintings() {
         themeName={themeName} 
         showNavigation={true} 
         PageTitle="Paintings" 
+        currentPage="work"
       />
       
       <div className="h-[calc(100vh-12rem)] px-8 pt-8 pb-4">

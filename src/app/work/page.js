@@ -8,7 +8,14 @@ const theme = getThemeColors(themeName);
 export default function Work() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      <Header title="Liesbeth van Keulen" subtitle="In search of unexpected beauty" themeName={themeName} showNavigation={true} PageTitle="Work" />
+      <Header 
+        title="Liesbeth van Keulen" 
+        subtitle="In search of unexpected beauty" 
+        themeName={themeName} 
+        showNavigation={true} 
+        PageTitle="Work" 
+        currentPage="work"
+      />
       <div className="h-[calc(100vh-12rem)] px-8 pt-8 pb-4">
         <div className="flex flex-col md:flex-row gap-8 h-full">
           <Link href="/work/paintings" className="w-full md:w-1/2 h-1/2 md:h-full relative group">

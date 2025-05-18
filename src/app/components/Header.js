@@ -4,11 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { getThemeColors } from '../styles/theme';
 import DropdownNav from './DropdownNav';
+import PageTitleDropdown from './PageTitleDropdown';
+import SideDropdown from './SideDropdown';
 
 // By default, use the dark theme if no theme is specified
 const defaultTheme = getThemeColors('dark');
 
-const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, textColor }) => {
+const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, textColor, currentPage }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   
   // Use the provided theme name or default to dark
@@ -39,6 +41,88 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
     fontWeight: 400,
     letterSpacing: '0.07em',
     color: '#ffffff' // Always white in the menu overlay
+  };
+
+  // Navigation items with nested structure
+  const paintingsItems = [
+    { 
+      label: 'Landscapes', 
+      href: '/work/paintings/landscapes',
+      subItems: [
+        { label: 'Urban Landscapes', href: '/work/paintings/landscapes/urban' },
+        { label: 'Nature Landscapes', href: '/work/paintings/landscapes/nature' },
+      ]
+    },
+    { 
+      label: 'Portraits', 
+      href: '/work/paintings/portraits',
+      subItems: [
+        { label: 'Self Portraits', href: '/work/paintings/portraits/self' },
+        { label: 'Family Portraits', href: '/work/paintings/portraits/family' },
+      ]
+    }
+  ];
+
+  const sculpturesItems = [
+    { 
+      label: 'Landscapes', 
+      href: '/sculptures/landscapes',
+      subItems: [
+        { label: 'Metal Landscapes', href: '/sculptures/landscapes/metal' },
+        { label: 'Wood Landscapes', href: '/sculptures/landscapes/wood' },
+      ]
+    },
+    { 
+      label: 'Birds', 
+      href: '/sculptures/birds',
+      subItems: [
+        { label: 'Metal Birds', href: '/sculptures/birds/metal' },
+        { label: 'Clay Birds', href: '/sculptures/birds/clay' },
+      ]
+    },
+    { 
+      label: 'Motherhood', 
+      href: '/sculptures/motherhood'
+    }
+  ];
+
+  const workItems = [
+    { 
+      label: 'Paintings', 
+      href: '/work/paintings',
+      subItems: paintingsItems
+    },
+    { 
+      label: 'Sculptures', 
+      href: '/sculptures',
+      subItems: sculpturesItems
+    }
+  ];
+
+  // Add a special case for the Work page where we should use SideDropdown
+  // This function determines which type of nav component to use
+  const getNavComponent = (label, href, items, showSide = false) => {
+    // On the work page, we use SideDropdown for horizontal dropdowns
+    if (currentPage === 'work' && showSide) {
+      return (
+        <SideDropdown
+          label={label}
+          href={href}
+          color={headerColor}
+          items={items}
+        />
+      );
+    }
+    // Otherwise use the standard DropdownNav
+    return (
+      <DropdownNav
+        label={label}
+        href={href}
+        color={headerColor}
+        fontSize="text-3xl"
+        items={items}
+      />
+    );
   };
 
   return (
@@ -152,13 +236,52 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
             {subtitle}
           </div>
         )}
+        {/* Add PageTitle dropdown for mobile if it exists (hide when menu open) */}
+        {!menuOpen && PageTitle && (
+          <div className="flex items-center justify-center mt-3">
+            {PageTitle === "Work" ? (
+              <PageTitleDropdown 
+                title="Work" 
+                color={headerColor} 
+                items={workItems}
+              />
+            ) : PageTitle === "Paintings" ? (
+              <PageTitleDropdown 
+                title="Paintings" 
+                color={headerColor} 
+                items={paintingsItems}
+              />
+            ) : PageTitle === "Sculptures" ? (
+              <PageTitleDropdown 
+                title="Sculptures" 
+                color={headerColor} 
+                items={sculpturesItems}
+              />
+            ) : (
+              <div className="text-2xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
+                {PageTitle}
+              </div>
+            )}
+          </div>
+        )}
         {/* Navigation links below (hide when menu open) */}
         {!menuOpen && showNavigation && (
           <nav className="flex flex-row items-center justify-center gap-4 mt-2">
-            <Link href="/work/paintings" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Paintings</Link>
-            <Link href="/sculptures" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Sculptures</Link>
+            <DropdownNav
+              label="Paintings"
+              href="/work/paintings"
+              color={headerColor}
+              fontSize="text-2xl"
+              items={paintingsItems}
+            />
+            <DropdownNav
+              label="Sculptures"
+              href="/sculptures"
+              color={headerColor}
+              fontSize="text-2xl"
+              items={sculpturesItems}
+            />
             <Link href="/exhibitions" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>Exhibitions</Link>
-            <Link href="/ar-gallery" className="text-2xl font-normal hover:opacity-80 transition-colors duration-300 drop-shadow-md text-center" style={{...navLinkStyle}}>AR View</Link>
           </nav>
         )}
       </div>
@@ -197,58 +320,48 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
         {/* Center: Navigation links or PageTitle */}
         <div className="flex-1 flex items-center justify-center">
           {PageTitle ? (
-            <div className="text-2xl md:text-3xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
-              {PageTitle}
-            </div>
+            PageTitle === "Work" ? (
+              <PageTitleDropdown 
+                title="Work" 
+                color={headerColor} 
+                items={workItems}
+              />
+            ) : PageTitle === "Paintings" ? (
+              <PageTitleDropdown 
+                title="Paintings" 
+                color={headerColor} 
+                items={paintingsItems}
+              />
+            ) : PageTitle === "Sculptures" ? (
+              <PageTitleDropdown 
+                title="Sculptures" 
+                color={headerColor} 
+                items={sculpturesItems}
+              />
+            ) : (
+              <div className="text-2xl md:text-3xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
+                {PageTitle}
+              </div>
+            )
           ) : (
             showNavigation && (
               <nav>
                 <ul className="flex space-x-12">
                   <li>
-                    <DropdownNav
-                      label="Paintings"
-                      href="/work/paintings"
-                      color={headerColor}
-                      fontSize="text-3xl"
-                      items={[
-                        { label: 'Landscapes', href: '/work/paintings/landscapes' },
-                        { label: 'Portraits', href: '/work/paintings/portraits' },
-                      ]}
-                    />
+                    {getNavComponent(
+                      "Paintings", 
+                      "/work/paintings", 
+                      paintingsItems,
+                      true
+                    )}
                   </li>
                   <li>
-                    <DropdownNav
-                      label="Sculptures"
-                      href="/sculptures"
-                      color={headerColor}
-                      fontSize="text-3xl"
-                      items={[
-                        { label: 'Landscapes', href: '/sculptures/landscapes' },
-                        { label: 'Birds', href: '/sculptures/birds' },
-                        { label: 'Motherhood', href: '/sculptures/motherhood' },
-                      ]}
-                    />
-                  </li>
-                  <li>
-                    <DropdownNav
-                      label="Exhibitions"
-                      href="/exhibitions"
-                      color={headerColor}
-                      fontSize="text-3xl"
-                      items={[
-                        { label: 'Current Exhibitions', href: '/exhibitions/current' },
-                        { label: 'Past Exhibitions', href: '/exhibitions/past' },
-                      ]}
-                    />
-                  </li>
-                  <li>
-                    <DropdownNav
-                      label="AR Gallery"
-                      href="/ar-gallery"
-                      color={headerColor}
-                      fontSize="text-3xl"
-                      items={[]}
-                    />
+                    {getNavComponent(
+                      "Sculptures", 
+                      "/sculptures", 
+                      sculpturesItems,
+                      true
+                    )}
                   </li>
                 </ul>
               </nav>
@@ -414,26 +527,6 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   onClick={toggleMenu}
                 >
                   Contact
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/exhibitions" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Exhibitions
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/ar-gallery" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  AR Gallery
                 </Link>
               </li>
             </ul>
