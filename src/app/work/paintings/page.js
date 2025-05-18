@@ -40,7 +40,7 @@ export default async function Paintings() {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={true} 
-        PageTitle="Paintings" 
+        PageTitle="Work" 
         currentPage="work"
       />
       

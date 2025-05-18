@@ -141,7 +141,8 @@ export default async function LandscapePainting({ params }) {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={true} 
-        PageTitle="Landscape" 
+        PageTitle="Work" 
+        currentPage="work"
       />
       
       <div className="container mx-auto px-4 md:px-8 py-8">
