@@ -126,14 +126,14 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
   };
 
   return (
-    <header className="relative w-full z-30 py-6 px-6">
+    <header className="relative w-full z-50 py-6 px-6">
       {/* Mobile layout */}
-      <div className="md:hidden w-full flex flex-col items-center justify-center gap-1">
+      <div className="md:hidden w-full flex flex-col items-center justify-center gap-1 relative z-50">
         {/* Top row: Instagram + Hamburger */}
         <div className="w-full flex flex-col mb-0">
           {/* Top row: Instagram + Hamburger */}
           <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 z-50">
               <a 
                 href="https://www.instagram.com/portretliesbeth/" 
                 target="_blank" 
@@ -205,28 +205,26 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
               <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
             </div>
           </div>
-          {/* Title row (hide when menu open) */}
-          {!menuOpen && (
-            <div className="flex items-center justify-center mt-2">
-              <Link href="/home" className="cursor-pointer inline-block">
-                <h2 
-                  className="text-2xl tracking-wide drop-shadow-md text-center" 
-                  style={{ 
-                    fontFamily: "'Courier New', Courier, monospace",
-                    fontWeight: 400,
-                    letterSpacing: '0.05em',
-                    color: headerColor
-                  }}
-                >
-                  {title}
-                </h2>
-              </Link>
-            </div>
-          )}
+          {/* Title row (always visible, even when menu open) */}
+          <div className="flex items-center justify-center mt-2 relative z-50">
+            <Link href="/home" className="cursor-pointer inline-block z-50">
+              <h2 
+                className="text-2xl tracking-wide drop-shadow-md text-center" 
+                style={{ 
+                  fontFamily: "'Courier New', Courier, monospace",
+                  fontWeight: 400,
+                  letterSpacing: '0.05em',
+                  color: headerColor
+                }}
+              >
+                {title}
+              </h2>
+            </Link>
+          </div>
         </div>
-        {/* Subtitle below, centered (hide when menu open) */}
-        {!menuOpen && subtitle && (
-          <div className="w-full text-center text-base mt-0 tracking-wide" style={{
+        {/* Subtitle below, centered (always visible) */}
+        {subtitle && (
+          <div className="w-full text-center text-base mt-0 tracking-wide z-50 relative" style={{
             fontFamily: "'Courier New', Courier, monospace",
             color: headerColor,
             opacity: 0.8,
@@ -287,11 +285,11 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
       </div>
 
       {/* Desktop layout */}
-      <div className="hidden md:flex items-center w-full">
+      <div className="hidden md:flex items-center w-full relative z-50">
         {/* Left: Title */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 z-50">
           <div className="text-center">
-            <Link href="/home" className="cursor-pointer inline-block">
+            <Link href="/home" className="cursor-pointer inline-block z-50">
               <h2 
                 className="text-3xl tracking-wide drop-shadow-md" 
                 style={{ 
@@ -304,7 +302,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                 {title}
               </h2>
               {subtitle && (
-                <div className="text-base mt-1 tracking-wide" style={{
+                <div className="text-base mt-1 tracking-wide z-50" style={{
                   fontFamily: "'Courier New', Courier, monospace",
                   color: headerColor,
                   opacity: 0.8,
@@ -445,33 +443,32 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
       </div>
 
       {/* Fullscreen menu overlay - now transparent with backdrop blur */}
-      <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="flex flex-col items-center justify-center h-full">
-          <nav className="text-center">
-            <ul className="space-y-8">
-              <li>
-                <Link 
-                  href="/home" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/work" 
-                  className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
-                  style={menuLinkStyle}
-                  onClick={toggleMenu}
-                >
-                  Work
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+      <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-30 transition-opacity duration-300 flex items-center justify-center ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className="absolute top-0 left-0 right-0 h-24 z-10"></div> {/* Space for header */}
+        <nav className="text-center">
+          <ul className="space-y-8">
+            <li>
+              <Link 
+                href="/home" 
+                className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                style={menuLinkStyle}
+                onClick={toggleMenu}
+              >
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/work" 
+                className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                style={menuLinkStyle}
+                onClick={toggleMenu}
+              >
+                Work
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
   );
