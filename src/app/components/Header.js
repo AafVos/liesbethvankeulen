@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { getThemeColors } from '../styles/theme';
 import DropdownNav from './DropdownNav';
@@ -12,6 +12,11 @@ const defaultTheme = getThemeColors('dark');
 
 const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, textColor, currentPage }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef(null);
+  const mobileIconsRef = useRef(null);
+  const desktopIconsRef = useRef(null);
+  const mobileHamburgerRef = useRef(null);
+  const desktopHamburgerRef = useRef(null);
   
   // Use the provided theme name or default to dark
   const theme = themeName ? getThemeColors(themeName) : defaultTheme;
@@ -25,6 +30,23 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
       console.log('Hamburger clicked, menuOpen:', next);
       return next;
     });
+  };
+
+  // Handler for clicks on the overlay
+  const handleOverlayClick = (e) => {
+    // Don't close if clicking on the menu items, hamburger button, or social icons
+    if (
+      (navRef.current && navRef.current.contains(e.target)) ||
+      (mobileIconsRef.current && mobileIconsRef.current.contains(e.target)) ||
+      (desktopIconsRef.current && desktopIconsRef.current.contains(e.target)) ||
+      (mobileHamburgerRef.current && mobileHamburgerRef.current.contains(e.target)) ||
+      (desktopHamburgerRef.current && desktopHamburgerRef.current.contains(e.target))
+    ) {
+      return;
+    }
+    
+    // Close the menu for clicks outside
+    setMenuOpen(false);
   };
 
   // Style for navigation links
@@ -114,7 +136,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
         <div className="w-full flex flex-col mb-0">
           {/* Top row: Instagram + Hamburger */}
           <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-4 z-50">
+            <div ref={mobileIconsRef} className="flex items-center gap-4 z-50">
               <a 
                 href="https://www.instagram.com/portretliesbeth/" 
                 target="_blank" 
@@ -180,7 +202,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                 </svg>
               </a>
             </div>
-            <div className="cursor-pointer z-50 mr-2" onClick={toggleMenu}>
+            <div ref={mobileHamburgerRef} className="cursor-pointer z-50 mr-2" onClick={toggleMenu}>
               <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
               <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
               <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
@@ -188,7 +210,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
           </div>
           {/* Title row (always visible, even when menu open) */}
           <div className="flex items-center justify-center mt-2 relative z-50">
-            <Link href="/home" className="cursor-pointer inline-block z-50">
+            <Link href="/home" className="cursor-pointer inline-block z-50" onClick={() => setMenuOpen(false)}>
               <h2 
                 className="text-2xl tracking-wide drop-shadow-md text-center" 
                 style={{ 
@@ -250,7 +272,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
         {/* Left: Title */}
         <div className="flex-shrink-0 z-50">
           <div className="text-center">
-            <Link href="/home" className="cursor-pointer inline-block z-50">
+            <Link href="/home" className="cursor-pointer inline-block z-50" onClick={() => setMenuOpen(false)}>
               <h2 
                 className="text-3xl tracking-wide drop-shadow-md" 
                 style={{ 
@@ -329,7 +351,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
         </div>
         {/* Right: Instagram, Facebook, Email and hamburger */}
         <div className="flex items-center gap-6 flex-shrink-0">
-          <div className="flex items-center gap-4">
+          <div ref={desktopIconsRef} className="flex items-center gap-4">
             <a 
               href="https://www.instagram.com/portretliesbeth/" 
               target="_blank" 
@@ -395,7 +417,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
               </svg>
             </a>
           </div>
-          <div className="cursor-pointer z-50" onClick={toggleMenu}>
+          <div ref={desktopHamburgerRef} className="cursor-pointer z-50" onClick={toggleMenu}>
             <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
             <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
             <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
@@ -404,9 +426,12 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
       </div>
 
       {/* Fullscreen menu overlay - now transparent with backdrop blur */}
-      <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-30 transition-opacity duration-300 flex items-center justify-center ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <div 
+        className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-30 transition-opacity duration-300 flex items-center justify-center ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={handleOverlayClick}
+      >
         <div className="absolute top-0 left-0 right-0 h-24 z-10"></div> {/* Space for header */}
-        <nav className="text-center">
+        <nav ref={navRef} className="text-center">
           <ul className="space-y-8">
             <li>
               <Link 
