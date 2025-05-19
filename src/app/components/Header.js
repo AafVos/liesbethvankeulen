@@ -298,59 +298,65 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
             </Link>
           </div>
         </div>
-        {/* Center: Navigation links or PageTitle */}
-        <div className="flex-1 flex items-center justify-center">
-          {PageTitle ? (
-            PageTitle === "Work" ? (
-              <PageTitleDropdown 
-                title="Work" 
-                color={headerColor} 
-                items={workItems}
-              />
-            ) : PageTitle === "Paintings" ? (
-              <PageTitleDropdown 
-                title="Paintings" 
-                color={headerColor} 
-                items={paintingsItems}
-              />
-            ) : PageTitle === "Sculptures" ? (
-              <PageTitleDropdown 
-                title="Sculptures" 
-                color={headerColor} 
-                items={sculpturesItems}
-              />
-            ) : (
-              <div className="text-2xl md:text-3xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
-                {PageTitle}
-              </div>
-            )
-          ) : (
-            showNavigation && (
-              <nav>
-                <ul className="flex space-x-12">
-                  <li>
-                    {getNavComponent(
-                      "Paintings", 
-                      "/work/paintings", 
-                      paintingsItems,
-                      true
-                    )}
-                  </li>
-                  <li>
-                    {getNavComponent(
-                      "Sculptures", 
-                      "/work/sculptures", 
-                      sculpturesItems,
-                      true
-                    )}
-                  </li>
-                </ul>
-              </nav>
-            )
-          )}
-        </div>
-        {/* Right: Instagram, Facebook, Email and hamburger */}
+        
+        {/* Push everything else to the right (empty flex-grow div) */}
+        <div className="flex-grow"></div>
+        
+        {/* Right: Navigation, Instagram, Facebook, Email and hamburger */}
         <div className="flex items-center gap-6 flex-shrink-0">
+          {/* Navigation links or PageTitle - Now on the right */}
+          <div className="flex items-center">
+            {PageTitle ? (
+              PageTitle === "Work" ? (
+                <PageTitleDropdown 
+                  title="Work" 
+                  color={headerColor} 
+                  items={workItems}
+                />
+              ) : PageTitle === "Paintings" ? (
+                <PageTitleDropdown 
+                  title="Paintings" 
+                  color={headerColor} 
+                  items={paintingsItems}
+                />
+              ) : PageTitle === "Sculptures" ? (
+                <PageTitleDropdown 
+                  title="Sculptures" 
+                  color={headerColor} 
+                  items={sculpturesItems}
+                />
+              ) : (
+                <div className="text-2xl md:text-3xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
+                  {PageTitle}
+                </div>
+              )
+            ) : (
+              showNavigation && (
+                <nav>
+                  <ul className="flex space-x-12">
+                    <li>
+                      {getNavComponent(
+                        "Paintings", 
+                        "/work/paintings", 
+                        paintingsItems,
+                        true
+                      )}
+                    </li>
+                    <li>
+                      {getNavComponent(
+                        "Sculptures", 
+                        "/work/sculptures", 
+                        sculpturesItems,
+                        true
+                      )}
+                    </li>
+                  </ul>
+                </nav>
+              )
+            )}
+          </div>
+          
+          {/* Social media icons */}
           <div ref={desktopIconsRef} className="flex items-center gap-4">
             <a 
               href="https://www.instagram.com/portretliesbeth/" 
@@ -417,6 +423,8 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
               </svg>
             </a>
           </div>
+          
+          {/* Hamburger */}
           <div ref={desktopHamburgerRef} className="cursor-pointer z-50" onClick={toggleMenu}>
             <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
             <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
