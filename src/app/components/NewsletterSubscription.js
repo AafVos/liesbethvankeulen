@@ -66,8 +66,8 @@ export default function NewsletterSubscription() {
   }
 
   return (
-    <div className="fixed bottom-4 left-4 p-4" style={{ fontFamily: "'Courier New', Courier, monospace", letterSpacing: '0.07em' }}>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <div className="fixed bottom-4 left-4 p-4 max-w-full" style={{ fontFamily: "'Courier New', Courier, monospace", letterSpacing: '0.07em' }}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-full">
         <div className="flex gap-2">
           <input
             type="text"
@@ -100,7 +100,7 @@ export default function NewsletterSubscription() {
             }}
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full">
           <input
             type="email"
             name="email"
@@ -108,7 +108,7 @@ export default function NewsletterSubscription() {
             onChange={handleChange}
             placeholder="Enter your email"
             required
-            className="px-3 py-2 border focus:outline-none focus:ring-2 bg-white flex-grow"
+            className="px-3 py-2 border focus:outline-none focus:ring-2 bg-white w-full"
             style={{ 
               fontFamily: "'Courier New', Courier, monospace", 
               letterSpacing: '0.07em',
@@ -119,7 +119,7 @@ export default function NewsletterSubscription() {
           <button
             type="submit"
             disabled={isLoading}
-            className="px-4 py-2 hover:bg-opacity-80 transition-colors"
+            className="px-4 py-2 hover:bg-opacity-80 transition-colors w-full sm:w-auto mt-2 sm:mt-0"
             style={{ 
               fontFamily: "'Courier New', Courier, monospace", 
               letterSpacing: '0.07em',
