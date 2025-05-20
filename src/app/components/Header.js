@@ -137,7 +137,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
         <div className="w-full flex flex-col mb-0">
           {/* Top row: Instagram + Hamburger */}
           <div className="flex items-center justify-between w-full">
-            <div ref={mobileIconsRef} className="flex items-center gap-4 z-50">
+            <div ref={mobileIconsRef} className={`flex items-center gap-4 ${menuOpen ? 'z-30' : 'z-50'}`}>
               <a 
                 href="https://www.instagram.com/portretliesbeth/" 
                 target="_blank" 
@@ -242,7 +242,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
         )}
         {/* Add PageTitle dropdown for mobile if it exists (hide when menu open) */}
         {PageTitle && (
-          <div className="flex items-center justify-center mt-3 w-full relative z-[60]">
+          <div className={`flex items-center justify-center mt-3 w-full relative ${menuOpen ? 'z-30 opacity-0' : 'z-[60] opacity-100'} transition-opacity duration-300`}>
             <div className="relative w-full px-4">
               {PageTitle === "Work" ? (
                 <PageTitleDropdown 
@@ -273,7 +273,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
       </div>
 
       {/* Desktop layout */}
-      <div className="hidden md:flex items-center w-full relative z-50">
+      <div className={`hidden md:flex items-center w-full relative ${menuOpen ? 'z-30' : 'z-50'}`}>
         {/* Left: Title */}
         <div className="flex-shrink-0 z-50">
           <div className="text-center">
@@ -312,7 +312,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
         {/* Right: Navigation, Instagram, Facebook, Email and hamburger */}
         <div className="flex items-center gap-6 flex-shrink-0">
           {/* Navigation links or PageTitle - Now on the right */}
-          <div className="flex items-center justify-center">
+          <div className={`flex items-center justify-center ${menuOpen ? 'opacity-0 z-30' : 'opacity-100 z-50'} transition-opacity duration-300`}>
             {PageTitle ? (
               PageTitle === "Work" ? (
                 <PageTitleDropdown 
@@ -442,11 +442,11 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
 
       {/* Fullscreen menu overlay - now transparent with backdrop blur */}
       <div 
-        className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 flex items-center justify-center ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 bg-black/60 backdrop-blur-md z-40 transition-all duration-300 flex items-center justify-center ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={handleOverlayClick}
       >
         <div className="absolute top-0 left-0 right-0 h-24 z-10"></div> {/* Space for header */}
-        <nav ref={navRef} className="text-center">
+        <nav ref={navRef} className="text-center z-50">
           <ul className="space-y-8">
             <li>
               <Link 
