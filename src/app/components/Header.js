@@ -22,7 +22,8 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
   const theme = themeName ? getThemeColors(themeName) : defaultTheme;
 
   // Use textColor if provided, otherwise use theme text color
-  const headerColor = textColor || theme.text;
+  // When menu is open, use white color
+  const headerColor = menuOpen ? '#ffffff' : (textColor || theme.text);
 
   const toggleMenu = () => {
     setMenuOpen(prev => {
@@ -153,7 +154,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   strokeWidth="1" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
-                  className="drop-shadow-md"
+                  className={`drop-shadow-md transition-colors duration-300`}
                 >
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -176,7 +177,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   strokeWidth="1" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
-                  className="drop-shadow-md"
+                  className={`drop-shadow-md transition-colors duration-300`}
                 >
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                 </svg>
@@ -195,7 +196,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   strokeWidth="1" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
-                  className="drop-shadow-md"
+                  className={`drop-shadow-md transition-colors duration-300`}
                 >
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
@@ -203,9 +204,9 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
               </a>
             </div>
             <div ref={mobileHamburgerRef} className="cursor-pointer z-50 mr-2" onClick={toggleMenu}>
-              <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
-              <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
-              <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
+              <div className="w-6 h-px mb-1.5 drop-shadow-md transition-colors duration-300" style={{ backgroundColor: headerColor }}></div>
+              <div className="w-6 h-px mb-1.5 drop-shadow-md transition-colors duration-300" style={{ backgroundColor: headerColor }}></div>
+              <div className="w-6 h-px drop-shadow-md transition-colors duration-300" style={{ backgroundColor: headerColor }}></div>
             </div>
           </div>
           {/* Title row (always visible, even when menu open) */}
@@ -217,7 +218,8 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   fontFamily: "'Courier New', Courier, monospace",
                   fontWeight: 400,
                   letterSpacing: '0.05em',
-                  color: headerColor
+                  color: headerColor,
+                  transition: 'color 0.3s ease'
                 }}
               >
                 {title}
@@ -232,37 +234,40 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
             color: headerColor,
             opacity: 0.8,
             letterSpacing: '0.03em',
-            fontWeight: 300
+            fontWeight: 300,
+            transition: 'color 0.3s ease'
           }}>
             {subtitle}
           </div>
         )}
         {/* Add PageTitle dropdown for mobile if it exists (hide when menu open) */}
-        {!menuOpen && PageTitle && (
-          <div className="flex items-center justify-center mt-3">
-            {PageTitle === "Work" ? (
-              <PageTitleDropdown 
-                title="Work" 
-                color={headerColor} 
-                items={workItems}
-              />
-            ) : PageTitle === "Paintings" ? (
-              <PageTitleDropdown 
-                title="Paintings" 
-                color={headerColor} 
-                items={paintingsItems}
-              />
-            ) : PageTitle === "Sculptures" ? (
-              <PageTitleDropdown 
-                title="Sculptures" 
-                color={headerColor} 
-                items={sculpturesItems}
-              />
-            ) : (
-              <div className="text-2xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
-                {PageTitle}
-              </div>
-            )}
+        {PageTitle && (
+          <div className="flex items-center justify-center mt-3 w-full relative z-[60]">
+            <div className="relative w-full px-4">
+              {PageTitle === "Work" ? (
+                <PageTitleDropdown 
+                  title="Work" 
+                  color={headerColor} 
+                  items={workItems}
+                />
+              ) : PageTitle === "Paintings" ? (
+                <PageTitleDropdown 
+                  title="Paintings" 
+                  color={headerColor} 
+                  items={paintingsItems}
+                />
+              ) : PageTitle === "Sculptures" ? (
+                <PageTitleDropdown 
+                  title="Sculptures" 
+                  color={headerColor} 
+                  items={sculpturesItems}
+                />
+              ) : (
+                <div className="text-2xl font-normal tracking-wide text-center" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
+                  {PageTitle}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -279,7 +284,8 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   fontFamily: "'Courier New', Courier, monospace",
                   fontWeight: 400,
                   letterSpacing: '0.05em',
-                  color: headerColor
+                  color: headerColor,
+                  transition: 'color 0.3s ease'
                 }}
               >
                 {title}
@@ -290,7 +296,8 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   color: headerColor,
                   opacity: 0.8,
                   letterSpacing: '0.03em',
-                  fontWeight: 300
+                  fontWeight: 300,
+                  transition: 'color 0.3s ease'
                 }}>
                   {subtitle}
                 </div>
@@ -305,7 +312,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
         {/* Right: Navigation, Instagram, Facebook, Email and hamburger */}
         <div className="flex items-center gap-6 flex-shrink-0">
           {/* Navigation links or PageTitle - Now on the right */}
-          <div className="flex items-center">
+          <div className="flex items-center justify-center">
             {PageTitle ? (
               PageTitle === "Work" ? (
                 <PageTitleDropdown 
@@ -326,7 +333,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   items={sculpturesItems}
                 />
               ) : (
-                <div className="text-2xl md:text-3xl font-normal tracking-wide" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
+                <div className="text-2xl md:text-3xl font-normal tracking-wide text-center" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
                   {PageTitle}
                 </div>
               )
@@ -374,7 +381,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                 strokeWidth="1" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
-                className="drop-shadow-md"
+                className={`drop-shadow-md transition-colors duration-300`}
               >
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -397,7 +404,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                 strokeWidth="1" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
-                className="drop-shadow-md"
+                className={`drop-shadow-md transition-colors duration-300`}
               >
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
               </svg>
@@ -416,7 +423,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                 strokeWidth="1" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
-                className="drop-shadow-md"
+                className={`drop-shadow-md transition-colors duration-300`}
               >
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
@@ -426,16 +433,16 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
           
           {/* Hamburger */}
           <div ref={desktopHamburgerRef} className="cursor-pointer z-50" onClick={toggleMenu}>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
-            <div className="w-6 h-px mb-1.5 drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
-            <div className="w-6 h-px drop-shadow-md" style={{ backgroundColor: headerColor }}></div>
+            <div className="w-6 h-px mb-1.5 drop-shadow-md transition-colors duration-300" style={{ backgroundColor: headerColor }}></div>
+            <div className="w-6 h-px mb-1.5 drop-shadow-md transition-colors duration-300" style={{ backgroundColor: headerColor }}></div>
+            <div className="w-6 h-px drop-shadow-md transition-colors duration-300" style={{ backgroundColor: headerColor }}></div>
           </div>
         </div>
       </div>
 
       {/* Fullscreen menu overlay - now transparent with backdrop blur */}
       <div 
-        className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-30 transition-opacity duration-300 flex items-center justify-center ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 flex items-center justify-center ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={handleOverlayClick}
       >
         <div className="absolute top-0 left-0 right-0 h-24 z-10"></div> {/* Space for header */}
