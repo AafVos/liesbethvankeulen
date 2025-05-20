@@ -1,14 +1,38 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 export default function SideDropdown({ label, items = [], color, href }) {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
+  const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
   const timeoutRef = useRef(null);
   const itemTimeoutRefs = useRef({});
+  const dropdownRef = useRef(null);
   
+  // Check if global menu is open
+  useEffect(() => {
+    const checkIsMenuOpen = () => {
+      const menuOverlay = document.querySelector('.backdrop-blur-md.opacity-100');
+      const isOpen = !!menuOverlay;
+      
+      setIsMainMenuOpen(isOpen);
+      
+      if (isOpen && isHovered) {
+        setIsHovered(false); // Close this dropdown if main menu is open
+      }
+    };
+
+    // Run check initially and set up mutation observer
+    checkIsMenuOpen();
+    
+    const observer = new MutationObserver(checkIsMenuOpen);
+    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+    
+    return () => observer.disconnect();
+  }, [isHovered]);
+
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -46,7 +70,7 @@ export default function SideDropdown({ label, items = [], color, href }) {
 
   return (
     <div 
-      className="relative flex items-center"
+      className={`relative flex items-center ${isMainMenuOpen ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
