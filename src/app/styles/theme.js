@@ -6,7 +6,8 @@ export const themes = {
     text: '#ffffff',
     heading: '#ffffff',
     accent: '#d3d3d3',
-    link: '#d3d3d3'
+    link: '#d3d3d3',
+    fontFamily: "'Courier New', Courier, monospace"
   },
   
   // Option 2: Light theme with green text
@@ -15,7 +16,8 @@ export const themes = {
     text: '#6a7b4f',
     heading: '#6a7b4f',
     accent: '#9cac7f',
-    link: '#6a7b4f'
+    link: '#6a7b4f',
+    fontFamily: "'Courier New', Courier, monospace"
   }
 };
 

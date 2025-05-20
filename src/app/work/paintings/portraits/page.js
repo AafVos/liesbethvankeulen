@@ -65,9 +65,18 @@ export default async function Portraits() {
       />
       
       <div className="container mx-auto px-8 py-8">
-        <Link href="/work/paintings" className="text-xl mb-8 inline-block hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
-          ←
-        </Link>
+        <h1 
+          className="text-3xl md:text-4xl mb-8 text-center flex items-center justify-center gap-4"
+          style={{ 
+            fontFamily: "'Courier New', Courier, monospace",
+            color: theme.text
+          }}
+        >
+          <Link href="/work/paintings" className="text-2xl md:text-3xl hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
+            ←
+          </Link>
+          Portraits
+        </h1>
         
         {paintings.length > 0 ? (
           <div className="flex flex-col gap-16">
