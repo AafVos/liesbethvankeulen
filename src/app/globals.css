@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-family: 'Courier New', Courier, monospace;
 }
 
 @theme inline {
@@ -21,8 +22,13 @@
 
 body {
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Courier New', Courier, monospace;
   min-height: 100vh;
   width: 100%;
   background-color: #000; /* Fallback background color */
+}
+
+/* Apply Courier New to all text elements by default */
+h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, span, div, label {
+  font-family: 'Courier New', Courier, monospace;
 }

@@ -133,7 +133,7 @@ export default function PageTitleDropdown({ title, items = [], color }) {
       
       {/* Dropdown menu */}
       <div 
-        className={`${isMobile ? 'relative w-full' : 'absolute left-1/2 -translate-x-1/2'} z-50 mt-2 bg-white border shadow-md transition-all duration-300 ease-in-out ${isMobile ? 'min-w-full' : 'min-w-[180px]'} ${
+        className={`${isMobile ? 'absolute left-0 right-0' : 'absolute left-1/2 -translate-x-1/2 min-w-[180px]'} z-[100] mt-2 bg-white border shadow-md transition-all duration-300 ease-in-out ${
           open 
             ? 'opacity-100 pointer-events-auto translate-y-0 scale-100' 
             : 'opacity-0 pointer-events-none translate-y-1 scale-95 origin-top'
