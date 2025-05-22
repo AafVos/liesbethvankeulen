@@ -54,7 +54,7 @@ export default async function SculptureDetail({ params }) {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={false} 
-        PageTitle="Work" 
+        PageTitle="Werken" 
         currentPage="work"
       />
       
@@ -70,7 +70,7 @@ export default async function SculptureDetail({ params }) {
               color: theme.text
             }}
           >
-            {fields.title || 'Untitled'}
+            {fields.title || 'Zonder titel'}
           </h1>
         </div>
         
@@ -82,7 +82,7 @@ export default async function SculptureDetail({ params }) {
                 <div className="relative h-[50vh] md:h-[70vh]">
                   <Image
                     src={`https:${imageUrl}`}
-                    alt={fields.title || 'Sculpture'}
+                    alt={fields.title || 'Beeld'}
                     fill
                     sizes="(max-width: 768px) 100vw, 66vw"
                     className="object-contain"
@@ -106,13 +106,13 @@ export default async function SculptureDetail({ params }) {
                   color: theme.text
                 }}
               >
-                {fields.title || 'Untitled'}
+                {fields.title || 'Zonder titel'}
               </h1>
               
               <div className="space-y-6 mb-auto">
                 {fields.year && (
                   <div>
-                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Year</h3>
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Jaar</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
                       {typeof fields.year === 'number' ? fields.year : fields.year}
                     </p>
@@ -121,7 +121,7 @@ export default async function SculptureDetail({ params }) {
                 
                 {fields.price !== undefined && (
                   <div>
-                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Price</h3>
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
                       {typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
                     </p>
@@ -130,7 +130,7 @@ export default async function SculptureDetail({ params }) {
                 
                 {fields.material && (
                   <div>
-                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Material</h3>
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
                       {fields.material}
                     </p>
@@ -139,7 +139,7 @@ export default async function SculptureDetail({ params }) {
                 
                 {fields.dimensions && (
                   <div>
-                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Dimensions</h3>
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Afmetingen</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
                       {fields.dimensions}
                     </p>
@@ -149,11 +149,11 @@ export default async function SculptureDetail({ params }) {
               
               <div className="mt-12">
                 <Link 
-                  href={`mailto:liesbethvankeulen@gmail.com?subject=Inquiry about sculpture: ${fields.title || 'Untitled'}`}
+                  href={`mailto:liesbethvankeulen@gmail.com?subject=Interesse in beeld: ${fields.title || 'Zonder titel'}`}
                   className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-colors"
                   style={{ borderColor: theme.text, color: theme.text }}
                 >
-                  Inquire about this sculpture
+                  Interesse in dit beeld
                 </Link>
               </div>
             </div>
