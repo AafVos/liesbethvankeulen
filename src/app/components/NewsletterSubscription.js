@@ -59,7 +59,7 @@ export default function NewsletterSubscription() {
             border: '1px solid #6a7b4f'
           }}
         >
-          Subscribe to Newsletter
+          Abonneer op Nieuwsbrief
         </button>
       </div>
     );
@@ -74,7 +74,7 @@ export default function NewsletterSubscription() {
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
-            placeholder="First Name"
+            placeholder="Voornaam"
             required
             className="px-3 py-2 border focus:outline-none focus:ring-2 bg-white w-1/2"
             style={{ 
@@ -89,7 +89,7 @@ export default function NewsletterSubscription() {
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
-            placeholder="Last Name"
+            placeholder="Achternaam"
             required
             className="px-3 py-2 border focus:outline-none focus:ring-2 bg-white w-1/2"
             style={{ 
@@ -106,7 +106,7 @@ export default function NewsletterSubscription() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="Enter your email"
+            placeholder="Voer je e-mailadres in"
             required
             className="px-3 py-2 border focus:outline-none focus:ring-2 bg-white w-full"
             style={{ 
@@ -128,16 +128,16 @@ export default function NewsletterSubscription() {
               border: '1px solid #6a7b4f'
             }}
           >
-            {isLoading ? '...' : 'Subscribe'}
+            {isLoading ? '...' : 'Abonneer'}
           </button>
         </div>
       </form>
       {result && (
         <div className="mt-2">
           {result.error ? (
-            <p className="text-red-400 text-sm">Error: {result.error}</p>
+            <p className="text-red-400 text-sm">Fout: {result.error}</p>
           ) : (
-            <p className="text-green-400 text-sm">Successfully subscribed!</p>
+            <p className="text-green-400 text-sm">Succesvol geabonneerd!</p>
           )}
         </div>
       )}

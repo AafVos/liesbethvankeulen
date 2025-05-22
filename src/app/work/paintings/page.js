@@ -29,10 +29,46 @@ async function getFirstImageFromCategory(tag) {
   }
 }
 
+// Function to get description text from Contentful
+async function getDescriptionText(title) {
+  try {
+    const response = await getEntries('textField', {
+      'fields.title': title
+    });
+    
+    if (response.items.length > 0) {
+      // Get the text field from the first matching entry
+      const textField = response.items[0].fields.text;
+      if (textField && textField.content) {
+        // Extract text from rich text field
+        let extractedText = '';
+        textField.content.forEach(block => {
+          if (block.nodeType === 'paragraph' && block.content) {
+            block.content.forEach(textNode => {
+              if (textNode.nodeType === 'text') {
+                extractedText += textNode.value;
+              }
+            });
+          }
+        });
+        return extractedText;
+      }
+    }
+    return '';
+  } catch (error) {
+    console.error(`Error fetching description for ${title}:`, error);
+    return '';
+  }
+}
+
 export default async function Paintings() {
   // Get first images for each category
   const landscapeImage = await getFirstImageFromCategory('landscapes');
   const portraitImage = await getFirstImageFromCategory('portraits');
+  
+  // Get descriptions from Contentful
+  const landscapeDescription = await getDescriptionText('landscapes_description');
+  const portraitDescription = await getDescriptionText('portraits_description');
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
@@ -41,23 +77,25 @@ export default async function Paintings() {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={false} 
-        PageTitle="Work" 
+        PageTitle="Werken" 
         currentPage="work"
       />
       
       <div className="container mx-auto px-8 py-12 max-w-5xl">
-        <h1 
-          className="text-3xl md:text-4xl mb-10 text-center flex items-center justify-center gap-4"
-          style={{ 
-            fontFamily: "'Courier New', Courier, monospace",
-            color: theme.text
-          }}
-        >
-          <Link href="/work" className="text-2xl md:text-3xl hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
+        <div className="relative mb-10">
+          <Link href="/work" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
-          Paintings
-        </h1>
+          <h1 
+            className="text-3xl md:text-4xl text-center"
+            style={{ 
+              fontFamily: "'Courier New', Courier, monospace",
+              color: theme.text
+            }}
+          >
+            Schilderijen
+          </h1>
+        </div>
         
         <div className="flex flex-col gap-16">
           {/* Landscapes */}
@@ -85,7 +123,7 @@ export default async function Paintings() {
                             fontFamily: "'Courier New', Courier, monospace",
                           }}
                         >
-                          Landscapes
+                          Landschappen
                         </h2>
                       </div>
                     </div>
@@ -104,7 +142,7 @@ export default async function Paintings() {
                             fontFamily: "'Courier New', Courier, monospace",
                           }}
                         >
-                          Landscapes
+                          Landschappen
                         </h2>
                       </div>
                     </div>
@@ -114,14 +152,14 @@ export default async function Paintings() {
                 {/* Text side - full width on small screens */}
                 <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
                   <p className="mb-6 text-lg" style={{ color: theme.text, opacity: 0.8 }}>
-                    Explore the beauty of natural and urban landscapes captured through Liesbeth's unique perspective. Her landscapes reveal the delicate interplay between human presence and natural environments.
+                    {landscapeDescription || 'Ontdek de schoonheid van natuurlijke en stedelijke landschappen vastgelegd door Liesbeth\'s unieke perspectief. Haar landschappen tonen het delicate samenspel tussen menselijke aanwezigheid en natuurlijke omgevingen.'}
                   </p>
                   <div className="flex justify-end">
                     <span 
                       className="inline-block border px-4 py-2 group-hover:bg-gray-100 transition-colors duration-300"
                       style={{ borderColor: theme.text, color: theme.text }}
                     >
-                      View Collection →
+                      Bekijk Collectie →
                     </span>
                   </div>
                 </div>
@@ -154,7 +192,7 @@ export default async function Paintings() {
                             fontFamily: "'Courier New', Courier, monospace",
                           }}
                         >
-                          Portraits
+                          Portretten
                         </h2>
                       </div>
                     </div>
@@ -173,7 +211,7 @@ export default async function Paintings() {
                             fontFamily: "'Courier New', Courier, monospace",
                           }}
                         >
-                          Portraits
+                          Portretten
                         </h2>
                       </div>
                     </div>
@@ -183,14 +221,14 @@ export default async function Paintings() {
                 {/* Text side - full width on small screens */}
                 <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
                   <p className="mb-6 text-lg" style={{ color: theme.text, opacity: 0.8 }}>
-                    Discover Liesbeth's intimate portrait work, where each painting reveals something of the interior life of her subjects. These portraits create a dialogue between subject and viewer, bridging personal experiences.
+                    {portraitDescription || 'Ontdek Liesbeth\'s intieme portretwerk, waarbij elk schilderij iets onthult van het innerlijke leven van haar onderwerpen. Deze portretten creëren een dialoog tussen onderwerp en toeschouwer, die persoonlijke ervaringen overbrugt.'}
                   </p>
                   <div className="flex justify-end">
                     <span 
                       className="inline-block border px-4 py-2 group-hover:bg-gray-100 transition-colors duration-300"
                       style={{ borderColor: theme.text, color: theme.text }}
                     >
-                      View Collection →
+                      Bekijk Collectie →
                     </span>
                   </div>
                 </div>

@@ -60,23 +60,25 @@ export default async function Portraits() {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={false} 
-        PageTitle="Work" 
+        PageTitle="Werken" 
         currentPage="work"
       />
       
       <div className="container mx-auto px-8 py-8">
-        <h1 
-          className="text-3xl md:text-4xl mb-8 text-center flex items-center justify-center gap-4"
-          style={{ 
-            fontFamily: "'Courier New', Courier, monospace",
-            color: theme.text
-          }}
-        >
-          <Link href="/work/paintings" className="text-2xl md:text-3xl hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
+        <div className="relative mb-8">
+          <Link href="/work/paintings" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
-          Portraits
-        </h1>
+          <h1 
+            className="text-3xl md:text-4xl text-center"
+            style={{ 
+              fontFamily: "'Courier New', Courier, monospace",
+              color: theme.text
+            }}
+          >
+            Portretten
+          </h1>
+        </div>
         
         {paintings.length > 0 ? (
           <div className="flex flex-col gap-16">

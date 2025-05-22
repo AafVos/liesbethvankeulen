@@ -64,7 +64,7 @@ export default async function Work() {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={true} 
-        PageTitle="Work" 
+        PageTitle="Werken" 
         currentPage="work"
       />
       <div className="h-[calc(100vh-12rem)] px-8 pt-8 pb-4">
@@ -84,7 +84,7 @@ export default async function Work() {
                   color: "white"
                 }}
               >
-                Paintings
+                Schilderijen
               </h2>
             </div>
           </Link>
@@ -103,7 +103,7 @@ export default async function Work() {
                   color: "white"
                 }}
               >
-                Sculptures
+                Beelden
               </h2>
             </div>
           </Link>

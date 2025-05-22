@@ -60,7 +60,10 @@ export default async function AboutPage() {
       <Header 
         title="Liesbeth van Keulen" 
         themeName={themeName} 
-        showNavigation={false} 
+        showNavigation={true}
+        PageTitle="About"
+        currentPage="about"
+        items={[]}
       />
       
       <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">
