@@ -59,11 +59,10 @@ export default async function AboutPage() {
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: theme.background }}>
       <Header 
         title="Liesbeth van Keulen" 
+        subtitle="In search of unexpected beauty" 
         themeName={themeName} 
-        showNavigation={true}
         PageTitle="About"
         currentPage="about"
-        items={[]}
       />
       
       <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">

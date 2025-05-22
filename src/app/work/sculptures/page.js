@@ -58,8 +58,7 @@ export default async function Sculptures() {
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
-        showNavigation={false}
-        PageTitle="Werken" 
+        PageTitle="Sculptures"
         currentPage="work"
       />
       

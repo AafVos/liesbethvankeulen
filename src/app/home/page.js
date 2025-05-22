@@ -47,7 +47,7 @@ export default async function Home() {
           title="Liesbeth van Keulen" 
           subtitle="In search of unexpected beauty" 
           themeName={themeName} 
-          showNavigation={false}
+          PageTitle="Home"
           textColor="#ffffff"
         />
         <div className="mb-16">
