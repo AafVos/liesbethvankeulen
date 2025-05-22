@@ -4,6 +4,14 @@ import Slideshow from '../components/Slideshow';
 import { getThemeColors } from '../styles/theme';
 import { getEntries } from '@/lib/contentful';
 
+// Define the work items structure
+const workItems = [
+  { 
+    label: 'Home', 
+    href: '/home',
+  }
+];
+
 // Function to get paintings with 'slideshow' tag from Contentful
 async function getSlideshowPaintings() {
   try {
@@ -28,7 +36,7 @@ async function getSlideshowPaintings() {
   }
 }
 
-const themeName = 'light';
+const themeName = 'dark';
 const theme = getThemeColors(themeName);
 
 export default async function Home() {
@@ -47,8 +55,7 @@ export default async function Home() {
           title="Liesbeth van Keulen" 
           subtitle="In search of unexpected beauty" 
           themeName={themeName} 
-          PageTitle="Home"
-          textColor="#ffffff"
+          workItems={workItems}
         />
         <div className="mb-16">
           <NewsletterSubscription />
