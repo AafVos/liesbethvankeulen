@@ -1,4 +1,3 @@
-import Header from '../../components/Header';
 import { getThemeColors } from '../../styles/theme';
 import Link from 'next/link';
 import { getEntries } from '@/lib/contentful';
@@ -72,14 +71,6 @@ export default async function Paintings() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      <Header 
-        title="Liesbeth van Keulen" 
-        subtitle="In search of unexpected beauty" 
-        themeName={themeName} 
-        PageTitle="Paintings"
-        currentPage="work"
-      />
-      
       <div className="container mx-auto px-8 py-12 max-w-5xl">
         <div className="relative mb-10">
           <Link href="/work" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>

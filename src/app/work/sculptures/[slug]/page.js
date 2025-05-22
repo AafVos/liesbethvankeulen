@@ -1,4 +1,3 @@
-import Header from '../../../components/Header';
 import { getThemeColors } from '../../../styles/theme';
 import { getEntries } from '@/lib/contentful';
 import Image from 'next/image';
@@ -49,15 +48,6 @@ export default async function SculptureDetail({ params }) {
   
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      <Header 
-        title="Liesbeth van Keulen" 
-        subtitle="In search of unexpected beauty" 
-        themeName={themeName} 
-        showNavigation={false} 
-        PageTitle="Werken" 
-        currentPage="work"
-      />
-      
       <div className="container mx-auto px-4 md:px-8 py-8 max-w-6xl">
         <div className="relative mb-8">
           <Link href="/work/sculptures" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>

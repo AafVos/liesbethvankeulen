@@ -121,7 +121,7 @@ export default function PageTitleDropdown({ items = [], color }) {
       >
         {items[0]?.subItems?.length > 0 ? (
           <div 
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer border-b border-current"
             onClick={toggleDropdown}
           >
             {title}
@@ -136,7 +136,10 @@ export default function PageTitleDropdown({ items = [], color }) {
             </svg>
           </div>
         ) : (
-          <Link href={items[0]?.href || '#'}>
+          <Link 
+            href={items[0]?.href || '#'}
+            className="border-b border-current"
+          >
             {title}
           </Link>
         )}
