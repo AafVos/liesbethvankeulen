@@ -10,7 +10,7 @@ import SideDropdown from './SideDropdown';
 // By default, use the dark theme if no theme is specified
 const defaultTheme = getThemeColors('dark');
 
-const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, textColor, currentPage }) => {
+const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
   const mobileIconsRef = useRef(null);
@@ -337,30 +337,7 @@ const Header = ({ title, subtitle, themeName, showNavigation = true, PageTitle, 
                   {PageTitle}
                 </div>
               )
-            ) : (
-              showNavigation && (
-                <nav>
-                  <ul className="flex space-x-12">
-                    <li>
-                      {getNavComponent(
-                        "Paintings", 
-                        "/work/paintings", 
-                        paintingsItems,
-                        true
-                      )}
-                    </li>
-                    <li>
-                      {getNavComponent(
-                        "Sculptures", 
-                        "/work/sculptures", 
-                        sculpturesItems,
-                        true
-                      )}
-                    </li>
-                  </ul>
-                </nav>
-              )
-            )}
+            ) : null}
           </div>
           
           {/* Social media icons */}

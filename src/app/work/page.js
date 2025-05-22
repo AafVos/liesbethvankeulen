@@ -63,7 +63,6 @@ export default async function Work() {
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
-        showNavigation={true} 
         PageTitle="Werken" 
         currentPage="work"
       />

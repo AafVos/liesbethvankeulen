@@ -18,7 +18,12 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      <Header title="Liesbeth van Keulen" subtitle="In search of unexpected beauty" themeName={themeName} showNavigation={true} PageTitle="Contact" />
+      <Header 
+        title="Liesbeth van Keulen" 
+        subtitle="In search of unexpected beauty" 
+        themeName={themeName} 
+        PageTitle="Contact"
+      />
       <div className="container mx-auto px-8 py-8 flex-1">
         {/* Contact Card */}
         <div className="border shadow-md bg-white/70 w-full max-w-5xl mx-auto flex flex-col md:flex-row p-0 mb-12" style={{ borderColor: theme.text }}>

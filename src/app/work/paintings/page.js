@@ -76,8 +76,7 @@ export default async function Paintings() {
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
-        showNavigation={false} 
-        PageTitle="Werken" 
+        PageTitle="Paintings"
         currentPage="work"
       />
       
