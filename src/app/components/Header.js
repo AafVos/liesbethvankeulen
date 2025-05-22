@@ -244,7 +244,7 @@ const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage 
         {PageTitle && (
           <div className="flex items-center justify-center mt-3 w-full relative z-[60]">
             <div className="relative w-full px-4">
-              {PageTitle === "Work" ? (
+              {PageTitle === "Werken" ? (
                 <PageTitleDropdown 
                   title="Werken" 
                   color={headerColor} 
@@ -314,7 +314,7 @@ const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage 
           {/* Navigation links or PageTitle - Now on the right */}
           <div className="flex items-center justify-center">
             {PageTitle ? (
-              PageTitle === "Work" ? (
+              PageTitle === "Werken" ? (
                 <PageTitleDropdown 
                   title="Werken" 
                   color={headerColor} 

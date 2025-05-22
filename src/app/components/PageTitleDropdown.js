@@ -179,7 +179,7 @@ export default function PageTitleDropdown({ title, items = [], color }) {
               {/* Desktop: Nested dropdown for subitems */}
               {!isMobile && item.subItems && item.subItems.length > 0 && (
                 <div 
-                  className={`absolute top-0 ${isWorkMenu ? 'left-full' : 'right-full'} bg-white border shadow-md transition-all duration-300 ease-in-out z-60 ${
+                  className={`absolute top-0 left-full bg-white border shadow-md transition-all duration-300 ease-in-out z-60 ${
                     hoveredItemIndex === index 
                       ? 'opacity-100 pointer-events-auto translate-x-0' 
                       : 'opacity-0 pointer-events-none translate-x-2'
