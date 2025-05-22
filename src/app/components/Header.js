@@ -10,7 +10,7 @@ import SideDropdown from './SideDropdown';
 // By default, use the dark theme if no theme is specified
 const defaultTheme = getThemeColors('dark');
 
-const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage }) => {
+const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
   const mobileIconsRef = useRef(null);
@@ -21,9 +21,8 @@ const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage 
   // Use the provided theme name or default to dark
   const theme = themeName ? getThemeColors(themeName) : defaultTheme;
 
-  // Use textColor if provided, otherwise use theme text color
-  // When menu is open, use white color
-  const headerColor = menuOpen ? '#ffffff' : (textColor || theme.text);
+  // Always use theme text color, except when menu is open
+  const headerColor = menuOpen ? '#ffffff' : theme.text;
 
   const toggleMenu = () => {
     setMenuOpen(prev => {
@@ -48,14 +47,6 @@ const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage 
     
     // Close the menu for clicks outside
     setMenuOpen(false);
-  };
-
-  // Style for navigation links
-  const navLinkStyle = {
-    fontFamily: "'Courier New', Courier, monospace",
-    fontWeight: 400,
-    letterSpacing: '0.07em',
-    color: headerColor
   };
 
   // Style for menu overlay links
@@ -90,18 +81,18 @@ const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage 
     // No subcategories for sculptures
   ];
 
-  const workItems = [
-    { 
-      label: 'Schilderijen', 
-      href: '/work/paintings',
-      subItems: paintingsItems
-    },
-    { 
-      label: 'Beelden', 
-      href: '/work/sculptures',
-      subItems: sculpturesItems
-    }
-  ];
+  // const workItems = [
+  //   { 
+  //     label: 'Schilderijen', 
+  //     href: '/work/paintings',
+  //     subItems: paintingsItems
+  //   },
+  //   { 
+  //     label: 'Beelden', 
+  //     href: '/work/sculptures',
+  //     subItems: sculpturesItems
+  //   }
+  // ];
 
   // Add a special case for the Work page where we should use SideDropdown
   // This function determines which type of nav component to use
@@ -240,36 +231,15 @@ const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage 
             {subtitle}
           </div>
         )}
-        {/* Add PageTitle dropdown for mobile if it exists (hide when menu open) */}
-        {PageTitle && (
-          <div className="flex items-center justify-center mt-3 w-full relative z-[60]">
-            <div className="relative w-full px-4">
-              {PageTitle === "Werken" ? (
-                <PageTitleDropdown 
-                  title="Werken" 
-                  color={headerColor} 
-                  items={workItems}
-                />
-              ) : PageTitle === "Paintings" ? (
-                <PageTitleDropdown 
-                  title="Paintings" 
-                  color={headerColor} 
-                  items={paintingsItems}
-                />
-              ) : PageTitle === "Sculptures" ? (
-                <PageTitleDropdown 
-                  title="Sculptures" 
-                  color={headerColor} 
-                  items={sculpturesItems}
-                />
-              ) : (
-                <div className="text-2xl font-normal tracking-wide text-center" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
-                  {PageTitle}
-                </div>
-              )}
-            </div>
+        {/* Add PageTitle dropdown for mobile */}
+        <div className="flex items-center justify-center mt-3 w-full relative z-[60]">
+          <div className="relative w-full px-4">
+            <PageTitleDropdown 
+              color={headerColor} 
+              items={workItems}
+            />
           </div>
-        )}
+        </div>
       </div>
 
       {/* Desktop layout */}
@@ -311,33 +281,12 @@ const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage 
         
         {/* Right: Navigation, Instagram, Facebook, Email and hamburger */}
         <div className="flex items-center gap-6 flex-shrink-0">
-          {/* Navigation links or PageTitle - Now on the right */}
+          {/* Navigation links */}
           <div className="flex items-center justify-center">
-            {PageTitle ? (
-              PageTitle === "Werken" ? (
-                <PageTitleDropdown 
-                  title="Werken" 
-                  color={headerColor} 
-                  items={workItems}
-                />
-              ) : PageTitle === "Paintings" ? (
-                <PageTitleDropdown 
-                  title="Paintings" 
-                  color={headerColor} 
-                  items={paintingsItems}
-                />
-              ) : PageTitle === "Sculptures" ? (
-                <PageTitleDropdown 
-                  title="Sculptures" 
-                  color={headerColor} 
-                  items={sculpturesItems}
-                />
-              ) : (
-                <div className="text-2xl md:text-3xl font-normal tracking-wide text-center" style={{ fontFamily: "'Courier New', Courier, monospace", color: headerColor }}>
-                  {PageTitle}
-                </div>
-              )
-            ) : null}
+            <PageTitleDropdown 
+              color={headerColor} 
+              items={workItems}
+            />
           </div>
           
           {/* Social media icons */}
@@ -417,7 +366,7 @@ const Header = ({ title, subtitle, themeName, PageTitle, textColor, currentPage 
         </div>
       </div>
 
-      {/* Fullscreen menu overlay - now transparent with backdrop blur */}
+      {/* Fullscreen menu overlay */}
       <div 
         className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 flex items-center justify-center ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={handleOverlayClick}

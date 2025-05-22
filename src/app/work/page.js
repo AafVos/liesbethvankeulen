@@ -4,6 +4,43 @@ import Link from 'next/link';
 import Slideshow from '../components/Slideshow';
 import { getEntries } from '@/lib/contentful';
 
+// Define the work items structure
+const workItems = [
+  {
+    label: 'Werken',
+    href: '/work',
+    subItems: [
+      { 
+        label: 'Schilderijen', 
+        href: '/work/paintings',
+        subItems: [
+          { 
+            label: 'Landschappen', 
+            href: '/work/paintings/landscapes',
+            subItems: [
+              { label: 'Stedelijke Landschappen', href: '/work/paintings/landscapes/urban' },
+              { label: 'Natuur Landschappen', href: '/work/paintings/landscapes/nature' },
+            ]
+          },
+          { 
+            label: 'Portretten', 
+            href: '/work/paintings/portraits',
+            subItems: [
+              { label: 'Zelfportretten', href: '/work/paintings/portraits/self' },
+              { label: 'Familieportretten', href: '/work/paintings/portraits/family' },
+            ]
+          }
+        ]
+      },
+      { 
+        label: 'Beelden', 
+        href: '/work/sculptures',
+        subItems: []
+      }
+    ]
+  }
+];
+
 // Function to get paintings with 'slideshow' tag from Contentful
 async function getSlideshowPaintings() {
   try {
@@ -63,8 +100,8 @@ export default async function Work() {
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
-        PageTitle="Werken" 
         currentPage="work"
+        workItems={workItems}
       />
       <div className="h-[calc(100vh-12rem)] px-8 pt-8 pb-4">
         <div className="flex flex-col md:flex-row gap-8 h-full">
