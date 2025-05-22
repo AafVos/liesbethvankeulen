@@ -7,11 +7,10 @@ export default function PageTitleDropdown({ title, items = [], color }) {
   const [open, setOpen] = useState(false);
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [expandedItems, setExpandedItems] = useState({});
-  const [isMobile, setIsMobile] = useState(false);
-  const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
   const itemTimeoutRefs = useRef({});
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     // Check if we're on a mobile device
@@ -28,28 +27,6 @@ export default function PageTitleDropdown({ title, items = [], color }) {
     // Cleanup
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  // Check if global menu is open
-  useEffect(() => {
-    const checkIsMenuOpen = () => {
-      const menuOverlay = document.querySelector('.backdrop-blur-md.opacity-100');
-      const isOpen = !!menuOverlay;
-      
-      setIsMainMenuOpen(isOpen);
-      
-      if (isOpen && open) {
-        setOpen(false); // Close this dropdown if main menu is open
-      }
-    };
-
-    // Run check initially and set up mutation observer
-    checkIsMenuOpen();
-    
-    const observer = new MutationObserver(checkIsMenuOpen);
-    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
-    
-    return () => observer.disconnect();
-  }, [open]);
 
   // Add event listener for clicks outside the dropdown
   useEffect(() => {
@@ -128,7 +105,7 @@ export default function PageTitleDropdown({ title, items = [], color }) {
 
   return (
     <div 
-      className={`relative ${isMainMenuOpen ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+      className="relative" 
       ref={dropdownRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

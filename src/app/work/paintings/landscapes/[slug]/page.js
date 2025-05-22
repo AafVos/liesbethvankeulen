@@ -111,7 +111,7 @@ export default async function LandscapePainting({ params }) {
       />
       
       <div className="container mx-auto px-4 md:px-8 py-8 max-w-6xl">
-        <Link href="/work/paintings/landscapes" className="text-2xl md:text-3xl mb-8 inline-block hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
+        <Link href="/work/paintings/landscapes" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
           ←
         </Link>
         

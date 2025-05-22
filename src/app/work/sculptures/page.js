@@ -59,23 +59,25 @@ export default async function Sculptures() {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={false}
-        PageTitle="Work" 
+        PageTitle="Werken" 
         currentPage="work"
       />
       
       <div className="container mx-auto px-8 py-8">
-        <h1 
-          className="text-3xl md:text-4xl mb-8 text-center flex items-center justify-center gap-4"
-          style={{ 
-            fontFamily: "'Courier New', Courier, monospace",
-            color: theme.text
-          }}
-        >
-          <Link href="/work" className="text-2xl md:text-3xl hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
+        <div className="relative mb-8">
+          <Link href="/work" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
-          Sculptures
-        </h1>
+          <h1 
+            className="text-3xl md:text-4xl text-center"
+            style={{ 
+              fontFamily: "'Courier New', Courier, monospace",
+              color: theme.text
+            }}
+          >
+            Beelden
+          </h1>
+        </div>
         
         {sculptures.length > 0 ? (
           <div className="flex flex-col gap-16">
@@ -212,4 +214,4 @@ export default async function Sculptures() {
       </div>
     </div>
   );
-} 
+}

@@ -4,9 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 export default function DropdownNav({ label, items, href, color, fontSize = "text-xl" }) {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const timeoutRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -14,28 +12,6 @@ export default function DropdownNav({ label, items, href, color, fontSize = "tex
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  // Check if global menu is open
-  useEffect(() => {
-    const checkIsMenuOpen = () => {
-      const menuOverlay = document.querySelector('.backdrop-blur-md.opacity-100');
-      const isOpen = !!menuOverlay;
-      
-      setIsMainMenuOpen(isOpen);
-      
-      if (isOpen && open) {
-        setOpen(false); // Close this dropdown if main menu is open
-      }
-    };
-
-    // Run check initially and set up mutation observer
-    checkIsMenuOpen();
-    
-    const observer = new MutationObserver(checkIsMenuOpen);
-    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
-    
-    return () => observer.disconnect();
-  }, [open]);
 
   // Keep dropdown open when hovering over the dropdown itself (desktop)
   const handleMouseEnter = () => { if (!isMobile) setOpen(true); };
@@ -49,7 +25,7 @@ export default function DropdownNav({ label, items, href, color, fontSize = "tex
 
   return (
     <div
-      className={`relative group ${isMainMenuOpen ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+      className="relative group"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       ref={dropdownRef}

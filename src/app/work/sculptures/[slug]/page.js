@@ -59,9 +59,20 @@ export default async function SculptureDetail({ params }) {
       />
       
       <div className="container mx-auto px-4 md:px-8 py-8 max-w-6xl">
-        <Link href="/work/sculptures" className="text-xl mb-8 inline-block hover:opacity-80 transition-opacity" style={{ color: theme.text }}>
-          ←
-        </Link>
+        <div className="relative mb-8">
+          <Link href="/work/sculptures" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
+            ←
+          </Link>
+          <h1 
+            className="text-3xl md:text-4xl text-center"
+            style={{ 
+              fontFamily: "'Courier New', Courier, monospace",
+              color: theme.text
+            }}
+          >
+            {fields.title || 'Untitled'}
+          </h1>
+        </div>
         
         <div className="bg-white overflow-hidden border mt-6" style={{ borderColor: theme.text }}>
           <div className="md:flex flex-col md:flex-row">
