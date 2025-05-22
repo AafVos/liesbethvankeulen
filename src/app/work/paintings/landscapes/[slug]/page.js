@@ -106,7 +106,7 @@ export default async function LandscapePainting({ params }) {
         subtitle="In search of unexpected beauty" 
         themeName={themeName} 
         showNavigation={false} 
-        PageTitle="Work" 
+        PageTitle="Werken" 
         currentPage="work"
       />
       
@@ -122,7 +122,7 @@ export default async function LandscapePainting({ params }) {
               color: theme.text
             }}
           >
-            {fields.title || 'Untitled'}
+            {fields.title || 'Zonder titel'}
           </h1>
         </div>
         
@@ -134,7 +134,7 @@ export default async function LandscapePainting({ params }) {
                 <div className={`relative ${isWide ? 'h-auto w-full' : 'h-[50vh] md:h-[70vh]'}`}>
                   <Image
                     src={`https:${imageUrl}`}
-                    alt={fields.title || 'Landscape painting'}
+                    alt={fields.title || 'Landschapsschilderij'}
                     fill={!isWide}
                     width={isWide ? 1600 : undefined}
                     height={isWide ? 900 : undefined}
@@ -161,13 +161,13 @@ export default async function LandscapePainting({ params }) {
                     color: theme.text
                   }}
                 >
-                  {fields.title || 'Untitled'}
+                  {fields.title || 'Zonder titel'}
                 </h1>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-auto">
                   {fields.year && (
                     <div>
-                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Year</h3>
+                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Jaar</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {typeof fields.year === 'number' ? fields.year : fields.year}
                       </p>
@@ -176,7 +176,7 @@ export default async function LandscapePainting({ params }) {
                   
                   {dimensionsText && (
                     <div>
-                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Dimensions</h3>
+                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Afmetingen</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {dimensionsText}
                       </p>
@@ -185,7 +185,7 @@ export default async function LandscapePainting({ params }) {
                   
                   {mediumText && (
                     <div>
-                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Medium</h3>
+                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {mediumText}
                       </p>
@@ -193,9 +193,9 @@ export default async function LandscapePainting({ params }) {
                   )}
                   
                   <div>
-                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Price</h3>
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.price === undefined || fields.price === 0 ? "On inquiry" : 
+                      {fields.price === undefined || fields.price === 0 ? "Op aanvraag" : 
                        typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
                     </p>
                   </div>
@@ -203,11 +203,11 @@ export default async function LandscapePainting({ params }) {
                 
                 <div className="mt-8">
                   <Link 
-                    href={`mailto:liesbethvankeulen@gmail.com?subject=Inquiry about painting: ${fields.title || 'Untitled'}`}
+                    href={`mailto:liesbethvankeulen@gmail.com?subject=Interesse in schilderij: ${fields.title || 'Zonder titel'}`}
                     className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-colors"
                     style={{ borderColor: theme.text, color: theme.text }}
                   >
-                    Inquire about this painting
+                    Interesse in dit schilderij
                   </Link>
                 </div>
               </div>
@@ -220,13 +220,13 @@ export default async function LandscapePainting({ params }) {
                     color: theme.text
                   }}
                 >
-                  {fields.title || 'Untitled'}
+                  {fields.title || 'Zonder titel'}
                 </h1>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-auto">
                   {fields.year && (
                     <div>
-                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Year</h3>
+                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Jaar</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {typeof fields.year === 'number' ? fields.year : fields.year}
                       </p>
@@ -235,7 +235,7 @@ export default async function LandscapePainting({ params }) {
                   
                   {dimensionsText && (
                     <div>
-                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Dimensions</h3>
+                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Afmetingen</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {dimensionsText}
                       </p>
@@ -244,7 +244,7 @@ export default async function LandscapePainting({ params }) {
                   
                   {mediumText && (
                     <div>
-                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Medium</h3>
+                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {mediumText}
                       </p>
@@ -252,9 +252,9 @@ export default async function LandscapePainting({ params }) {
                   )}
                   
                   <div>
-                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Price</h3>
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.price === undefined || fields.price === 0 ? "On inquiry" : 
+                      {fields.price === undefined || fields.price === 0 ? "Op aanvraag" : 
                        typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
                     </p>
                   </div>
@@ -262,11 +262,11 @@ export default async function LandscapePainting({ params }) {
                 
                 <div className="mt-12">
                   <Link 
-                    href={`mailto:liesbethvankeulen@gmail.com?subject=Inquiry about painting: ${fields.title || 'Untitled'}`}
+                    href={`mailto:liesbethvankeulen@gmail.com?subject=Interesse in schilderij: ${fields.title || 'Zonder titel'}`}
                     className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-colors"
                     style={{ borderColor: theme.text, color: theme.text }}
                   >
-                    Inquire about this painting
+                    Interesse in dit schilderij
                   </Link>
                 </div>
               </div>
