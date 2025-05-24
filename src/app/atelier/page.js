@@ -178,23 +178,23 @@ export default async function AtelierPage() {
           
           {/* Inspiratie Block */}
           <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
-            <div className="flex flex-col lg:flex-row">
-              {/* Image */}
+            <div className="flex flex-col">
+              {/* Image - Full width at top */}
               {inspirationImage && (
-                <div className="lg:w-1/3">
-                  <div className="aspect-square relative overflow-hidden">
+                <div className="w-full">
+                  <div className="aspect-[21/8] relative overflow-hidden">
                     <Image
                       src={`https:${inspirationImage.url}`}
                       alt="Inspiratie"
                       fill
                       className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      sizes="100vw"
                     />
                   </div>
                 </div>
               )}
-              {/* Text */}
-              <div className={`p-6 space-y-4 text-sm ${inspirationImage ? 'lg:w-2/3' : 'w-full'}`} style={{ color: theme.text }}>
+              {/* Text - Full width below image */}
+              <div className="p-6 space-y-4 text-sm w-full" style={{ color: theme.text }}>
                 <h2 className="text-xl mb-4" style={{ 
                   fontFamily: "'Courier New', Courier, monospace",
                   color: theme.heading,
