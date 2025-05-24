@@ -50,20 +50,7 @@ const aboutItems = [
   {
     label: 'Over mij',
     href: '/about',
-    subItems: [
-      { 
-        label: 'Biografie', 
-        href: '/about#biography'
-      },
-      { 
-        label: 'Statement', 
-        href: '/about#statement'
-      },
-      { 
-        label: 'Opleiding', 
-        href: '/about#education'
-      }
-    ]
+    
   }
 ];
 
@@ -149,10 +136,7 @@ export default async function AboutPage() {
       />
       
       <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">
-        <div className="relative mb-8">
-          <Link href="/" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
-            ←
-          </Link>
+        <div className="mb-8">
           <h1 
             className="text-3xl md:text-4xl text-center"
             style={{ 
