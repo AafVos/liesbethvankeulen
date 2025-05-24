@@ -141,8 +141,22 @@ export default async function AtelierPage() {
           {/* Creatief Process Block */}
           <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
             <div className="flex flex-col lg:flex-row">
+              {/* Image */}
+              {littleLiesbethImage && (
+                <div className="lg:w-1/2 lg:order-2">
+                  <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
+                    <Image
+                      src={`https:${littleLiesbethImage.url}`}
+                      alt="Little Liesbeth"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                </div>
+              )}
               {/* Text */}
-              <div className={`p-6 space-y-4 text-sm ${littleLiesbethImage ? 'lg:w-1/2' : 'w-full'}`} style={{ color: theme.text }}>
+              <div className={`p-6 space-y-4 text-sm ${littleLiesbethImage ? 'lg:w-1/2' : 'w-full'} lg:order-1`} style={{ color: theme.text }}>
                 <h2 className="text-xl mb-4" style={{ 
                   fontFamily: "'Courier New', Courier, monospace",
                   color: theme.heading,
@@ -159,20 +173,6 @@ export default async function AtelierPage() {
                   <p>Creatief proces content not available</p>
                 )}
               </div>
-              {/* Image */}
-              {littleLiesbethImage && (
-                <div className="lg:w-1/2">
-                  <div className="h-full relative overflow-hidden">
-                    <Image
-                      src={`https:${littleLiesbethImage.url}`}
-                      alt="Little Liesbeth"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                </div>
-              )}
             </div>
           </section>
           
