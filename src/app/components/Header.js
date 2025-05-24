@@ -394,6 +394,16 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
                 Werken
               </Link>
             </li>
+            <li>
+              <Link 
+                href="/about" 
+                className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                style={menuLinkStyle}
+                onClick={toggleMenu}
+              >
+                Over mij
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

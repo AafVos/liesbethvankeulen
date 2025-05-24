@@ -36,16 +36,34 @@ const timeline = [
     "highlight": "Publicatie van het boek *Portretschilderen in olieverf – de basis*"
   },
   {
-    "date": "2020s",
-    "highlight": "Start Portretschool Online en groeiende online educatie"
-  },
-  {
     "date": "2022",
     "highlight": "Opening van een tweede atelier in Maastricht"
   },
   {
     "date": "2023–heden",
     "highlight": "Boetseerscholing bij Barbara Kletter en Christien Claassen"
+  }
+];
+
+// About page navigation items
+const aboutItems = [
+  {
+    label: 'Over mij',
+    href: '/about',
+    subItems: [
+      { 
+        label: 'Biografie', 
+        href: '/about#biography'
+      },
+      { 
+        label: 'Statement', 
+        href: '/about#statement'
+      },
+      { 
+        label: 'Opleiding', 
+        href: '/about#education'
+      }
+    ]
   }
 ];
 
@@ -72,6 +90,29 @@ async function getBiography() {
   }
 }
 
+// Function to get statement text from Contentful
+async function getStatement() {
+  try {
+    const response = await getEntries('textField', {
+      'fields.title': 'statement'
+    });
+    
+    if (response.items.length === 0) {
+      return null;
+    }
+    
+    // Get the rich text content
+    const richTextContent = response.items[0].fields.text;
+    if (!richTextContent) return null;
+
+    // Convert rich text to HTML
+    return documentToHtmlString(richTextContent);
+  } catch (error) {
+    console.error('Error fetching statement from Contentful:', error);
+    return null;
+  }
+}
+
 // Function to get headshot image from Contentful
 async function getHeadshot() {
   try {
@@ -93,6 +134,7 @@ async function getHeadshot() {
 
 export default async function AboutPage() {
   const biography = await getBiography();
+  const statement = await getStatement();
   const headshot = await getHeadshot();
 
   return (
@@ -103,22 +145,24 @@ export default async function AboutPage() {
         themeName={themeName} 
         PageTitle="About"
         currentPage="about"
+        workItems={aboutItems}
       />
       
       <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">
-        <div className="mb-6">
-          <Link href="/" className="text-2xl hover:opacity-80 transition-opacity" style={{ color: theme.link }}>
+        <div className="relative mb-8">
+          <Link href="/" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
+          <h1 
+            className="text-3xl md:text-4xl text-center"
+            style={{ 
+              fontFamily: "'Courier New', Courier, monospace",
+              color: theme.text
+            }}
+          >
+            Over mij
+          </h1>
         </div>
-        
-        <h1 className="text-3xl md:text-4xl mb-8" style={{ 
-          fontFamily: "'Courier New', Courier, monospace",
-          color: theme.heading,
-          fontWeight: 400
-        }}>
-          About Me
-        </h1>
         
         <div className="flex flex-col md:flex-row gap-8 items-start mb-12">
           {/* Artist photo */}
@@ -142,7 +186,7 @@ export default async function AboutPage() {
           </div>
           
           {/* Quick intro */}
-          <div className="md:w-2/3" style={{ color: theme.text }}>
+          <div id="biography" className="md:w-2/3" style={{ color: theme.text }}>
             <h2 className="text-xl mb-4" style={{ 
               fontFamily: "'Courier New', Courier, monospace",
               color: theme.heading,
@@ -167,30 +211,21 @@ export default async function AboutPage() {
         {/* Section blocks */}
         <div className="space-y-16">
           {/* Statement Block */}
-          <section className="bg-white p-6 rounded-lg shadow-sm" style={{ borderLeft: `4px solid ${theme.accent}` }}>
-            <h2 className="text-2xl mb-6" style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.heading,
-              fontWeight: 400
-            }}>
-              Statement
-            </h2>
-            
+          <section id="statement" className="bg-white p-6 shadow-sm border" style={{ borderColor: theme.accent }}>
             <div className="space-y-4 text-sm" style={{ color: theme.text }}>
-              {/* Content will be added later */}
+              {statement ? (
+                <div 
+                  className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                  dangerouslySetInnerHTML={{ __html: statement }} 
+                />
+              ) : (
+                <p>Statement not available</p>
+              )}
             </div>
           </section>
           
           {/* Education Block */}
-          <section className="bg-white p-6 rounded-lg shadow-sm" style={{ borderLeft: `4px solid ${theme.accent}` }}>
-            <h2 className="text-2xl mb-6" style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.heading,
-              fontWeight: 400
-            }}>
-              Education
-            </h2>
-            
+          <section id="education" className="bg-white p-6 shadow-sm border" style={{ borderColor: theme.accent }}>
             <div className="space-y-4 text-sm" style={{ color: theme.text }}>
               <div className="space-y-3">
                 {timeline.map((item, index) => (
@@ -207,20 +242,7 @@ export default async function AboutPage() {
             </div>
           </section>
           
-          {/* Exhibitions Block */}
-          <section className="bg-white p-6 rounded-lg shadow-sm" style={{ borderLeft: `4px solid ${theme.accent}` }}>
-            <h2 className="text-2xl mb-6" style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.heading,
-              fontWeight: 400
-            }}>
-              Exhibitions
-            </h2>
-            
-            <div className="space-y-4 text-sm" style={{ color: theme.text }}>
-              {/* Content will be added later */}
-            </div>
-          </section>
+
         </div>
       </main>
     </div>
