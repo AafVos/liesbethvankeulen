@@ -138,44 +138,6 @@ export default async function AtelierPage() {
         
         {/* Section blocks */}
         <div className="space-y-16">
-          {/* Inspiratie Block */}
-          <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
-            <div className="flex flex-col lg:flex-row">
-              {/* Image */}
-              {inspirationImage && (
-                <div className="lg:w-1/3">
-                  <div className="aspect-square relative overflow-hidden">
-                    <Image
-                      src={`https:${inspirationImage.url}`}
-                      alt="Inspiratie"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 33vw"
-                    />
-                  </div>
-                </div>
-              )}
-              {/* Text */}
-              <div className={`p-6 space-y-4 text-sm ${inspirationImage ? 'lg:w-2/3' : 'w-full'}`} style={{ color: theme.text }}>
-                <h2 className="text-xl mb-4" style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
-                  color: theme.heading,
-                  fontWeight: 400
-                }}>
-                  Inspiratie
-                </h2>
-                {inspiration ? (
-                  <div 
-                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
-                    dangerouslySetInnerHTML={{ __html: inspiration }} 
-                  />
-                ) : (
-                  <p>Inspiratie content not available</p>
-                )}
-              </div>
-            </div>
-          </section>
-          
           {/* Creatief Process Block */}
           <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
             <div className="flex flex-col lg:flex-row">
@@ -211,6 +173,44 @@ export default async function AtelierPage() {
                   </div>
                 </div>
               )}
+            </div>
+          </section>
+          
+          {/* Inspiratie Block */}
+          <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
+            <div className="flex flex-col lg:flex-row">
+              {/* Image */}
+              {inspirationImage && (
+                <div className="lg:w-1/3">
+                  <div className="aspect-square relative overflow-hidden">
+                    <Image
+                      src={`https:${inspirationImage.url}`}
+                      alt="Inspiratie"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                    />
+                  </div>
+                </div>
+              )}
+              {/* Text */}
+              <div className={`p-6 space-y-4 text-sm ${inspirationImage ? 'lg:w-2/3' : 'w-full'}`} style={{ color: theme.text }}>
+                <h2 className="text-xl mb-4" style={{ 
+                  fontFamily: "'Courier New', Courier, monospace",
+                  color: theme.heading,
+                  fontWeight: 400
+                }}>
+                  Inspiratie
+                </h2>
+                {inspiration ? (
+                  <div 
+                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                    dangerouslySetInnerHTML={{ __html: inspiration }} 
+                  />
+                ) : (
+                  <p>Inspiratie content not available</p>
+                )}
+              </div>
             </div>
           </section>
         </div>
