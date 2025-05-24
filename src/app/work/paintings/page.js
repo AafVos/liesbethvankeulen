@@ -96,14 +96,16 @@ export default async function Paintings() {
                 <div className="w-full md:w-1/2 relative">
                   {landscapeImage ? (
                     <div className="relative h-80 md:h-96">
-                      <Image
-                        src={landscapeImage.url}
-                        alt={landscapeImage.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-40 transition-opacity duration-500"></div>
+                      <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
+                        <Image
+                          src={landscapeImage.url}
+                          alt={landscapeImage.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-40 transition-opacity duration-500"></div>
+                      </div>
                       
                       {/* Title overlay */}
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -142,7 +144,7 @@ export default async function Paintings() {
                 {/* Text side - full width on small screens */}
                 <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
                   <p className="mb-6 text-lg" style={{ color: theme.text, opacity: 0.8 }}>
-                    {landscapeDescription || 'Ontdek de schoonheid van natuurlijke en stedelijke landschappen vastgelegd door Liesbeth\'s unieke perspectief. Haar landschappen tonen het delicate samenspel tussen menselijke aanwezigheid en natuurlijke omgevingen.'}
+                    {landscapeDescription || ''}
                   </p>
                   <div className="flex justify-end">
                     <span 
@@ -165,14 +167,16 @@ export default async function Paintings() {
                 <div className="w-full md:w-1/2 relative">
                   {portraitImage ? (
                     <div className="relative h-80 md:h-96">
-                      <Image
-                        src={portraitImage.url}
-                        alt={portraitImage.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-40 transition-opacity duration-500"></div>
+                      <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
+                        <Image
+                          src={portraitImage.url}
+                          alt={portraitImage.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-40 transition-opacity duration-500"></div>
+                      </div>
                       
                       {/* Title overlay */}
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -211,7 +215,7 @@ export default async function Paintings() {
                 {/* Text side - full width on small screens */}
                 <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
                   <p className="mb-6 text-lg" style={{ color: theme.text, opacity: 0.8 }}>
-                    {portraitDescription || 'Ontdek Liesbeth\'s intieme portretwerk, waarbij elk schilderij iets onthult van het innerlijke leven van haar onderwerpen. Deze portretten creëren een dialoog tussen onderwerp en toeschouwer, die persoonlijke ervaringen overbrugt.'}
+                    {portraitDescription || ''}
                   </p>
                   <div className="flex justify-end">
                     <span 

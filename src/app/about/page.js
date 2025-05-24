@@ -9,6 +9,46 @@ import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 const themeName = 'light';
 const theme = getThemeColors(themeName);
 
+// Timeline data
+const timeline = [
+  {
+    "date": "1981–1982",
+    "highlight": "Studie aan Accademia di Belle Arti, Perugia (Italië)"
+  },
+  {
+    "date": "1982–1988",
+    "highlight": "Opleiding tekenen, schilderen en grafiek aan KABK, Den Haag"
+  },
+  {
+    "date": "Vanaf 1988",
+    "highlight": "Werkzaam als professioneel portretschilder in Amsterdam"
+  },
+  {
+    "date": "2007",
+    "highlight": "Deelname aan *Sterren op het Doek* met portret van Marco Borsato"
+  },
+  {
+    "date": "2011",
+    "highlight": "Oprichting van Portretschool Amsterdam"
+  },
+  {
+    "date": "2016",
+    "highlight": "Publicatie van het boek *Portretschilderen in olieverf – de basis*"
+  },
+  {
+    "date": "2020s",
+    "highlight": "Start Portretschool Online en groeiende online educatie"
+  },
+  {
+    "date": "2022",
+    "highlight": "Opening van een tweede atelier in Maastricht"
+  },
+  {
+    "date": "2023–heden",
+    "highlight": "Boetseerscholing bij Barbara Kletter en Christien Claassen"
+  }
+];
+
 // Function to get biography text from Contentful
 async function getBiography() {
   try {
@@ -152,7 +192,18 @@ export default async function AboutPage() {
             </h2>
             
             <div className="space-y-4 text-sm" style={{ color: theme.text }}>
-              {/* Content will be added later */}
+              <div className="space-y-3">
+                {timeline.map((item, index) => (
+                  <div key={index} className="flex flex-col sm:flex-row sm:gap-4">
+                    <span className="font-medium min-w-[120px] text-base">{item.date}</span>
+                    <span 
+                      dangerouslySetInnerHTML={{ 
+                        __html: item.highlight.replace(/\*(.*?)\*/g, '<em>$1</em>') 
+                      }} 
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
           
