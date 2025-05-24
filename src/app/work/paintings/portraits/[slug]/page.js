@@ -13,7 +13,7 @@ async function getPaintingByTitle(title) {
     // Fetch painting with the matching title
     const response = await getEntries('paintings', {
       'fields.title': title,
-      'metadata.tags.sys.id[in]': 'landscapes'
+      'metadata.tags.sys.id[in]': 'portraits'
     });
     
     if (response.items.length === 0) {
@@ -58,7 +58,7 @@ function getTextFromField(field) {
   return field;
 }
 
-export default async function LandscapePainting({ params }) {
+export default async function PortraitPainting({ params }) {
   const { slug } = params;
   const decodedTitle = decodeURIComponent(slug);
   
@@ -89,11 +89,6 @@ export default async function LandscapePainting({ params }) {
     priceType: typeof fields.price
   }, null, 2));
   
-  // For ENCI-groeve specifically, log even more details
-  if (fields.title === 'ENCI-groeve in de winter') {
-    console.log('FOUND ENCI PAINTING, complete data:', JSON.stringify(fields, null, 2));
-  }
-  
   // Process potentially rich text fields
   const mediumText = getTextFromField(fields.medium);
   const dimensionsText = getTextFromField(fields.dimensions);
@@ -102,7 +97,7 @@ export default async function LandscapePainting({ params }) {
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
       <div className="container mx-auto px-4 md:px-8 py-8 max-w-6xl">
         <div className="relative mb-8">
-          <Link href="/work/paintings/landscapes" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
+          <Link href="/work/paintings/portraits" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
           <h1 
@@ -124,7 +119,7 @@ export default async function LandscapePainting({ params }) {
                                   <div className={`relative ${isWide ? 'h-auto w-full' : 'h-[50vh] lg:h-[70vh]'}`}>
                   <Image
                     src={`https:${imageUrl}`}
-                    alt={fields.title || 'Landschapsschilderij'}
+                    alt={fields.title || 'Portret schilderij'}
                     fill={!isWide}
                     width={isWide ? 1600 : undefined}
                     height={isWide ? 900 : undefined}
@@ -232,14 +227,14 @@ export default async function LandscapePainting({ params }) {
                     </div>
                   )}
                   
-                  {mediumText && (
-                    <div>
-                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
-                      <p className="text-lg" style={{ color: theme.text }}>
-                        {mediumText}
-                      </p>
-                    </div>
-                  )}
+                                     {mediumText && (
+                     <div>
+                       <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
+                       <p className="text-lg" style={{ color: theme.text }}>
+                         {mediumText}
+                       </p>
+                     </div>
+                   )}
                   
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>

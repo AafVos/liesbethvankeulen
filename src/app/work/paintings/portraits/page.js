@@ -14,11 +14,12 @@ async function getPortraitPaintings() {
       'metadata.tags.sys.id[in]': 'portraits'
     });
     
-    // Transform the data for our component - only include image data
+    // Transform the data for our component
     const paintings = response.items.map(item => ({
       id: item.sys.id,
       url: item.fields.image?.fields?.file?.url || '',
       title: item.fields.title || '',
+      slug: encodeURIComponent(item.fields.title || item.sys.id),
       isWide: item.metadata?.tags?.some(tag => tag.sys.id === 'wide') || false
     })).filter(painting => painting.url);
       
@@ -76,7 +77,11 @@ export default async function Portraits() {
             {widePaintings.length > 0 && (
               <div className="w-full">
                 {widePaintings.map(painting => (
-                  <div key={painting.id} className="group block mb-16 last:mb-0">
+                  <Link 
+                    key={painting.id} 
+                    href={`/work/paintings/portraits/${painting.slug}`} 
+                    className="group block mb-16 last:mb-0"
+                  >
                     <div className="aspect-w-16 aspect-h-7 overflow-hidden">
                       <Image
                         src={`https:${painting.url}`}
@@ -86,18 +91,16 @@ export default async function Portraits() {
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
-                    {painting.title && (
-                      <h3 
-                        className="mt-2 text-lg font-light text-center"
-                        style={{ 
-                          fontFamily: "'Courier New', Courier, monospace",
-                          color: theme.text
-                        }}
-                      >
-                        {painting.title}
-                      </h3>
-                    )}
-                  </div>
+                    <h3 
+                      className="mt-2 text-lg font-light text-center"
+                      style={{ 
+                        fontFamily: "'Courier New', Courier, monospace",
+                        color: theme.text
+                      }}
+                    >
+                      {painting.title}
+                    </h3>
+                  </Link>
                 ))}
               </div>
             )}
@@ -107,7 +110,11 @@ export default async function Portraits() {
               {/* Column 1 */}
               <div className="flex-1 flex flex-col gap-8">
                 {column1.map((painting, index) => (
-                  <div key={painting.id} className="group">
+                  <Link 
+                    key={painting.id} 
+                    href={`/work/paintings/portraits/${painting.slug}`} 
+                    className="group"
+                  >
                     <div className="aspect-w-4 aspect-h-3 overflow-hidden">
                       <Image
                         src={`https:${painting.url}`}
@@ -117,25 +124,27 @@ export default async function Portraits() {
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
-                    {painting.title && (
-                      <h3 
-                        className="mt-2 text-lg font-light text-center"
-                        style={{ 
-                          fontFamily: "'Courier New', Courier, monospace",
-                          color: theme.text
-                        }}
-                      >
-                        {painting.title}
-                      </h3>
-                    )}
-                  </div>
+                    <h3 
+                      className="mt-2 text-lg font-light text-center"
+                      style={{ 
+                        fontFamily: "'Courier New', Courier, monospace",
+                        color: theme.text
+                      }}
+                    >
+                      {painting.title}
+                    </h3>
+                  </Link>
                 ))}
               </div>
               
               {/* Column 2 */}
               <div className="flex-1 flex flex-col gap-8">
                 {column2.map((painting, index) => (
-                  <div key={painting.id} className={`group ${index > 0 ? 'mt-16' : ''}`}>
+                  <Link 
+                    key={painting.id} 
+                    href={`/work/paintings/portraits/${painting.slug}`} 
+                    className={`group ${index > 0 ? 'mt-16' : ''}`}
+                  >
                     <div className="aspect-w-4 aspect-h-3 overflow-hidden">
                       <Image
                         src={`https:${painting.url}`}
@@ -145,25 +154,27 @@ export default async function Portraits() {
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
-                    {painting.title && (
-                      <h3 
-                        className="mt-2 text-lg font-light text-center"
-                        style={{ 
-                          fontFamily: "'Courier New', Courier, monospace",
-                          color: theme.text
-                        }}
-                      >
-                        {painting.title}
-                      </h3>
-                    )}
-                  </div>
+                    <h3 
+                      className="mt-2 text-lg font-light text-center"
+                      style={{ 
+                        fontFamily: "'Courier New', Courier, monospace",
+                        color: theme.text
+                      }}
+                    >
+                      {painting.title}
+                    </h3>
+                  </Link>
                 ))}
               </div>
               
               {/* Column 3 - Only show on large screens */}
               <div className="flex-1 flex flex-col gap-8 hidden lg:flex">
                 {column3.map((painting, index) => (
-                  <div key={painting.id} className={`group ${index > 0 ? 'mt-24' : ''}`}>
+                  <Link 
+                    key={painting.id} 
+                    href={`/work/paintings/portraits/${painting.slug}`} 
+                    className={`group ${index > 0 ? 'mt-24' : ''}`}
+                  >
                     <div className="aspect-w-4 aspect-h-3 overflow-hidden">
                       <Image
                         src={`https:${painting.url}`}
@@ -173,18 +184,16 @@ export default async function Portraits() {
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
-                    {painting.title && (
-                      <h3 
-                        className="mt-2 text-lg font-light text-center"
-                        style={{ 
-                          fontFamily: "'Courier New', Courier, monospace",
-                          color: theme.text
-                        }}
-                      >
-                        {painting.title}
-                      </h3>
-                    )}
-                  </div>
+                    <h3 
+                      className="mt-2 text-lg font-light text-center"
+                      style={{ 
+                        fontFamily: "'Courier New', Courier, monospace",
+                        color: theme.text
+                      }}
+                    >
+                      {painting.title}
+                    </h3>
+                  </Link>
                 ))}
               </div>
             </div>
