@@ -108,7 +108,7 @@ export default async function LandscapePainting({ params }) {
           <h1 
             className="text-3xl md:text-4xl text-center"
             style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
+              fontFamily: theme.fontFamily,
               color: theme.text
             }}
           >
@@ -185,7 +185,8 @@ export default async function LandscapePainting({ params }) {
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.price === undefined || fields.price === 0 ? "Op aanvraag" : 
+                      {fields.price === 0 ? "Verkocht" : 
+                       fields.price === undefined ? "Op aanvraag" : 
                        typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
                     </p>
                   </div>
@@ -244,7 +245,8 @@ export default async function LandscapePainting({ params }) {
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.price === undefined || fields.price === 0 ? "Op aanvraag" : 
+                      {fields.price === 0 ? "Verkocht" : 
+                       fields.price === undefined ? "Op aanvraag" : 
                        typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
                     </p>
                   </div>

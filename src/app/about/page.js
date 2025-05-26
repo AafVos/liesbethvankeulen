@@ -48,7 +48,7 @@ const timeline = [
 // About page navigation items
 const aboutItems = [
   {
-    label: 'Over mij',
+    label: 'Over Liesbeth',
     href: '/about',
     
   }
@@ -136,18 +136,6 @@ export default async function AboutPage() {
       />
       
       <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">
-        <div className="mb-8">
-          <h1 
-            className="text-3xl md:text-4xl text-center"
-            style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.text
-            }}
-          >
-            Over mij
-          </h1>
-        </div>
-        
         <div className="flex flex-col md:flex-row gap-8 items-start mb-12">
           {/* Artist photo */}
           <div className="md:w-1/3 relative">

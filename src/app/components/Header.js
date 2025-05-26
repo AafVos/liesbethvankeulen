@@ -51,7 +51,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
 
   // Style for menu overlay links
   const menuLinkStyle = {
-    fontFamily: "'Courier New', Courier, monospace",
+    fontFamily: theme.fontFamily,
     fontWeight: 400,
     letterSpacing: '0.07em',
     color: '#ffffff' // Always white in the menu overlay
@@ -105,6 +105,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
           href={href}
           color={headerColor}
           items={items}
+          themeName={themeName}
         />
       );
     }
@@ -116,6 +117,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
         color={headerColor}
         fontSize="text-3xl"
         items={items}
+        themeName={themeName}
       />
     );
   };
@@ -206,7 +208,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
               <h2 
                 className="text-2xl tracking-wide drop-shadow-md text-center" 
                 style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
+                  fontFamily: theme.fontFamily,
                   fontWeight: 400,
                   letterSpacing: '0.05em',
                   color: headerColor,
@@ -221,7 +223,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
         {/* Subtitle below, centered (always visible) */}
         {subtitle && (
           <div className="w-full text-center text-base mt-0 tracking-wide z-50 relative" style={{
-            fontFamily: "'Courier New', Courier, monospace",
+            fontFamily: theme.fontFamily,
             color: headerColor,
             opacity: 0.8,
             letterSpacing: '0.03em',
@@ -237,6 +239,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
             <PageTitleDropdown 
               color={headerColor} 
               items={workItems}
+              themeName={themeName}
             />
           </div>
         </div>
@@ -251,7 +254,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
               <h2 
                 className="text-3xl tracking-wide drop-shadow-md" 
                 style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
+                  fontFamily: theme.fontFamily,
                   fontWeight: 400,
                   letterSpacing: '0.05em',
                   color: headerColor,
@@ -262,7 +265,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
               </h2>
               {subtitle && (
                 <div className="text-base mt-1 tracking-wide z-50" style={{
-                  fontFamily: "'Courier New', Courier, monospace",
+                  fontFamily: theme.fontFamily,
                   color: headerColor,
                   opacity: 0.8,
                   letterSpacing: '0.03em',
@@ -286,6 +289,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
             <PageTitleDropdown 
               color={headerColor} 
               items={workItems}
+              themeName={themeName}
             />
           </div>
           
@@ -401,7 +405,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
                 style={menuLinkStyle}
                 onClick={toggleMenu}
               >
-                Over mij
+                Over Liesbeth
               </Link>
             </li>
             <li>

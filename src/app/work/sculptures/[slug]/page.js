@@ -1,5 +1,6 @@
 import { getThemeColors } from '../../../styles/theme';
 import { getEntries } from '@/lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -26,6 +27,19 @@ async function getSculptureByTitle(title) {
     console.error('Error fetching sculpture from Contentful:', error);
     return null;
   }
+}
+
+// Helper function to safely render field content
+function renderFieldContent(field) {
+  if (!field) return '';
+  
+  // If it's a rich text object (has nodeType), convert to HTML
+  if (typeof field === 'object' && field.nodeType) {
+    return documentToHtmlString(field);
+  }
+  
+  // If it's a simple string or number, return as is
+  return field;
 }
 
 export default async function SculptureDetail({ params }) {
@@ -56,7 +70,7 @@ export default async function SculptureDetail({ params }) {
           <h1 
             className="text-3xl md:text-4xl text-center"
             style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
+              fontFamily: theme.fontFamily,
               color: theme.text
             }}
           >
@@ -92,7 +106,7 @@ export default async function SculptureDetail({ params }) {
               <h1 
                 className="text-2xl md:text-3xl font-light mb-8"
                 style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
+                  fontFamily: theme.fontFamily,
                   color: theme.text
                 }}
               >
@@ -104,7 +118,11 @@ export default async function SculptureDetail({ params }) {
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Jaar</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {typeof fields.year === 'number' ? fields.year : fields.year}
+                      {typeof fields.year === 'object' && fields.year.nodeType ? (
+                        <span dangerouslySetInnerHTML={{ __html: renderFieldContent(fields.year) }} />
+                      ) : (
+                        typeof fields.year === 'number' ? fields.year : fields.year
+                      )}
                     </p>
                   </div>
                 )}
@@ -113,7 +131,11 @@ export default async function SculptureDetail({ params }) {
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
+                      {typeof fields.price === 'object' && fields.price.nodeType ? (
+                        <span dangerouslySetInnerHTML={{ __html: renderFieldContent(fields.price) }} />
+                      ) : (
+                        fields.price === 0 ? 'Verkocht' : (typeof fields.price === 'number' ? `€${fields.price}` : fields.price)
+                      )}
                     </p>
                   </div>
                 )}
@@ -122,7 +144,11 @@ export default async function SculptureDetail({ params }) {
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.material}
+                      {typeof fields.material === 'object' && fields.material.nodeType ? (
+                        <span dangerouslySetInnerHTML={{ __html: renderFieldContent(fields.material) }} />
+                      ) : (
+                        fields.material
+                      )}
                     </p>
                   </div>
                 )}
@@ -131,8 +157,25 @@ export default async function SculptureDetail({ params }) {
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Afmetingen</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.dimensions}
+                      {typeof fields.dimensions === 'object' && fields.dimensions.nodeType ? (
+                        <span dangerouslySetInnerHTML={{ __html: renderFieldContent(fields.dimensions) }} />
+                      ) : (
+                        fields.dimensions
+                      )}
                     </p>
+                  </div>
+                )}
+                
+                {fields.description && (
+                  <div>
+                    <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Beschrijving</h3>
+                    <div className="text-lg" style={{ color: theme.text }}>
+                      {typeof fields.description === 'object' && fields.description.nodeType ? (
+                        <div dangerouslySetInnerHTML={{ __html: renderFieldContent(fields.description) }} />
+                      ) : (
+                        <p>{fields.description}</p>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

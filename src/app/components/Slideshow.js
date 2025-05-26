@@ -6,13 +6,13 @@ export default function Slideshow({ images }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   useEffect(() => {
-    // Change image every 5 seconds if there are multiple images (don't rotate for videos)
+    // Change image every 3 seconds if there are multiple images (don't rotate for videos)
     if (images.length > 1 && !images.some(item => item.contentType.startsWith('video/'))) {
       const interval = setInterval(() => {
         setCurrentImageIndex((prevIndex) => 
           prevIndex === images.length - 1 ? 0 : prevIndex + 1
         );
-      }, 5000);
+      }, 3000);
       
       return () => clearInterval(interval);
     }

@@ -124,58 +124,8 @@ export default async function AtelierPage() {
       />
       
       <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">
-        <div className="mb-8">
-          <h1 
-            className="text-3xl md:text-4xl text-center"
-            style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.text
-            }}
-          >
-            Atelier
-          </h1>
-        </div>
-        
         {/* Section blocks */}
         <div className="space-y-16">
-          {/* Creatief Process Block */}
-          <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
-            <div className="flex flex-col lg:flex-row">
-              {/* Image */}
-              {littleLiesbethImage && (
-                <div className="lg:w-1/2 lg:order-2">
-                  <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
-                    <Image
-                      src={`https:${littleLiesbethImage.url}`}
-                      alt="Little Liesbeth"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                </div>
-              )}
-              {/* Text */}
-              <div className={`p-6 space-y-4 text-sm ${littleLiesbethImage ? 'lg:w-1/2' : 'w-full'} lg:order-1`} style={{ color: theme.text }}>
-                <h2 className="text-xl mb-4" style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
-                  color: theme.heading,
-                  fontWeight: 400
-                }}>
-                  Creatief proces
-                </h2>
-                {creativeProcess ? (
-                  <div 
-                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
-                    dangerouslySetInnerHTML={{ __html: creativeProcess }} 
-                  />
-                ) : (
-                  <p>Creatief proces content not available</p>
-                )}
-              </div>
-            </div>
-          </section>
-          
           {/* Inspiratie Block */}
           <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
             <div className="flex flex-col">
@@ -209,6 +159,44 @@ export default async function AtelierPage() {
                   />
                 ) : (
                   <p>Inspiratie content not available</p>
+                )}
+              </div>
+            </div>
+          </section>
+          
+          {/* Creatief Process Block */}
+          <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
+            <div className="flex flex-col lg:flex-row">
+              {/* Image */}
+              {littleLiesbethImage && (
+                <div className="lg:w-1/2 lg:order-2">
+                  <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
+                    <Image
+                      src={`https:${littleLiesbethImage.url}`}
+                      alt="Little Liesbeth"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                </div>
+              )}
+              {/* Text */}
+              <div className={`p-6 space-y-4 text-sm ${littleLiesbethImage ? 'lg:w-1/2' : 'w-full'} lg:order-1`} style={{ color: theme.text }}>
+                <h2 className="text-xl mb-4" style={{ 
+                  fontFamily: "'Courier New', Courier, monospace",
+                  color: theme.heading,
+                  fontWeight: 400
+                }}>
+                  Creatief proces
+                </h2>
+                {creativeProcess ? (
+                  <div 
+                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                    dangerouslySetInnerHTML={{ __html: creativeProcess }} 
+                  />
+                ) : (
+                  <p>Creatief proces content not available</p>
                 )}
               </div>
             </div>

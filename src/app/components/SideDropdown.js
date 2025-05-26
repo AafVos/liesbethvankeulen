@@ -1,13 +1,16 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { getThemeColors } from '../styles/theme';
 
-export default function SideDropdown({ label, items = [], color, href }) {
+export default function SideDropdown({ label, items = [], color, href, themeName = 'dark' }) {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const timeoutRef = useRef(null);
   const itemTimeoutRefs = useRef({});
+  const dropdownRef = useRef(null);
+  const theme = getThemeColors(themeName);
   
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
@@ -55,7 +58,7 @@ export default function SideDropdown({ label, items = [], color, href }) {
         href={href}
         className="text-xl md:text-2xl hover:opacity-80 transition-colors duration-300 drop-shadow-md flex items-center"
         style={{ 
-          fontFamily: "'Courier New', Courier, monospace",
+          fontFamily: theme.fontFamily,
           fontWeight: 400,
           letterSpacing: '0.07em',
           color
@@ -112,7 +115,7 @@ export default function SideDropdown({ label, items = [], color, href }) {
               <Link 
                 href={item.href}
                 className="block px-6 py-2 text-gray-800 hover:bg-gray-100 whitespace-nowrap text-base flex items-center justify-between"
-                style={{ fontFamily: "'Courier New', Courier, monospace" }}
+                style={{ fontFamily: theme.fontFamily }}
               >
                 {item.label}
                 {item.subItems && item.subItems.length > 0 && (
@@ -161,7 +164,7 @@ export default function SideDropdown({ label, items = [], color, href }) {
                         key={subIndex} 
                         href={subItem.href}
                         className="block px-6 py-2 text-gray-800 hover:bg-gray-100 whitespace-nowrap text-base"
-                        style={{ fontFamily: "'Courier New', Courier, monospace" }}
+                        style={{ fontFamily: theme.fontFamily }}
                       >
                         {subItem.label}
                       </Link>

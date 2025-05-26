@@ -124,18 +124,6 @@ export default async function LessonsPage() {
       />
       
       <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">
-        <div className="mb-8">
-          <h1 
-            className="text-3xl md:text-4xl text-center"
-            style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.text
-            }}
-          >
-            Lessen
-          </h1>
-        </div>
-        
         {/* Section blocks */}
         <div className="space-y-16">
           {/* Lessons Block */}
@@ -158,7 +146,7 @@ export default async function LessonsPage() {
               {/* Text - Full width below image */}
               <div className="p-6 space-y-4 text-sm w-full" style={{ color: theme.text }}>
                 <h2 className="text-xl mb-4" style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
+                  fontFamily: theme.fontFamily,
                   color: theme.heading,
                   fontWeight: 400
                 }}>
@@ -200,7 +188,7 @@ export default async function LessonsPage() {
               {/* Text */}
               <div className={`p-6 space-y-4 text-sm ${workshopImage ? 'lg:w-1/2' : 'w-full'} lg:order-1`} style={{ color: theme.text }}>
                 <h2 className="text-xl mb-4" style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
+                  fontFamily: theme.fontFamily,
                   color: theme.heading,
                   fontWeight: 400
                 }}>

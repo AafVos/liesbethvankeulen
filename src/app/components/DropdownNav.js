@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import { getThemeColors } from '../styles/theme';
 
-export default function DropdownNav({ label, items, href, color, fontSize = "text-xl" }) {
+export default function DropdownNav({ label, items, href, color, fontSize = "text-xl", themeName = 'dark' }) {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef(null);
+  const theme = getThemeColors(themeName);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -34,7 +36,7 @@ export default function DropdownNav({ label, items, href, color, fontSize = "tex
         <Link
           href={href}
           className={`${fontSize} hover:opacity-80 transition-colors duration-300 drop-shadow-md px-2 py-1 block text-center cursor-pointer`}
-          style={{ fontFamily: "'Courier New', Courier, monospace", fontWeight: 400, letterSpacing: '0.07em', color }}
+          style={{ fontFamily: theme.fontFamily, fontWeight: 400, letterSpacing: '0.07em', color }}
         >
           {label}
         </Link>
@@ -59,7 +61,7 @@ export default function DropdownNav({ label, items, href, color, fontSize = "tex
               <Link
                 href={item.href}
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-base text-center cursor-pointer"
-                style={{ fontFamily: "'Courier New', Courier, monospace" }}
+                style={{ fontFamily: theme.fontFamily }}
               >
                 {item.label}
               </Link>

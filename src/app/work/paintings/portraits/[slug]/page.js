@@ -103,7 +103,7 @@ export default async function PortraitPainting({ params }) {
           <h1 
             className="text-3xl md:text-4xl text-center"
             style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
+              fontFamily: theme.fontFamily,
               color: theme.text
             }}
           >
@@ -116,7 +116,7 @@ export default async function PortraitPainting({ params }) {
             {/* Image section - larger on desktop, full width if it has wide tag */}
             <div className={isWide ? "w-full" : "lg:w-2/3 relative"}>
               {imageUrl ? (
-                                  <div className={`relative ${isWide ? 'h-auto w-full' : 'h-[50vh] lg:h-[70vh]'}`}>
+                <div className={`relative ${isWide ? 'h-auto w-full' : 'h-[50vh] lg:h-[70vh]'}`}>
                   <Image
                     src={`https:${imageUrl}`}
                     alt={fields.title || 'Portret schilderij'}
@@ -180,7 +180,8 @@ export default async function PortraitPainting({ params }) {
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.price === undefined || fields.price === 0 ? "Op aanvraag" : 
+                      {fields.price === 0 ? "Verkocht" : 
+                       fields.price === undefined ? "Op aanvraag" : 
                        typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
                     </p>
                   </div>
@@ -227,19 +228,20 @@ export default async function PortraitPainting({ params }) {
                     </div>
                   )}
                   
-                                     {mediumText && (
-                     <div>
-                       <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
-                       <p className="text-lg" style={{ color: theme.text }}>
-                         {mediumText}
-                       </p>
-                     </div>
-                   )}
+                  {mediumText && (
+                    <div>
+                      <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
+                      <p className="text-lg" style={{ color: theme.text }}>
+                        {mediumText}
+                      </p>
+                    </div>
+                  )}
                   
                   <div>
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.price === undefined || fields.price === 0 ? "Op aanvraag" : 
+                      {fields.price === 0 ? "Verkocht" : 
+                       fields.price === undefined ? "Op aanvraag" : 
                        typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
                     </p>
                   </div>
@@ -261,4 +263,4 @@ export default async function PortraitPainting({ params }) {
       </div>
     </div>
   );
-} 
+}

@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { getThemeColors } from '../styles/theme';
 
-export default function PageTitleDropdown({ items = [], color }) {
+export default function PageTitleDropdown({ color, items, themeName = 'dark' }) {
   const [open, setOpen] = useState(false);
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [expandedItems, setExpandedItems] = useState({});
@@ -11,6 +12,7 @@ export default function PageTitleDropdown({ items = [], color }) {
   const timeoutRef = useRef(null);
   const itemTimeoutRefs = useRef({});
   const [isMobile, setIsMobile] = useState(false);
+  const theme = getThemeColors(themeName);
 
   // Get the title from the highest level item
   const title = items[0]?.label || '';
@@ -115,7 +117,7 @@ export default function PageTitleDropdown({ items = [], color }) {
       <div 
         className="flex items-center justify-center text-2xl md:text-3xl font-normal tracking-wide"
         style={{ 
-          fontFamily: "'Courier New', Courier, monospace",
+          fontFamily: theme.fontFamily,
           color
         }}
       >
@@ -167,7 +169,7 @@ export default function PageTitleDropdown({ items = [], color }) {
                 <Link 
                   href={item.href}
                   className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 text-center flex items-center justify-center whitespace-nowrap ${isMobile ? 'justify-start' : 'justify-center'} transition-all duration-200`}
-                  style={{ fontFamily: "'Courier New', Courier, monospace" }}
+                  style={{ fontFamily: theme.fontFamily }}
                   onClick={(e) => toggleSubItems(index, e)}
                 >
                   {item.label}
@@ -207,7 +209,7 @@ export default function PageTitleDropdown({ items = [], color }) {
                           key={subIndex} 
                           href={subItem.href}
                           className="block px-6 py-2 text-gray-800 hover:bg-gray-100 whitespace-nowrap text-base transition-colors duration-200"
-                          style={{ fontFamily: "'Courier New', Courier, monospace" }}
+                          style={{ fontFamily: theme.fontFamily }}
                         >
                           {subItem.label}
                         </Link>
@@ -228,7 +230,7 @@ export default function PageTitleDropdown({ items = [], color }) {
                         key={subIndex} 
                         href={subItem.href}
                         className="block pl-8 pr-4 py-2 text-gray-800 hover:bg-gray-100 whitespace-nowrap text-base text-left transition-colors duration-200"
-                        style={{ fontFamily: "'Courier New', Courier, monospace" }}
+                        style={{ fontFamily: theme.fontFamily }}
                       >
                         {subItem.label}
                       </Link>
