@@ -234,8 +234,7 @@ async function getNewsItem(id) {
     return {
       id: item.sys?.id || '',
       title: item.fields?.title || '',
-      html: htmlContent,
-      rawHtml: htmlField // Include raw data for debugging
+      html: htmlContent
     };
   } catch (error) {
     console.error('Error fetching news item from Contentful:', error);
@@ -288,20 +287,6 @@ export default async function NewsItem({ params }) {
               />
             ) : (
               <p style={{ color: theme.text }}>No content available for this news item.</p>
-            )}
-            
-            {/* Debug info - DEV only */}
-            {process.env.NODE_ENV === 'development' && (
-              <div className="mt-8 p-4 border border-red-300 bg-red-50 rounded">
-                <h3 className="text-red-700 font-bold mb-2">Debug Info (dev only)</h3>
-                <p className="text-sm text-red-600 mb-2">Raw HTML type: {typeof newsItem.rawHtml}</p>
-                <details>
-                  <summary className="text-sm text-red-600 cursor-pointer">Raw HTML data structure</summary>
-                  <pre className="mt-2 p-2 bg-gray-100 rounded text-xs overflow-auto max-h-40">
-                    {JSON.stringify(newsItem.rawHtml, null, 2)}
-                  </pre>
-                </details>
-              </div>
             )}
           </article>
         </div>

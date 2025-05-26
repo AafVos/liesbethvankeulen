@@ -10,7 +10,7 @@ import SideDropdown from './SideDropdown';
 // By default, use the dark theme if no theme is specified
 const defaultTheme = getThemeColors('dark');
 
-const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
+const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
   const mobileIconsRef = useRef(null);
@@ -209,7 +209,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
                 className="text-2xl tracking-wide drop-shadow-md text-center" 
                 style={{ 
                   fontFamily: theme.fontFamily,
-                  fontWeight: 400,
+                  fontWeight: 550,
                   letterSpacing: '0.05em',
                   color: headerColor,
                   transition: 'color 0.3s ease'
@@ -227,7 +227,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
             color: headerColor,
             opacity: 0.8,
             letterSpacing: '0.03em',
-            fontWeight: 300,
+            fontWeight: 550,
             transition: 'color 0.3s ease'
           }}>
             {subtitle}
@@ -255,7 +255,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
                 className="text-3xl tracking-wide drop-shadow-md" 
                 style={{ 
                   fontFamily: theme.fontFamily,
-                  fontWeight: 400,
+                  fontWeight: 550,
                   letterSpacing: '0.05em',
                   color: headerColor,
                   transition: 'color 0.3s ease'
@@ -269,7 +269,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems }) => {
                   color: headerColor,
                   opacity: 0.8,
                   letterSpacing: '0.03em',
-                  fontWeight: 300,
+                  fontWeight: 550,
                   transition: 'color 0.3s ease'
                 }}>
                   {subtitle}

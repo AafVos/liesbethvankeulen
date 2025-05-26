@@ -14,8 +14,13 @@ export default function PageTitleDropdown({ color, items, themeName = 'dark' }) 
   const [isMobile, setIsMobile] = useState(false);
   const theme = getThemeColors(themeName);
 
-  // Get the title from the highest level item
-  const title = items[0]?.label || '';
+  // Get the title from the highest level item with proper null checks
+  const title = (items && Array.isArray(items) && items.length > 0) ? (items[0]?.label || '') : '';
+
+  // Early return if no items provided
+  if (!items || !Array.isArray(items) || items.length === 0) {
+    return null;
+  }
 
   useEffect(() => {
     // Check if we're on a mobile device
@@ -95,7 +100,7 @@ export default function PageTitleDropdown({ color, items, themeName = 'dark' }) 
 
   const toggleSubItems = (index, e) => {
     // Prevent navigating to the parent link on mobile
-    if (isMobile && items[index].subItems && items[index].subItems.length > 0) {
+    if (isMobile && items && items[0] && items[0].subItems && items[0].subItems[index] && items[0].subItems[index].subItems && items[0].subItems[index].subItems.length > 0) {
       e.preventDefault();
       e.stopPropagation(); // Prevent event from bubbling to document
       setExpandedItems(prev => ({
