@@ -9,12 +9,14 @@ const theme = getThemeColors(themeName);
 
 // Function to extract HTML content from Contentful rich text
 function extractHtmlFromRichText(richTextField) {
-  if (!richTextField || !richTextField.content) return '';
+  if (!richTextField || !richTextField.content || !Array.isArray(richTextField.content)) return '';
   
   let html = '';
   
   // Process each content block
   richTextField.content.forEach(block => {
+    if (!block || !block.nodeType) return;
+    
     // Different handling based on node type
     switch (block.nodeType) {
       case 'paragraph':
@@ -76,16 +78,16 @@ function processHeading(node, headingType) {
 }
 
 function processUnorderedList(node) {
-  if (!node.content) return '<ul></ul>';
+  if (!node.content || !Array.isArray(node.content)) return '<ul></ul>';
   
   let listItems = '';
   node.content.forEach(item => {
-    if (item.nodeType === 'list-item' && item.content) {
+    if (item && item.nodeType === 'list-item' && item.content && Array.isArray(item.content)) {
       listItems += '<li>';
       item.content.forEach(content => {
-        if (content.nodeType === 'paragraph') {
+        if (content && content.nodeType === 'paragraph') {
           listItems += extractTextContent(content);
-        } else {
+        } else if (content) {
           // Try to extract text directly
           listItems += extractTextContent(content);
         }
@@ -98,16 +100,16 @@ function processUnorderedList(node) {
 }
 
 function processOrderedList(node) {
-  if (!node.content) return '<ol></ol>';
+  if (!node.content || !Array.isArray(node.content)) return '<ol></ol>';
   
   let listItems = '';
   node.content.forEach(item => {
-    if (item.nodeType === 'list-item' && item.content) {
+    if (item && item.nodeType === 'list-item' && item.content && Array.isArray(item.content)) {
       listItems += '<li>';
       item.content.forEach(content => {
-        if (content.nodeType === 'paragraph') {
+        if (content && content.nodeType === 'paragraph') {
           listItems += extractTextContent(content);
-        } else {
+        } else if (content) {
           // Try to extract text directly
           listItems += extractTextContent(content);
         }
@@ -132,16 +134,20 @@ function processEmbeddedAsset(node) {
 
 // Extract text content from a node, handling marks (bold, italic, etc.)
 function extractTextContent(node) {
-  if (!node.content) return '';
+  if (!node || !node.content || !Array.isArray(node.content)) return '';
   
   let textContent = '';
   
   node.content.forEach(contentNode => {
+    if (!contentNode) return;
+    
     if (contentNode.nodeType === 'text') {
       // Apply marks if any (bold, italic, etc.)
       let text = contentNode.value || '';
-      if (contentNode.marks && contentNode.marks.length > 0) {
+      if (contentNode.marks && Array.isArray(contentNode.marks) && contentNode.marks.length > 0) {
         contentNode.marks.forEach(mark => {
+          if (!mark || !mark.type) return;
+          
           switch (mark.type) {
             case 'bold':
               text = `<strong>${text}</strong>`;
@@ -174,17 +180,28 @@ function extractTextContent(node) {
 // Function to get a specific news item from Contentful by ID
 async function getNewsItem(id) {
   try {
+    if (!id) {
+      console.warn('No ID provided for news item');
+      return null;
+    }
+    
     // Query for news item with matching ID
     const response = await getEntries('news', {
       'sys.id': id
     });
     
-    if (response.items.length === 0) {
+    if (!response || !response.items || !Array.isArray(response.items) || response.items.length === 0) {
+      console.warn(`No news item found with ID: ${id}`);
       return null;
     }
     
     // Transform the data for our component
     const item = response.items[0];
+    
+    if (!item || !item.fields) {
+      console.warn(`Invalid news item structure for ID: ${id}`);
+      return null;
+    }
     
     // Get the HTML field
     const htmlField = item.fields.html || '';
@@ -197,7 +214,7 @@ async function getNewsItem(id) {
     if (typeof htmlField === 'string') {
       // It's already a string, use directly
       htmlContent = htmlField;
-    } else if (typeof htmlField === 'object') {
+    } else if (typeof htmlField === 'object' && htmlField !== null) {
       if (htmlField.nodeType === 'document') {
         // It's rich text, process it
         htmlContent = extractHtmlFromRichText(htmlField);
@@ -211,12 +228,12 @@ async function getNewsItem(id) {
       }
     } else {
       // Fallback
-      htmlContent = String(htmlField);
+      htmlContent = String(htmlField || '');
     }
     
     return {
-      id: item.sys.id,
-      title: item.fields.title || '',
+      id: item.sys?.id || '',
+      title: item.fields?.title || '',
       html: htmlContent,
       rawHtml: htmlField // Include raw data for debugging
     };
