@@ -11,8 +11,8 @@ const theme = getThemeColors(themeName);
 
 // Configure Contentful client
 const client = createClient({
-  space: process.env.CONTENTFUL_SPACE_ID || '1z6huih0p4zo',
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || 'Txn-WQTpRlMJOgPkZu-ifKIM1x52cW95lwJ3-I6DKWY',
+  space: process.env.CONTENTFUL_SPACE_ID,
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
 });
 
 // Helper function to extract text from rich text field
@@ -39,7 +39,7 @@ function extractTextFromRichText(richTextField) {
 // Use async/await for data fetching
 async function getContentfulEntry() {
   try {
-    const entryId = process.env.CONTENTFUL_ENTRY_ID || 'VK4FUyRfriPg9Aa2UP2Rc';
+    const entryId = process.env.CONTENTFUL_ENTRY_ID;
     const entry = await client.getEntry(entryId);
     return entry;
   } catch (error) {

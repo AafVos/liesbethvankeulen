@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from '../components/Header';
 import Image from 'next/image';
 import { getThemeColors } from '../styles/theme';
@@ -16,6 +18,40 @@ const contactItems = [
 ];
 
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://formspree.io/f/xpwdgzab', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        // Redirect to thank-you page on success
+        router.push('/thank-you');
+      } else {
+        // Handle error
+        alert('Er is een fout opgetreden. Probeer het opnieuw.');
+        setIsSubmitting(false);
+      }
+    } catch (error) {
+      // Handle network error
+      alert('Er is een fout opgetreden. Probeer het opnieuw.');
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
       <Header 
@@ -48,11 +84,10 @@ export default function ContactPage() {
                 Neem contact op
               </h1>
               <p className="text-sm md:text-base lg:text-lg mb-6 text-center leading-relaxed" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.text, opacity: 0.8 }}>
-                voor verkoop vragen,<br />om een atelierbezoek te regelen,<br />of gewoon om te praten.
+                voor verkoopvragen,<br />om een atelierbezoek te regelen,<br />of gewoon om te praten.
               </p>
               <form 
-                action="https://formspree.io/f/xpwdgzab" 
-                method="POST" 
+                onSubmit={handleSubmit}
                 className="flex flex-col gap-4 md:gap-6 w-full max-w-xl mx-auto"
               >
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -73,8 +108,13 @@ export default function ContactPage() {
                   <label htmlFor="message" className="mb-1 text-sm" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.text }}>Schrijf een bericht</label>
                   <textarea id="message" name="message" rows={3} className="border-b bg-transparent py-2 px-1 focus:outline-none resize-none" style={{ borderColor: theme.text, color: theme.text, fontFamily: 'inherit' }}></textarea>
                 </div>
-                <button type="submit" className="mt-2 md:mt-4 px-6 md:px-8 py-2 bg-[#6a7b4f] text-white text-base md:text-lg font-normal drop-shadow-md hover:opacity-80 transition-colors duration-300" style={{ fontFamily: 'Courier New, Courier, monospace' }}>
-                  Versturen
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="mt-2 md:mt-4 px-6 md:px-8 py-2 bg-[#6a7b4f] text-white text-base md:text-lg font-normal drop-shadow-md hover:opacity-80 transition-colors duration-300 disabled:opacity-50" 
+                  style={{ fontFamily: 'Courier New, Courier, monospace' }}
+                >
+                  {isSubmitting ? 'Versturen...' : 'Versturen'}
                 </button>
               </form>
             </div>

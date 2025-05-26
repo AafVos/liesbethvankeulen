@@ -10,8 +10,8 @@ const theme = getThemeColors(themeName);
 
 // Configure Contentful client
 const client = createClient({
-  space: process.env.CONTENTFUL_SPACE_ID || '1z6huih0p4zo',
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || 'Txn-WQTpRlMJOgPkZu-ifKIM1x52cW95lwJ3-I6DKWY',
+  space: process.env.CONTENTFUL_SPACE_ID,
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
 });
 
 // Helper function to extract text from rich text field
@@ -38,9 +38,9 @@ function extractTextFromRichText(richTextField) {
 // Use async/await for data fetching
 async function getContentfulEntry() {
   try {
-    const entryId = process.env.CONTENTFUL_ENTRY_ID || 'VK4FUyRfriPg9Aa2UP2Rc';
+    const entryId = process.env.CONTENTFUL_ENTRY_ID;
     console.log('Fetching Contentful entry with ID:', entryId);
-    console.log('Using Contentful space:', process.env.CONTENTFUL_SPACE_ID || '1z6huih0p4zo');
+    console.log('Using Contentful space:', process.env.CONTENTFUL_SPACE_ID);
     
     const entry = await client.getEntry(entryId);
     return entry;
@@ -110,7 +110,7 @@ export default async function Gallery() {
   
   // Fetch the specific image for Maastricht section
   const maastrichtImage = await getMediaAssetById('16zAmgLbilRFZ6kAfBkKdE');
-  const maastrichtImageUrl = maastrichtImage ? `https:${maastrichtImage.url}` : "https://images.ctfassets.net/1z6huih0p4zo/3GjopkBdEuIAw9gvOz0Hvj/7cd5cd9f3aee8e04320fc84709fbab20/boy_portrait_1.jpg";
+  const maastrichtImageUrl = maastrichtImage ? `https:${maastrichtImage.url}` : null;
   
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
@@ -124,65 +124,65 @@ export default async function Gallery() {
       <main className="container mx-auto px-4 py-12">
         <div className="flex flex-col gap-8">
           {/* Maastricht Feature Section */}
-          <div className="relative h-[80vh] w-full overflow-hidden">
-            <div className="absolute inset-0 flex">
-              {/* Image section (2/3 width) */}
-              <div className="w-2/3 relative">
-                <Image 
-                  src={maastrichtImageUrl}
-                  alt="Maastricht Gallery"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="text-4xl md:text-6xl text-white font-light tracking-widest"
-                      style={{ fontFamily: "'Courier New', Courier, monospace" }}>
-                    MAASTRICHT
+          {maastrichtImageUrl && (
+            <div className="relative h-[80vh] w-full overflow-hidden">
+              <div className="absolute inset-0 flex">
+                {/* Image section (2/3 width) */}
+                <div className="w-2/3 relative">
+                  <Image 
+                    src={maastrichtImageUrl}
+                    alt="Maastricht Gallery"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <h2 className="text-4xl md:text-6xl text-white font-light tracking-widest"
+                        style={{ fontFamily: "'Courier New', Courier, monospace" }}>
+                      MAASTRICHT
+                    </h2>
+                  </div>
+                </div>
+                
+                {/* Text section (1/3 width) */}
+                <div className="w-1/3 bg-white p-8 flex flex-col justify-center">
+                  <h2 className="text-3xl mb-6 tracking-wide"
+                      style={{ 
+                        fontFamily: "'Courier New', Courier, monospace",
+                        color: theme.text
+                      }}>
+                    CURRENT WORK
                   </h2>
+                  <p className="text-lg mb-4" style={{ 
+                    fontFamily: "'Courier New', Courier, monospace",
+                    color: theme.text
+                  }}>
+                    The house of cards is a subject matter that I keep coming back to.
+                  </p>
+                  <p className="text-lg mb-4" style={{ 
+                    fontFamily: "'Courier New', Courier, monospace",
+                    color: theme.text
+                  }}>
+                    I painted my one about 15 years ago, and over the years they have come in many shapes and sizes.
+                  </p>
+                  <p className="text-lg" style={{ 
+                    fontFamily: "'Courier New', Courier, monospace",
+                    color: theme.text
+                  }}>
+                    However, year on year, each tower seems to get bigger and bigger. I don't know if that is because the world seems more and more uncertain?
+                  </p>
                 </div>
               </div>
-              
-              {/* Text section (1/3 width) */}
-              <div className="w-1/3 bg-white p-8 flex flex-col justify-center">
-                <h2 className="text-3xl mb-6 tracking-wide"
-                    style={{ 
-                      fontFamily: "'Courier New', Courier, monospace",
-                      color: theme.text
-                    }}>
-                  CURRENT WORK
-                </h2>
-                <p className="text-lg mb-4" style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
-                  color: theme.text
-                }}>
-                  The house of cards is a subject matter that I keep coming back to.
-                </p>
-                <p className="text-lg mb-4" style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
-                  color: theme.text
-                }}>
-                  I painted my one about 15 years ago, and over the years they have come in many shapes and sizes.
-                </p>
-                <p className="text-lg" style={{ 
-                  fontFamily: "'Courier New', Courier, monospace",
-                  color: theme.text
-                }}>
-                  However, year on year, each tower seems to get bigger and bigger. I don't know if that is because the world seems more and more uncertain?
-                </p>
-              </div>
             </div>
-          </div>
+          )}
 
           {/* Portraits Block */}
           <Link href="/gallery/portraits" className="relative h-[40vh] w-full overflow-hidden group">
             <div className="absolute inset-0">
-              <Image 
-                src="https://images.ctfassets.net/1z6huih0p4zo/3GjopkBdEuIAw9gvOz0Hvj/7cd5cd9f3aee8e04320fc84709fbab20/boy_portrait_1.jpg"
-                alt="Portraits Gallery"
-                fill
-                className="object-cover transform group-hover:scale-105 transition-transform duration-500"
-              />
+              {/* Replace with dynamic content or remove hardcoded URL */}
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-500">Portrait Preview</span>
+              </div>
               <div className="absolute inset-0 bg-black bg-opacity-30"></div>
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
@@ -196,12 +196,10 @@ export default async function Gallery() {
           {/* Sculptures Block */}
           <Link href="/gallery/sculptures" className="relative h-[40vh] w-full overflow-hidden group">
             <div className="absolute inset-0">
-              <Image 
-                src="https://images.ctfassets.net/1z6huih0p4zo/6mRoKE13Y1vC0Jt4mZnKiB/3f17f5e930cd25e78d43c15a0a84c0c6/boy_portrait_2.jpg"
-                alt="Sculptures Gallery"
-                fill
-                className="object-cover transform group-hover:scale-105 transition-transform duration-500"
-              />
+              {/* Replace with dynamic content or remove hardcoded URL */}
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-500">Sculpture Preview</span>
+              </div>
               <div className="absolute inset-0 bg-black bg-opacity-30"></div>
             </div>
             <div className="absolute inset-0 flex items-center justify-center">

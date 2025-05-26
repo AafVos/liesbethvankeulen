@@ -24,12 +24,17 @@ export default function MailchimpButton() {
       });
       const data = await response.json();
       setResult(data);
-      if (!data.error) {
+      
+      // Clear form only on successful new subscription
+      if (data.success) {
         setFormData({ email: '', firstName: '', lastName: '' });
       }
     } catch (error) {
       console.error('Error:', error);
-      setResult({ error: error.message });
+      setResult({ 
+        success: false, 
+        message: "Er is een fout opgetreden. Probeer het later opnieuw." 
+      });
     } finally {
       setIsLoading(false);
     }
@@ -108,10 +113,10 @@ export default function MailchimpButton() {
       </form>
       {result && (
         <div className="mt-4 p-4 bg-white/80 rounded-lg">
-          {result.error ? (
-            <p className="text-red-600">Error: {result.error}</p>
+          {result.success ? (
+            <p className="text-green-600">{result.message}</p>
           ) : (
-            <p className="text-green-600">Successfully subscribed!</p>
+            <p className="text-red-600">{result.message}</p>
           )}
         </div>
       )}
