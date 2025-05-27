@@ -61,9 +61,9 @@ export default async function SculptureDetail({ params }) {
   const imageUrl = fields.image?.fields?.file?.url || '';
   
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen animate-fade-in" style={{ backgroundColor: theme.background }}>
       <div className="container mx-auto px-4 md:px-8 py-8 max-w-6xl">
-        <div className="relative mb-8">
+        <div className="relative mb-8 animate-slide-in-left">
           <Link href="/work/sculptures" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
@@ -78,7 +78,7 @@ export default async function SculptureDetail({ params }) {
           </h1>
         </div>
         
-        <div className="bg-white overflow-hidden border mt-6" style={{ borderColor: theme.text }}>
+        <div className="bg-white overflow-hidden border mt-6 animate-slide-in-right" style={{ borderColor: theme.text }}>
           <div className="md:flex flex-col md:flex-row">
             {/* Image section - larger on desktop */}
             <div className="md:w-2/3 relative">
@@ -89,7 +89,7 @@ export default async function SculptureDetail({ params }) {
                     alt={fields.title || 'Beeld'}
                     fill
                     sizes="(max-width: 768px) 100vw, 66vw"
-                    className="object-contain"
+                    className="object-contain transition-transform duration-700 hover:scale-105"
                     priority
                   />
                 </div>
@@ -104,7 +104,7 @@ export default async function SculptureDetail({ params }) {
             {/* Details section - minimal information */}
             <div className="md:w-1/3 p-8 flex flex-col">
               <h1 
-                className="text-2xl md:text-3xl font-light mb-8"
+                className="text-2xl md:text-3xl font-light mb-8 transition-all duration-300"
                 style={{ 
                   fontFamily: theme.fontFamily,
                   color: theme.text
@@ -115,7 +115,7 @@ export default async function SculptureDetail({ params }) {
               
               <div className="space-y-6 mb-auto">
                 {fields.year && (
-                  <div>
+                  <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Jaar</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
                       {typeof fields.year === 'object' && fields.year.nodeType ? (
@@ -127,21 +127,21 @@ export default async function SculptureDetail({ params }) {
                   </div>
                 )}
                 
-                {fields.price !== undefined && (
-                  <div>
+                {fields.prijs !== undefined && (
+                  <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {typeof fields.price === 'object' && fields.price.nodeType ? (
-                        <span dangerouslySetInnerHTML={{ __html: renderFieldContent(fields.price) }} />
+                      {typeof fields.prijs === 'object' && fields.prijs.nodeType ? (
+                        <span dangerouslySetInnerHTML={{ __html: renderFieldContent(fields.prijs) }} />
                       ) : (
-                        fields.price === 0 ? 'Verkocht' : (typeof fields.price === 'number' ? `€${fields.price}` : fields.price)
+                        fields.prijs === 0 ? 'In opdracht gemaakt' : (typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs)
                       )}
                     </p>
                   </div>
                 )}
                 
                 {fields.material && (
-                  <div>
+                  <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
                       {typeof fields.material === 'object' && fields.material.nodeType ? (
@@ -154,7 +154,7 @@ export default async function SculptureDetail({ params }) {
                 )}
                 
                 {fields.dimensions && (
-                  <div>
+                  <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Afmetingen</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
                       {typeof fields.dimensions === 'object' && fields.dimensions.nodeType ? (
@@ -167,7 +167,7 @@ export default async function SculptureDetail({ params }) {
                 )}
                 
                 {fields.description && (
-                  <div>
+                  <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Beschrijving</h3>
                     <div className="text-lg" style={{ color: theme.text }}>
                       {typeof fields.description === 'object' && fields.description.nodeType ? (
@@ -183,7 +183,7 @@ export default async function SculptureDetail({ params }) {
               <div className="mt-12">
                 <Link 
                   href={`mailto:liesbethvankeulen@gmail.com?subject=Interesse in beeld: ${fields.title || 'Zonder titel'}`}
-                  className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-colors"
+                  className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-all duration-300 transform hover:scale-105"
                   style={{ borderColor: theme.text, color: theme.text }}
                 >
                   Interesse in dit beeld

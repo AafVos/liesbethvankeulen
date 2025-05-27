@@ -57,9 +57,9 @@ export default async function Work() {
   const sculptures = await getSculptures();
 
   return (
-    <div className="h-[calc(100vh-12rem)] px-8 pt-8 pb-4">
+    <div className="h-[calc(100vh-12rem)] px-8 pt-8 pb-4 animate-fade-in">
       <div className="flex flex-col md:flex-row gap-8 h-full">
-        <Link href="/work/paintings" className="w-full md:w-1/2 h-1/2 md:h-full relative group overflow-hidden">
+        <Link href="/work/paintings" className="w-full md:w-1/2 h-1/2 md:h-full relative group overflow-hidden animate-slide-in-left">
           {/* Slideshow background */}
           <div className="absolute inset-0 h-full w-full">
             <Slideshow images={slideshowPaintings} />
@@ -68,7 +68,7 @@ export default async function Work() {
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
             <h2 
-              className="text-4xl font-light tracking-wide group-hover:opacity-100 transition-opacity duration-300 drop-shadow-md"
+              className="text-4xl font-light tracking-wide group-hover:opacity-100 transition-all duration-500 drop-shadow-md transform group-hover:scale-105"
               style={{ 
                 fontFamily: "'Courier New', Courier, monospace",
                 color: "white"
@@ -78,7 +78,7 @@ export default async function Work() {
             </h2>
           </div>
         </Link>
-        <Link href="/work/sculptures" className="w-full md:w-1/2 h-1/2 md:h-full relative group overflow-hidden">
+        <Link href="/work/sculptures" className="w-full md:w-1/2 h-1/2 md:h-full relative group overflow-hidden animate-slide-in-right">
           {/* Slideshow background */}
           <div className="absolute inset-0 h-full w-full">
             <Slideshow images={sculptures} />
@@ -87,7 +87,7 @@ export default async function Work() {
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
             <h2 
-              className="text-4xl font-light tracking-wide group-hover:opacity-100 transition-opacity duration-300 drop-shadow-md"
+              className="text-4xl font-light tracking-wide group-hover:opacity-100 transition-all duration-500 drop-shadow-md transform group-hover:scale-105"
               style={{ 
                 fontFamily: "'Courier New', Courier, monospace",
                 color: "white"

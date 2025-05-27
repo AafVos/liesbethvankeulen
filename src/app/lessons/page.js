@@ -3,6 +3,7 @@ import { getThemeColors } from '../styles/theme';
 import { getEntries, getClient } from '@/lib/contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Choose a light theme for the lessons page
 const themeName = 'light';
@@ -59,7 +60,7 @@ async function getLessonsImage() {
   try {
     const client = getClient();
     const assets = await client.getAssets({
-      'fields.title': 'lessons'
+      'fields.title': 'lesson_image_2'
     });
     
     if (!assets.items || assets.items.length === 0) return null;
@@ -81,7 +82,7 @@ async function getWorkshopImage() {
   try {
     const client = getClient();
     const assets = await client.getAssets({
-      'fields.title': 'workshop'
+      'fields.title': 'workshop_image'
     });
     
     if (!assets.items || assets.items.length === 0) return null;
@@ -113,7 +114,7 @@ export default async function LessonsPage() {
   const workshopImage = await getWorkshopImage();
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen flex flex-col animate-fade-in" style={{ backgroundColor: theme.background }}>
       <Header 
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
@@ -127,88 +128,92 @@ export default async function LessonsPage() {
         {/* Section blocks */}
         <div className="space-y-16">
           {/* Lessons Block */}
-          <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
-            <div className="flex flex-col">
-              {/* Image - Full width at top */}
-              {lessonsImage && (
-                <div className="w-full">
-                  <div className="aspect-[21/8] relative overflow-hidden">
-                    <Image
-                      src={`https:${lessonsImage.url}`}
-                      alt="Lessen"
-                      fill
-                      className="object-cover"
-                      sizes="100vw"
-                    />
-                  </div>
-                </div>
-              )}
-              {/* Text - Full width below image */}
-              <div className="p-6 space-y-4 text-sm w-full" style={{ color: theme.text }}>
-                <h2 className="text-xl mb-4" style={{ 
-                  fontFamily: theme.fontFamily,
-                  color: theme.heading,
-                  fontWeight: 400
-                }}>
-                  Schilderlessen
-                </h2>
-                {lessonsContent ? (
-                  <div 
-                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
-                    dangerouslySetInnerHTML={{ __html: lessonsContent }} 
-                  />
-                ) : (
-                  <div className="space-y-4">
-                    <p>Ontdek de wereld van het schilderen in mijn atelier in Amsterdam.</p>
-                    <p>Ik geef persoonlijke schilderlessen voor beginners en gevorderden. Of je nu je eerste penseel oppakt of je techniek wilt verfijnen, samen ontdekken we jouw artistieke potentieel.</p>
-                    <p>De lessen zijn afgestemd op jouw niveau en interesses. We werken met verschillende technieken en materialen, van olieverf tot acryl, van landschappen tot portretten.</p>
+          <Link href="https://www.portretschoolamsterdam.nl/" target="_blank" rel="noopener noreferrer" className="block">
+            <section className="bg-white md:shadow-sm md:border animate-slide-in-left cursor-pointer hover:shadow-lg transition-all duration-300" style={{ borderColor: theme.accent }}>
+              <div className="flex flex-col">
+                {/* Image - Full width at top */}
+                {lessonsImage && (
+                  <div className="w-full">
+                    <div className="aspect-[21/8] relative overflow-hidden">
+                      <Image
+                        src={`https:${lessonsImage.url}`}
+                        alt="Lessen"
+                        fill
+                        className="object-cover transition-transform duration-700 hover:scale-105"
+                        sizes="100vw"
+                      />
+                    </div>
                   </div>
                 )}
+                {/* Text - Full width below image */}
+                <div className="p-6 space-y-4 text-sm w-full" style={{ color: theme.text }}>
+                  <h2 className="text-xl mb-4 transition-all duration-300 hover:opacity-80" style={{ 
+                    fontFamily: theme.fontFamily,
+                    color: theme.heading,
+                    fontWeight: 400
+                  }}>
+                    Schilderlessen
+                  </h2>
+                  {lessonsContent ? (
+                    <div 
+                      className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 transition-all duration-300 hover:opacity-90" 
+                      dangerouslySetInnerHTML={{ __html: lessonsContent }} 
+                    />
+                  ) : (
+                    <div className="space-y-4 transition-all duration-300 hover:opacity-90">
+                      <p>Ontdek de wereld van het schilderen in mijn atelier in Amsterdam.</p>
+                      <p>Ik geef persoonlijke schilderlessen voor beginners en gevorderden. Of je nu je eerste penseel oppakt of je techniek wilt verfijnen, samen ontdekken we jouw artistieke potentieel.</p>
+                      <p>De lessen zijn afgestemd op jouw niveau en interesses. We werken met verschillende technieken en materialen, van olieverf tot acryl, van landschappen tot portretten.</p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </Link>
           
           {/* Workshop Block */}
-          <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
-            <div className="flex flex-col lg:flex-row">
-              {/* Image */}
-              {workshopImage && (
-                <div className="lg:w-1/2 lg:order-2">
-                  <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
-                    <Image
-                      src={`https:${workshopImage.url}`}
-                      alt="Workshop"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                </div>
-              )}
-              {/* Text */}
-              <div className={`p-6 space-y-4 text-sm ${workshopImage ? 'lg:w-1/2' : 'w-full'} lg:order-1`} style={{ color: theme.text }}>
-                <h2 className="text-xl mb-4" style={{ 
-                  fontFamily: theme.fontFamily,
-                  color: theme.heading,
-                  fontWeight: 400
-                }}>
-                  Workshops
-                </h2>
-                {workshopInfo ? (
-                  <div 
-                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
-                    dangerouslySetInnerHTML={{ __html: workshopInfo }} 
-                  />
-                ) : (
-                  <div className="space-y-4">
-                    <p>Naast individuele lessen organiseer ik ook groepsworkshops voor verschillende niveaus.</p>
-                    <p>Deze workshops zijn perfect voor wie samen met anderen wil leren en inspiratie wil opdoen. We werken aan thematische projecten en delen kennis en ervaringen.</p>
-                    <p>Workshops worden regelmatig georganiseerd. Neem contact op voor meer informatie over data en beschikbaarheid.</p>
+          <Link href="https://www.portretschoolamsterdam.nl/" target="_blank" rel="noopener noreferrer" className="block">
+            <section className="bg-white md:shadow-sm md:border animate-slide-in-right cursor-pointer hover:shadow-lg transition-all duration-300" style={{ borderColor: theme.accent }}>
+              <div className="flex flex-col lg:flex-row">
+                {/* Image */}
+                {workshopImage && (
+                  <div className="lg:w-1/2 lg:order-2">
+                    <div className="aspect-square lg:aspect-auto lg:h-full relative overflow-hidden">
+                      <Image
+                        src={`https:${workshopImage.url}`}
+                        alt="Workshop"
+                        fill
+                        className="object-cover transition-transform duration-700 hover:scale-105"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                      />
+                    </div>
                   </div>
                 )}
+                {/* Text */}
+                <div className={`p-6 space-y-4 text-sm ${workshopImage ? 'lg:w-1/2' : 'w-full'} lg:order-1`} style={{ color: theme.text }}>
+                  <h2 className="text-xl mb-4 transition-all duration-300 hover:opacity-80" style={{ 
+                    fontFamily: theme.fontFamily,
+                    color: theme.heading,
+                    fontWeight: 400
+                  }}>
+                    Workshops
+                  </h2>
+                  {workshopInfo ? (
+                    <div 
+                      className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 transition-all duration-300 hover:opacity-90" 
+                      dangerouslySetInnerHTML={{ __html: workshopInfo }} 
+                    />
+                  ) : (
+                    <div className="space-y-4 transition-all duration-300 hover:opacity-90">
+                      <p>Naast individuele lessen organiseer ik ook groepsworkshops voor verschillende niveaus.</p>
+                      <p>Deze workshops zijn perfect voor wie samen met anderen wil leren en inspiratie wil opdoen. We werken aan thematische projecten en delen kennis en ervaringen.</p>
+                      <p>Workshops worden regelmatig georganiseerd. Neem contact op voor meer informatie over data en beschikbaarheid.</p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </Link>
         </div>
       </main>
     </div>

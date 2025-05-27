@@ -13,10 +13,10 @@ export const themes = {
   // Option 2: Light theme with green text
   light: {
     background: '#ffffff',
-    text: '#6a7b4f',
-    heading: '#6a7b4f',
+    text: '#708a37',
+    heading: '#708a37',
     accent: '#9cac7f',
-    link: '#6a7b4f',
+    link: '#708a37',
     fontFamily: "'Courier New', Courier, monospace"
   }
 };

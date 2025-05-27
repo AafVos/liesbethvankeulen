@@ -70,9 +70,9 @@ export default async function Paintings() {
   const portraitDescription = await getDescriptionText('portraits_description');
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen animate-fade-in" style={{ backgroundColor: theme.background }}>
       <div className="container mx-auto px-8 py-12 max-w-5xl">
-        <div className="relative mb-10">
+        <div className="relative mb-10 animate-slide-in-left">
           <Link href="/work" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
@@ -89,7 +89,7 @@ export default async function Paintings() {
         
         <div className="flex flex-col gap-16">
           {/* Landscapes */}
-          <div className="bg-white shadow-lg overflow-hidden border" style={{ borderColor: theme.text }}>
+          <div className="bg-white shadow-lg overflow-hidden border animate-slide-in-left" style={{ borderColor: theme.text }}>
             <Link href="/work/paintings/landscapes" className="block relative group">
               <div className="flex flex-col md:flex-row">
                 {/* Image side with overlay title - full width on small screens */}
@@ -110,7 +110,7 @@ export default async function Paintings() {
                       {/* Title overlay */}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <h2 
-                          className="text-3xl md:text-4xl font-light tracking-wide text-white drop-shadow-lg transition-opacity duration-300 z-10"
+                          className="text-3xl md:text-4xl font-light tracking-wide text-white drop-shadow-lg transition-all duration-500 transform group-hover:scale-105 z-10"
                           style={{ 
                             fontFamily: "'Courier New', Courier, monospace",
                           }}
@@ -160,7 +160,7 @@ export default async function Paintings() {
           </div>
           
           {/* Portraits */}
-          <div className="bg-white shadow-lg overflow-hidden border" style={{ borderColor: theme.text }}>
+          <div className="bg-white shadow-lg overflow-hidden border animate-slide-in-right" style={{ borderColor: theme.text }}>
             <Link href="/work/paintings/portraits" className="block relative group">
               <div className="flex flex-col md:flex-row-reverse"> {/* Reverse flex for second item */}
                 {/* Image side with overlay title - full width on small screens */}
@@ -181,7 +181,7 @@ export default async function Paintings() {
                       {/* Title overlay */}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <h2 
-                          className="text-3xl md:text-4xl font-light tracking-wide text-white drop-shadow-lg transition-opacity duration-300 z-10"
+                          className="text-3xl md:text-4xl font-light tracking-wide text-white drop-shadow-lg transition-all duration-500 transform group-hover:scale-105 z-10"
                           style={{ 
                             fontFamily: "'Courier New', Courier, monospace",
                           }}

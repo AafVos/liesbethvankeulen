@@ -52,14 +52,14 @@ export default async function Sculptures() {
   });
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen animate-fade-in" style={{ backgroundColor: theme.background }}>
       <div className="container mx-auto px-8 py-8">
-        <div className="relative mb-8">
+        <div className="relative mb-8 animate-slide-in-left">
           <Link href="/work" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
           <h1 
-            className="text-3xl md:text-4xl text-center"
+            className="text-3xl md:text-4xl text-center transition-all duration-300 hover:opacity-80"
             style={{ 
               fontFamily: "'Courier New', Courier, monospace",
               color: theme.text
@@ -73,7 +73,7 @@ export default async function Sculptures() {
           <div className="flex flex-col gap-16">
             {/* Wide sculptures at the top */}
             {wideSculptures.length > 0 && (
-              <div className="w-full">
+              <div className="w-full animate-slide-in-left">
                 {wideSculptures.map(sculpture => (
                   <Link 
                     key={sculpture.id} 
@@ -86,11 +86,11 @@ export default async function Sculptures() {
                         alt={sculpture.title}
                         width={1200}
                         height={525}
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
                     <h3 
-                      className="mt-2 text-lg font-light text-center"
+                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
                       style={{ 
                         fontFamily: "'Courier New', Courier, monospace",
                         color: theme.text
@@ -104,7 +104,7 @@ export default async function Sculptures() {
             )}
 
             {/* Regular sculptures in columns */}
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col md:flex-row gap-8 animate-slide-in-right">
               {/* Column 1 */}
               <div className="flex-1 flex flex-col gap-8">
                 {column1.map((sculpture, index) => (
@@ -119,11 +119,11 @@ export default async function Sculptures() {
                         alt={sculpture.title}
                         width={600}
                         height={750}
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
                     <h3 
-                      className="mt-2 text-lg font-light text-center"
+                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
                       style={{ 
                         fontFamily: "'Courier New', Courier, monospace",
                         color: theme.text
@@ -149,11 +149,11 @@ export default async function Sculptures() {
                         alt={sculpture.title}
                         width={600}
                         height={750}
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
                     <h3 
-                      className="mt-2 text-lg font-light text-center"
+                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
                       style={{ 
                         fontFamily: "'Courier New', Courier, monospace",
                         color: theme.text
@@ -179,11 +179,11 @@ export default async function Sculptures() {
                         alt={sculpture.title}
                         width={600}
                         height={750}
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
                     <h3 
-                      className="mt-2 text-lg font-light text-center"
+                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
                       style={{ 
                         fontFamily: "'Courier New', Courier, monospace",
                         color: theme.text

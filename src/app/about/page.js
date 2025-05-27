@@ -141,7 +141,7 @@ export default async function AboutPage() {
   const headshot = await getHeadshot();
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen flex flex-col animate-fade-in" style={{ backgroundColor: theme.background }}>
       <Header 
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
@@ -153,23 +153,23 @@ export default async function AboutPage() {
       
       <main className="flex-1 py-6 max-w-5xl mx-auto">
         {/* Main content with biography and timeline in bordered container */}
-        <div className="mb-12">
+        <div className="mb-12 animate-slide-in-left">
           {/* Biography and Timeline section with border */}
-          <section className="bg-white p-6 shadow-sm border" style={{ borderColor: theme.accent }}>
+          <section className="bg-white p-6 md:border" style={{ borderColor: theme.accent }}>
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Biography section - Left side */}
               <div className="lg:w-2/3">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                   {/* Artist photo */}
-                  <div className="md:w-1/3 relative">
-                    <div className="aspect-square relative overflow-hidden">
+                  <div className="w-full md:w-1/3 relative">
+                    <div className="aspect-square relative overflow-hidden max-w-xs mx-auto md:mx-0">
                       {headshot ? (
                         <Image
                           src={`https:${headshot.url}`}
                           alt="Liesbeth van Keulen"
                           fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover transition-transform duration-700 hover:scale-105"
+                          sizes="(max-width: 768px) 300px, 33vw"
                           priority
                         />
                       ) : (
@@ -181,8 +181,8 @@ export default async function AboutPage() {
                   </div>
                   
                   {/* Quick intro */}
-                  <div id="biography" className="md:w-2/3" style={{ color: theme.text }}>
-                    <h2 className="text-xl mb-4 font-bold" style={{ 
+                  <div id="biography" className="w-full md:w-2/3" style={{ color: theme.text }}>
+                    <h2 className="text-xl mb-4 font-bold transition-all duration-300 hover:opacity-80" style={{ 
                       fontFamily: "'Courier New', Courier, monospace",
                       color: theme.heading
                     }}>
@@ -192,7 +192,7 @@ export default async function AboutPage() {
                     <div className="space-y-4 text-sm">
                       {biography ? (
                         <div 
-                          className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                          className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 transition-all duration-300 hover:opacity-90" 
                           dangerouslySetInnerHTML={{ __html: biography }} 
                         />
                       ) : (
@@ -201,6 +201,9 @@ export default async function AboutPage() {
                     </div>
                   </div>
                 </div>
+                
+                {/* Line under biography with padding */}
+                <div className="mt-8 mx-4 border-b md:hidden" style={{ borderColor: theme.accent }}></div>
               </div>
 
               {/* Timeline - Right side */}
@@ -208,7 +211,7 @@ export default async function AboutPage() {
                 <div className="space-y-4 text-sm" style={{ color: theme.text }}>
                   <div className="space-y-3">
                     {timeline.slice().reverse().map((item, index) => (
-                      <div key={index} className="flex flex-col gap-1">
+                      <div key={index} className="flex flex-col gap-1 transition-all duration-300 hover:opacity-80">
                         <span className="font-bold text-base">{item.date}</span>
                         <span 
                           className="text-sm font-medium"
@@ -220,16 +223,19 @@ export default async function AboutPage() {
                     ))}
                   </div>
                 </div>
+                
+                {/* Line under timeline with padding */}
+                <div className="mt-8 mx-4 border-b md:hidden" style={{ borderColor: theme.accent }}></div>
               </div>
             </div>
           </section>
         </div>
         
         {/* Section blocks */}
-        <div className="space-y-16">
+        <div className="space-y-8">
           {/* Statement Block */}
-          <section id="statement" className="bg-white p-6 shadow-sm border" style={{ borderColor: theme.accent }}>
-            <h2 className="text-xl mb-4 font-bold" style={{ 
+          <section id="statement" className="bg-white p-6 md:border animate-slide-in-right" style={{ borderColor: theme.accent }}>
+            <h2 className="text-xl mb-4 font-bold transition-all duration-300 hover:opacity-80" style={{ 
               fontFamily: "'Courier New', Courier, monospace",
               color: theme.heading
             }}>
@@ -238,7 +244,7 @@ export default async function AboutPage() {
             <div className="space-y-4 text-sm" style={{ color: theme.text }}>
               {statement ? (
                 <div 
-                  className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                  className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 transition-all duration-300 hover:opacity-90" 
                   dangerouslySetInnerHTML={{ __html: statement }} 
                 />
               ) : (

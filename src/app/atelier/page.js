@@ -113,7 +113,7 @@ export default async function AtelierPage() {
   const littleLiesbethImage = await getLittleLiesbethImage();
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen flex flex-col animate-fade-in" style={{ backgroundColor: theme.background }}>
       <Header 
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
@@ -127,7 +127,7 @@ export default async function AtelierPage() {
         {/* Section blocks */}
         <div className="space-y-16">
           {/* Inspiratie Block */}
-          <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
+          <section className="bg-white md:shadow-sm md:border animate-slide-in-left" style={{ borderColor: theme.accent }}>
             <div className="flex flex-col">
               {/* Image - Full width at top */}
               {inspirationImage && (
@@ -137,7 +137,7 @@ export default async function AtelierPage() {
                       src={`https:${inspirationImage.url}`}
                       alt="Inspiratie"
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-700 hover:scale-105"
                       sizes="100vw"
                     />
                   </div>
@@ -145,7 +145,7 @@ export default async function AtelierPage() {
               )}
               {/* Text - Full width below image */}
               <div className="p-6 space-y-4 text-sm w-full" style={{ color: theme.text }}>
-                <h2 className="text-xl mb-4" style={{ 
+                <h2 className="text-xl mb-4 transition-all duration-300 hover:opacity-80" style={{ 
                   fontFamily: "'Courier New', Courier, monospace",
                   color: theme.heading,
                   fontWeight: 400
@@ -154,7 +154,7 @@ export default async function AtelierPage() {
                 </h2>
                 {inspiration ? (
                   <div 
-                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 transition-all duration-300 hover:opacity-90" 
                     dangerouslySetInnerHTML={{ __html: inspiration }} 
                   />
                 ) : (
@@ -165,7 +165,7 @@ export default async function AtelierPage() {
           </section>
           
           {/* Creatief Process Block */}
-          <section className="bg-white shadow-sm border" style={{ borderColor: theme.accent }}>
+          <section className="bg-white md:shadow-sm md:border animate-slide-in-right" style={{ borderColor: theme.accent }}>
             <div className="flex flex-col lg:flex-row">
               {/* Image */}
               {littleLiesbethImage && (
@@ -175,7 +175,7 @@ export default async function AtelierPage() {
                       src={`https:${littleLiesbethImage.url}`}
                       alt="Little Liesbeth"
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-700 hover:scale-105"
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </div>
@@ -183,7 +183,7 @@ export default async function AtelierPage() {
               )}
               {/* Text */}
               <div className={`p-6 space-y-4 text-sm ${littleLiesbethImage ? 'lg:w-1/2' : 'w-full'} lg:order-1`} style={{ color: theme.text }}>
-                <h2 className="text-xl mb-4" style={{ 
+                <h2 className="text-xl mb-4 transition-all duration-300 hover:opacity-80" style={{ 
                   fontFamily: "'Courier New', Courier, monospace",
                   color: theme.heading,
                   fontWeight: 400
@@ -192,7 +192,7 @@ export default async function AtelierPage() {
                 </h2>
                 {creativeProcess ? (
                   <div 
-                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                    className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 transition-all duration-300 hover:opacity-90" 
                     dangerouslySetInnerHTML={{ __html: creativeProcess }} 
                   />
                 ) : (

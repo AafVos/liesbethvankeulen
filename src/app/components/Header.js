@@ -203,14 +203,14 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
             </div>
           </div>
           {/* Title row (always visible, even when menu open) */}
-          <div className="flex items-center justify-center mt-2 relative z-50">
+          <div className="flex items-center justify-center mt-10 relative z-50">
             <Link href="/home" className="cursor-pointer inline-block z-50" onClick={() => setMenuOpen(false)}>
               <h2 
-                className="text-2xl tracking-wide drop-shadow-md text-center" 
+                className="text-2xl tracking-wide drop-shadow-md text-center whitespace-nowrap" 
                 style={{ 
                   fontFamily: theme.fontFamily,
-                  fontWeight: 550,
-                  letterSpacing: '0.05em',
+                  fontWeight: 650,
+                  letterSpacing: '0.07em',
                   color: headerColor,
                   transition: 'color 0.3s ease'
                 }}
@@ -222,11 +222,11 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
         </div>
         {/* Subtitle below, centered (always visible) */}
         {subtitle && (
-          <div className="w-full text-center text-base mt-0 tracking-wide z-50 relative" style={{
+          <div className="w-full text-center text-base mt-0 tracking-wide z-50 relative whitespace-nowrap" style={{
             fontFamily: theme.fontFamily,
             color: headerColor,
             opacity: 0.8,
-            letterSpacing: '0.03em',
+            letterSpacing: '0.01em',
             fontWeight: 550,
             transition: 'color 0.3s ease'
           }}>

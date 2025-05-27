@@ -54,9 +54,9 @@ export default async function Portraits() {
   });
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen animate-fade-in" style={{ backgroundColor: theme.background }}>
       <div className="container mx-auto px-8 py-8">
-        <div className="relative mb-8">
+        <div className="relative mb-8 animate-slide-in-left">
           <Link href="/work/paintings" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
@@ -75,8 +75,8 @@ export default async function Portraits() {
           <div className="flex flex-col gap-16">
             {/* Wide paintings at the top */}
             {widePaintings.length > 0 && (
-              <div className="w-full">
-                {widePaintings.map(painting => (
+              <div className="w-full animate-slide-in-left">
+                {widePaintings.map((painting, index) => (
                   <Link 
                     key={painting.id} 
                     href={`/work/paintings/portraits/${painting.slug}`} 
@@ -92,7 +92,7 @@ export default async function Portraits() {
                       />
                     </div>
                     <h3 
-                      className="mt-2 text-lg font-light text-center"
+                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
                       style={{ 
                         fontFamily: "'Courier New', Courier, monospace",
                         color: theme.text
@@ -108,7 +108,7 @@ export default async function Portraits() {
             {/* Regular paintings in columns */}
             <div className="flex flex-col md:flex-row gap-8">
               {/* Column 1 */}
-              <div className="flex-1 flex flex-col gap-8">
+              <div className="flex-1 flex flex-col gap-8 animate-slide-in-left">
                 {column1.map((painting, index) => (
                   <Link 
                     key={painting.id} 
@@ -125,7 +125,7 @@ export default async function Portraits() {
                       />
                     </div>
                     <h3 
-                      className="mt-2 text-lg font-light text-center"
+                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
                       style={{ 
                         fontFamily: "'Courier New', Courier, monospace",
                         color: theme.text
@@ -138,7 +138,7 @@ export default async function Portraits() {
               </div>
               
               {/* Column 2 */}
-              <div className="flex-1 flex flex-col gap-8">
+              <div className="flex-1 flex flex-col gap-8 animate-slide-in-right">
                 {column2.map((painting, index) => (
                   <Link 
                     key={painting.id} 
@@ -155,7 +155,7 @@ export default async function Portraits() {
                       />
                     </div>
                     <h3 
-                      className="mt-2 text-lg font-light text-center"
+                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
                       style={{ 
                         fontFamily: "'Courier New', Courier, monospace",
                         color: theme.text
@@ -168,7 +168,7 @@ export default async function Portraits() {
               </div>
               
               {/* Column 3 - Only show on large screens */}
-              <div className="flex-1 flex flex-col gap-8 hidden lg:flex">
+              <div className="flex-1 flex flex-col gap-8 hidden lg:flex animate-slide-in-right">
                 {column3.map((painting, index) => (
                   <Link 
                     key={painting.id} 
@@ -185,7 +185,7 @@ export default async function Portraits() {
                       />
                     </div>
                     <h3 
-                      className="mt-2 text-lg font-light text-center"
+                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
                       style={{ 
                         fontFamily: "'Courier New', Courier, monospace",
                         color: theme.text
@@ -199,7 +199,7 @@ export default async function Portraits() {
             </div>
           </div>
         ) : (
-          <div className="text-center py-12">
+          <div className="text-center py-12 animate-fade-in">
             <p style={{ color: theme.text }}>No portrait paintings found.</p>
           </div>
         )}

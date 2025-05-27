@@ -85,8 +85,8 @@ export default async function LandscapePainting({ params }) {
     title: fields.title,
     medium: fields.medium,
     dimensions: fields.dimensions,
-    price: fields.price,
-    priceType: typeof fields.price
+    price: fields.prijs,
+    priceType: typeof fields.prijs
   }, null, 2));
   
   // For ENCI-groeve specifically, log even more details
@@ -99,9 +99,9 @@ export default async function LandscapePainting({ params }) {
   const dimensionsText = getTextFromField(fields.dimensions);
   
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen animate-fade-in" style={{ backgroundColor: theme.background }}>
       <div className="container mx-auto px-4 md:px-8 py-8 max-w-6xl">
-        <div className="relative mb-8">
+        <div className="relative mb-8 animate-slide-in-left">
           <Link href="/work/paintings/landscapes" className="text-4xl md:text-6xl hover:opacity-80 transition-opacity absolute left-0 top-1/2 -translate-y-1/2" style={{ color: theme.text }}>
             ←
           </Link>
@@ -116,7 +116,7 @@ export default async function LandscapePainting({ params }) {
           </h1>
         </div>
         
-        <div className="bg-white overflow-hidden border mt-6" style={{ borderColor: theme.text }}>
+        <div className="bg-white overflow-hidden border mt-6 animate-slide-in-right" style={{ borderColor: theme.text }}>
           <div className={`${isWide ? '' : 'lg:flex flex-col lg:flex-row'}`}>
             {/* Image section - larger on desktop, full width if it has wide tag */}
             <div className={isWide ? "w-full" : "lg:w-2/3 relative"}>
@@ -129,7 +129,7 @@ export default async function LandscapePainting({ params }) {
                     width={isWide ? 1600 : undefined}
                     height={isWide ? 900 : undefined}
                     sizes={isWide ? "100vw" : "(max-width: 1024px) 100vw, 66vw"}
-                    className={`${isWide ? 'object-contain w-full h-auto' : 'object-contain object-left md:object-left object-top'}`}
+                    className={`${isWide ? 'object-contain w-full h-auto' : 'object-contain object-left md:object-left object-top'} transition-transform duration-700 hover:scale-105`}
                     priority
                   />
                 </div>
@@ -145,7 +145,7 @@ export default async function LandscapePainting({ params }) {
             {isWide ? (
               <div className="p-8 flex flex-col">
                 <h1 
-                  className="text-2xl md:text-3xl font-light mb-8"
+                  className="text-2xl md:text-3xl font-light mb-8 transition-all duration-300"
                   style={{ 
                     fontFamily: theme.fontFamily,
                     color: theme.text
@@ -156,7 +156,7 @@ export default async function LandscapePainting({ params }) {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-auto">
                   {fields.year && (
-                    <div>
+                    <div className="transition-all duration-300 hover:opacity-80">
                       <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Jaar</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {typeof fields.year === 'number' ? fields.year : fields.year}
@@ -165,7 +165,7 @@ export default async function LandscapePainting({ params }) {
                   )}
                   
                   {dimensionsText && (
-                    <div>
+                    <div className="transition-all duration-300 hover:opacity-80">
                       <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Afmetingen</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {dimensionsText}
@@ -174,7 +174,7 @@ export default async function LandscapePainting({ params }) {
                   )}
                   
                   {mediumText && (
-                    <div>
+                    <div className="transition-all duration-300 hover:opacity-80">
                       <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {mediumText}
@@ -182,12 +182,12 @@ export default async function LandscapePainting({ params }) {
                     </div>
                   )}
                   
-                  <div>
+                  <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.price === 0 ? "Verkocht" : 
-                       fields.price === undefined ? "Op aanvraag" : 
-                       typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
+                      {fields.prijs === 0 ? "Niet te koop" : 
+                       fields.prijs === undefined ? "Op aanvraag" : 
+                       typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs}
                     </p>
                   </div>
                 </div>
@@ -195,7 +195,7 @@ export default async function LandscapePainting({ params }) {
                 <div className="mt-8">
                   <Link 
                     href={`mailto:liesbethvankeulen@gmail.com?subject=Interesse in schilderij: ${fields.title || 'Zonder titel'}`}
-                    className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-colors"
+                    className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-all duration-300 transform hover:scale-105"
                     style={{ borderColor: theme.text, color: theme.text }}
                   >
                     Interesse in dit schilderij
@@ -205,7 +205,7 @@ export default async function LandscapePainting({ params }) {
             ) : (
               <div className="lg:w-1/3 p-8 flex flex-col">
                 <h1 
-                  className="text-2xl md:text-3xl font-light mb-8"
+                  className="text-2xl md:text-3xl font-light mb-8 transition-all duration-300"
                   style={{ 
                     fontFamily: theme.fontFamily,
                     color: theme.text
@@ -216,7 +216,7 @@ export default async function LandscapePainting({ params }) {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-auto">
                   {fields.year && (
-                    <div>
+                    <div className="transition-all duration-300 hover:opacity-80">
                       <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Jaar</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {typeof fields.year === 'number' ? fields.year : fields.year}
@@ -225,7 +225,7 @@ export default async function LandscapePainting({ params }) {
                   )}
                   
                   {dimensionsText && (
-                    <div>
+                    <div className="transition-all duration-300 hover:opacity-80">
                       <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Afmetingen</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {dimensionsText}
@@ -234,7 +234,7 @@ export default async function LandscapePainting({ params }) {
                   )}
                   
                   {mediumText && (
-                    <div>
+                    <div className="transition-all duration-300 hover:opacity-80">
                       <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Materiaal</h3>
                       <p className="text-lg" style={{ color: theme.text }}>
                         {mediumText}
@@ -242,12 +242,12 @@ export default async function LandscapePainting({ params }) {
                     </div>
                   )}
                   
-                  <div>
+                  <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.price === 0 ? "Verkocht" : 
-                       fields.price === undefined ? "Op aanvraag" : 
-                       typeof fields.price === 'number' ? `€${fields.price}` : fields.price}
+                      {fields.prijs === 0 ? "Niet te koop" : 
+                       fields.prijs === undefined ? "Op aanvraag" : 
+                       typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs}
                     </p>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ export default async function LandscapePainting({ params }) {
                 <div className="mt-12">
                   <Link 
                     href={`mailto:liesbethvankeulen@gmail.com?subject=Interesse in schilderij: ${fields.title || 'Zonder titel'}`}
-                    className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-colors"
+                    className="inline-block border px-6 py-3 text-center hover:bg-gray-50 transition-all duration-300 transform hover:scale-105"
                     style={{ borderColor: theme.text, color: theme.text }}
                   >
                     Interesse in dit schilderij

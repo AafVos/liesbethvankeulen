@@ -18,7 +18,7 @@ const thankYouItems = [
 
 export default function ThankYouPage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
+    <div className="min-h-screen animate-fade-in" style={{ backgroundColor: theme.background }}>
       <Header 
         title="Liesbeth van Keulen" 
         subtitle="In search of unexpected beauty" 
@@ -27,7 +27,7 @@ export default function ThankYouPage() {
       />
       <div className="container mx-auto px-4 md:px-8 py-4 md:py-8 flex-1">
         {/* Thank You Card */}
-        <div className="border shadow-md bg-white/70 w-full max-w-5xl mx-auto flex flex-col md:flex-row p-0 mb-8 md:mb-12" style={{ borderColor: theme.text }}>
+        <div className="border shadow-md bg-white/70 w-full max-w-5xl mx-auto flex flex-col md:flex-row p-0 mb-8 md:mb-12 animate-slide-in-left" style={{ borderColor: theme.text }}>
           {/* Left: Image area */}
           <div className="flex flex-col items-center md:items-start flex-1">
             <div className="w-full h-48 md:h-64 md:max-h-[600px] md:h-auto bg-gray-200 overflow-hidden flex-1 flex items-center justify-center">
@@ -36,7 +36,7 @@ export default function ThankYouPage() {
                 alt="Artist in studio painting"
                 width={600}
                 height={800}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
                 priority
               />
             </div>
@@ -44,14 +44,14 @@ export default function ThankYouPage() {
           {/* Right: Thank you message */}
           <div className="flex flex-col justify-center md:pr-8 md:pl-4 flex-1">
             <div className="p-4 md:p-8 flex-1 flex flex-col justify-center">
-              <h1 className="text-xl md:text-2xl lg:text-3xl font-normal mb-4 md:mb-6 text-center" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.heading }}>
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-normal mb-4 md:mb-6 text-center transition-all duration-300 hover:opacity-80" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.heading }}>
                 Bedankt voor je bericht!
               </h1>
               <div className="text-center space-y-4 mb-6">
-                <p className="text-sm md:text-base lg:text-lg leading-relaxed" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.text, opacity: 0.8 }}>
+                <p className="text-sm md:text-base lg:text-lg leading-relaxed transition-all duration-300 hover:opacity-90" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.text, opacity: 0.8 }}>
                   Je bericht is succesvol verzonden.
                 </p>
-                <p className="text-sm md:text-base leading-relaxed" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.text, opacity: 0.8 }}>
+                <p className="text-sm md:text-base leading-relaxed transition-all duration-300 hover:opacity-90" style={{ fontFamily: 'Courier New, Courier, monospace', color: theme.text, opacity: 0.8 }}>
                   Ik neem zo spoedig mogelijk contact met je op.
                 </p>
               </div>
@@ -59,7 +59,7 @@ export default function ThankYouPage() {
               <div className="flex justify-center">
                 <Link 
                   href="/home"
-                  className="px-6 md:px-8 py-2 bg-[#6a7b4f] text-white text-base md:text-lg font-normal drop-shadow-md hover:opacity-80 transition-colors duration-300"
+                  className="px-6 md:px-8 py-2 bg-[#6a7b4f] text-white text-base md:text-lg font-normal drop-shadow-md hover:opacity-80 transition-all duration-300 transform hover:scale-105"
                   style={{ fontFamily: 'Courier New, Courier, monospace' }}
                 >
                   Terug naar home
