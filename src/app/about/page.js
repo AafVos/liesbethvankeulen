@@ -21,6 +21,14 @@ const timeline = [
   },
   {
     "date": "Vanaf 1988",
+    "highlight": "Werkzaam als professioneel beeldend kunstenaar in Amsterdam"
+  },
+  {
+    "date": "1994-2000",
+    "highlight": "Geboorte van haar twee kinderen"
+  },
+  {
+    "date": "Vanaf 2001",
     "highlight": "Werkzaam als professioneel portretschilder in Amsterdam"
   },
   {
@@ -34,6 +42,14 @@ const timeline = [
   {
     "date": "2016",
     "highlight": "Publicatie van het boek *Portretschilderen in olieverf – de basis*"
+  },
+  {
+    "date": "2021",
+    "highlight": "Publicatie van het boek *Portretschilderen, klassieke en moderne technieken in olieverf*"
+  },
+  {
+    "date": "2022",
+    "highlight": "Docent Atelier Cennini bij Vrije Academie, Amsterdam"
   },
   {
     "date": "2022",
@@ -135,55 +151,90 @@ export default async function AboutPage() {
         workItems={aboutItems}
       />
       
-      <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-8 items-start mb-12">
-          {/* Artist photo */}
-          <div className="md:w-1/3 relative">
-            <div className="aspect-square relative overflow-hidden">
-              {headshot ? (
-                <Image
-                  src={`https:${headshot.url}`}
-                  alt="Liesbeth van Keulen"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  priority
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                  <p className="text-gray-500">Artist Photo</p>
+      <main className="flex-1 py-6 max-w-5xl mx-auto">
+        {/* Main content with biography and timeline in bordered container */}
+        <div className="mb-12">
+          {/* Biography and Timeline section with border */}
+          <section className="bg-white p-6 shadow-sm border" style={{ borderColor: theme.accent }}>
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Biography section - Left side */}
+              <div className="lg:w-2/3">
+                <div className="flex flex-col md:flex-row gap-8 items-start">
+                  {/* Artist photo */}
+                  <div className="md:w-1/3 relative">
+                    <div className="aspect-square relative overflow-hidden">
+                      {headshot ? (
+                        <Image
+                          src={`https:${headshot.url}`}
+                          alt="Liesbeth van Keulen"
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          priority
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                          <p className="text-gray-500">Artist Photo</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Quick intro */}
+                  <div id="biography" className="md:w-2/3" style={{ color: theme.text }}>
+                    <h2 className="text-xl mb-4 font-bold" style={{ 
+                      fontFamily: "'Courier New', Courier, monospace",
+                      color: theme.heading
+                    }}>
+                      Liesbeth van Keulen
+                    </h2>
+                    
+                    <div className="space-y-4 text-sm">
+                      {biography ? (
+                        <div 
+                          className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                          dangerouslySetInnerHTML={{ __html: biography }} 
+                        />
+                      ) : (
+                        <p>Biography not available</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              )}
+              </div>
+
+              {/* Timeline - Right side */}
+              <div id="education" className="lg:w-1/3">
+                <div className="space-y-4 text-sm" style={{ color: theme.text }}>
+                  <div className="space-y-3">
+                    {timeline.slice().reverse().map((item, index) => (
+                      <div key={index} className="flex flex-col gap-1">
+                        <span className="font-bold text-base">{item.date}</span>
+                        <span 
+                          className="text-sm font-medium"
+                          dangerouslySetInnerHTML={{ 
+                            __html: item.highlight.replace(/\*(.*?)\*/g, '<em>$1</em>') 
+                          }} 
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          
-          {/* Quick intro */}
-          <div id="biography" className="md:w-2/3" style={{ color: theme.text }}>
-            <h2 className="text-xl mb-4" style={{ 
-              fontFamily: "'Courier New', Courier, monospace",
-              color: theme.heading,
-              fontWeight: 400
-            }}>
-              Liesbeth van Keulen
-            </h2>
-            
-            <div className="space-y-4 text-sm">
-              {biography ? (
-                <div 
-                  className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
-                  dangerouslySetInnerHTML={{ __html: biography }} 
-                />
-              ) : (
-                <p>Biography not available</p>
-              )}
-            </div>
-          </div>
+          </section>
         </div>
         
         {/* Section blocks */}
         <div className="space-y-16">
           {/* Statement Block */}
           <section id="statement" className="bg-white p-6 shadow-sm border" style={{ borderColor: theme.accent }}>
+            <h2 className="text-xl mb-4 font-bold" style={{ 
+              fontFamily: "'Courier New', Courier, monospace",
+              color: theme.heading
+            }}>
+              Artistic Statement
+            </h2>
             <div className="space-y-4 text-sm" style={{ color: theme.text }}>
               {statement ? (
                 <div 
@@ -195,26 +246,6 @@ export default async function AboutPage() {
               )}
             </div>
           </section>
-          
-          {/* Education Block */}
-          <section id="education" className="bg-white p-6 shadow-sm border" style={{ borderColor: theme.accent }}>
-            <div className="space-y-4 text-sm" style={{ color: theme.text }}>
-              <div className="space-y-3">
-                {timeline.map((item, index) => (
-                  <div key={index} className="flex flex-col sm:flex-row sm:gap-4">
-                    <span className="font-medium min-w-[120px] text-base">{item.date}</span>
-                    <span 
-                      dangerouslySetInnerHTML={{ 
-                        __html: item.highlight.replace(/\*(.*?)\*/g, '<em>$1</em>') 
-                      }} 
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-          
-
         </div>
       </main>
     </div>
