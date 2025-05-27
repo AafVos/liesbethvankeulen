@@ -53,6 +53,19 @@ export default async function Landscapes() {
     }
   });
 
+  // For mobile/tablet, redistribute column3 items into column1 and column2
+  const mobileColumn1 = [...column1];
+  const mobileColumn2 = [...column2];
+  
+  // Add column3 items alternately to column1 and column2 for mobile
+  column3.forEach((painting, index) => {
+    if (index % 2 === 0) {
+      mobileColumn1.push(painting);
+    } else {
+      mobileColumn2.push(painting);
+    }
+  });
+
   return (
     <div className="min-h-screen animate-fade-in" style={{ backgroundColor: theme.background }}>
       <div className="container mx-auto px-8 py-8">
@@ -109,62 +122,124 @@ export default async function Landscapes() {
             <div className="flex flex-col md:flex-row gap-8">
               {/* Column 1 */}
               <div className="flex-1 flex flex-col gap-8 animate-slide-in-left">
-                {column1.map((painting, index) => (
-                  <Link 
-                    key={painting.id} 
-                    href={`/work/paintings/landscapes/${painting.slug}`} 
-                    className="group"
-                  >
-                    <div className="aspect-w-4 aspect-h-3 overflow-hidden">
-                      <Image
-                        src={`https:${painting.url}`}
-                        alt={painting.title}
-                        width={600}
-                        height={450}
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 
-                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
-                      style={{ 
-                        fontFamily: "'Courier New', Courier, monospace",
-                        color: theme.text
-                      }}
+                {/* Show original column1 on desktop, mobileColumn1 on mobile/tablet */}
+                <div className="lg:hidden">
+                  {mobileColumn1.map((painting, index) => (
+                    <Link 
+                      key={painting.id} 
+                      href={`/work/paintings/landscapes/${painting.slug}`} 
+                      className="group mb-8"
                     >
-                      {painting.title}
-                    </h3>
-                  </Link>
-                ))}
+                      <div className="aspect-w-4 aspect-h-3 overflow-hidden">
+                        <Image
+                          src={`https:${painting.url}`}
+                          alt={painting.title}
+                          width={600}
+                          height={450}
+                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 
+                        className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
+                        style={{ 
+                          fontFamily: "'Courier New', Courier, monospace",
+                          color: theme.text
+                        }}
+                      >
+                        {painting.title}
+                      </h3>
+                    </Link>
+                  ))}
+                </div>
+                <div className="hidden lg:block">
+                  {column1.map((painting, index) => (
+                    <Link 
+                      key={painting.id} 
+                      href={`/work/paintings/landscapes/${painting.slug}`} 
+                      className="group mb-8"
+                    >
+                      <div className="aspect-w-4 aspect-h-3 overflow-hidden">
+                        <Image
+                          src={`https:${painting.url}`}
+                          alt={painting.title}
+                          width={600}
+                          height={450}
+                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 
+                        className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
+                        style={{ 
+                          fontFamily: "'Courier New', Courier, monospace",
+                          color: theme.text
+                        }}
+                      >
+                        {painting.title}
+                      </h3>
+                    </Link>
+                  ))}
+                </div>
               </div>
               
               {/* Column 2 */}
               <div className="flex-1 flex flex-col gap-8 animate-slide-in-right">
-                {column2.map((painting, index) => (
-                  <Link 
-                    key={painting.id} 
-                    href={`/work/paintings/landscapes/${painting.slug}`} 
-                    className={`group ${index > 0 ? 'mt-16' : ''}`}
-                  >
-                    <div className="aspect-w-4 aspect-h-3 overflow-hidden">
-                      <Image
-                        src={`https:${painting.url}`}
-                        alt={painting.title}
-                        width={600}
-                        height={450}
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 
-                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
-                      style={{ 
-                        fontFamily: "'Courier New', Courier, monospace",
-                        color: theme.text
-                      }}
+                {/* Show original column2 on desktop, mobileColumn2 on mobile/tablet */}
+                <div className="lg:hidden">
+                  {mobileColumn2.map((painting, index) => (
+                    <Link 
+                      key={painting.id} 
+                      href={`/work/paintings/landscapes/${painting.slug}`} 
+                      className={`group mb-8 ${index > 0 ? 'mt-16' : ''}`}
                     >
-                      {painting.title}
-                    </h3>
-                  </Link>
-                ))}
+                      <div className="aspect-w-4 aspect-h-3 overflow-hidden">
+                        <Image
+                          src={`https:${painting.url}`}
+                          alt={painting.title}
+                          width={600}
+                          height={450}
+                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 
+                        className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
+                        style={{ 
+                          fontFamily: "'Courier New', Courier, monospace",
+                          color: theme.text
+                        }}
+                      >
+                        {painting.title}
+                      </h3>
+                    </Link>
+                  ))}
+                </div>
+                <div className="hidden lg:block">
+                  {column2.map((painting, index) => (
+                    <Link 
+                      key={painting.id} 
+                      href={`/work/paintings/landscapes/${painting.slug}`} 
+                      className={`group mb-8 ${index > 0 ? 'mt-16' : ''}`}
+                    >
+                      <div className="aspect-w-4 aspect-h-3 overflow-hidden">
+                        <Image
+                          src={`https:${painting.url}`}
+                          alt={painting.title}
+                          width={600}
+                          height={450}
+                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 
+                        className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
+                        style={{ 
+                          fontFamily: "'Courier New', Courier, monospace",
+                          color: theme.text
+                        }}
+                      >
+                        {painting.title}
+                      </h3>
+                    </Link>
+                  ))}
+                </div>
               </div>
               
               {/* Column 3 - Only show on large screens */}
@@ -173,7 +248,7 @@ export default async function Landscapes() {
                   <Link 
                     key={painting.id} 
                     href={`/work/paintings/landscapes/${painting.slug}`} 
-                    className={`group ${index > 0 ? 'mt-24' : ''}`}
+                    className={`group mb-8 ${index > 0 ? 'mt-24' : ''}`}
                   >
                     <div className="aspect-w-4 aspect-h-3 overflow-hidden">
                       <Image
@@ -199,7 +274,7 @@ export default async function Landscapes() {
             </div>
           </div>
         ) : (
-          <div className="text-center py-12 animate-fade-in">
+          <div className="text-center py-12">
             <p style={{ color: theme.text }}>No landscape paintings found.</p>
           </div>
         )}

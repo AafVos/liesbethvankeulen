@@ -51,6 +51,19 @@ export default async function Sculptures() {
     }
   });
 
+  // For mobile/tablet, redistribute column3 items into column1 and column2
+  const mobileColumn1 = [...column1];
+  const mobileColumn2 = [...column2];
+  
+  // Add column3 items alternately to column1 and column2 for mobile
+  column3.forEach((sculpture, index) => {
+    if (index % 2 === 0) {
+      mobileColumn1.push(sculpture);
+    } else {
+      mobileColumn2.push(sculpture);
+    }
+  });
+
   return (
     <div className="min-h-screen animate-fade-in" style={{ backgroundColor: theme.background }}>
       <div className="container mx-auto px-8 py-8">
@@ -107,62 +120,124 @@ export default async function Sculptures() {
             <div className="flex flex-col md:flex-row gap-8 animate-slide-in-right">
               {/* Column 1 */}
               <div className="flex-1 flex flex-col gap-8">
-                {column1.map((sculpture, index) => (
-                  <Link 
-                    key={sculpture.id} 
-                    href={`/work/sculptures/${sculpture.slug}`}
-                    className="group"
-                  >
-                    <div className="aspect-w-4 aspect-h-5 overflow-hidden">
-                      <Image
-                        src={`https:${sculpture.url}`}
-                        alt={sculpture.title}
-                        width={600}
-                        height={750}
-                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 
-                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
-                      style={{ 
-                        fontFamily: "'Courier New', Courier, monospace",
-                        color: theme.text
-                      }}
+                {/* Show original column1 on desktop, mobileColumn1 on mobile/tablet */}
+                <div className="lg:hidden">
+                  {mobileColumn1.map((sculpture, index) => (
+                    <Link 
+                      key={sculpture.id} 
+                      href={`/work/sculptures/${sculpture.slug}`}
+                      className="group mb-8"
                     >
-                      {sculpture.title}
-                    </h3>
-                  </Link>
-                ))}
+                      <div className="aspect-w-4 aspect-h-5 overflow-hidden">
+                        <Image
+                          src={`https:${sculpture.url}`}
+                          alt={sculpture.title}
+                          width={600}
+                          height={750}
+                          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 
+                        className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
+                        style={{ 
+                          fontFamily: "'Courier New', Courier, monospace",
+                          color: theme.text
+                        }}
+                      >
+                        {sculpture.title}
+                      </h3>
+                    </Link>
+                  ))}
+                </div>
+                <div className="hidden lg:block">
+                  {column1.map((sculpture, index) => (
+                    <Link 
+                      key={sculpture.id} 
+                      href={`/work/sculptures/${sculpture.slug}`}
+                      className="group mb-8"
+                    >
+                      <div className="aspect-w-4 aspect-h-5 overflow-hidden">
+                        <Image
+                          src={`https:${sculpture.url}`}
+                          alt={sculpture.title}
+                          width={600}
+                          height={750}
+                          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 
+                        className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
+                        style={{ 
+                          fontFamily: "'Courier New', Courier, monospace",
+                          color: theme.text
+                        }}
+                      >
+                        {sculpture.title}
+                      </h3>
+                    </Link>
+                  ))}
+                </div>
               </div>
               
               {/* Column 2 */}
               <div className="flex-1 flex flex-col gap-8">
-                {column2.map((sculpture, index) => (
-                  <Link 
-                    key={sculpture.id} 
-                    href={`/work/sculptures/${sculpture.slug}`}
-                    className={`group ${index > 0 ? 'mt-16' : ''}`}
-                  >
-                    <div className="aspect-w-4 aspect-h-5 overflow-hidden">
-                      <Image
-                        src={`https:${sculpture.url}`}
-                        alt={sculpture.title}
-                        width={600}
-                        height={750}
-                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 
-                      className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
-                      style={{ 
-                        fontFamily: "'Courier New', Courier, monospace",
-                        color: theme.text
-                      }}
+                {/* Show original column2 on desktop, mobileColumn2 on mobile/tablet */}
+                <div className="lg:hidden">
+                  {mobileColumn2.map((sculpture, index) => (
+                    <Link 
+                      key={sculpture.id} 
+                      href={`/work/sculptures/${sculpture.slug}`}
+                      className={`group mb-8 ${index > 0 ? 'mt-16' : ''}`}
                     >
-                      {sculpture.title}
-                    </h3>
-                  </Link>
-                ))}
+                      <div className="aspect-w-4 aspect-h-5 overflow-hidden">
+                        <Image
+                          src={`https:${sculpture.url}`}
+                          alt={sculpture.title}
+                          width={600}
+                          height={750}
+                          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 
+                        className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
+                        style={{ 
+                          fontFamily: "'Courier New', Courier, monospace",
+                          color: theme.text
+                        }}
+                      >
+                        {sculpture.title}
+                      </h3>
+                    </Link>
+                  ))}
+                </div>
+                <div className="hidden lg:block">
+                  {column2.map((sculpture, index) => (
+                    <Link 
+                      key={sculpture.id} 
+                      href={`/work/sculptures/${sculpture.slug}`}
+                      className={`group mb-8 ${index > 0 ? 'mt-16' : ''}`}
+                    >
+                      <div className="aspect-w-4 aspect-h-5 overflow-hidden">
+                        <Image
+                          src={`https:${sculpture.url}`}
+                          alt={sculpture.title}
+                          width={600}
+                          height={750}
+                          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 
+                        className="mt-2 text-lg font-light text-center transition-all duration-300 group-hover:opacity-80"
+                        style={{ 
+                          fontFamily: "'Courier New', Courier, monospace",
+                          color: theme.text
+                        }}
+                      >
+                        {sculpture.title}
+                      </h3>
+                    </Link>
+                  ))}
+                </div>
               </div>
               
               {/* Column 3 - Only show on large screens */}
@@ -171,7 +246,7 @@ export default async function Sculptures() {
                   <Link 
                     key={sculpture.id} 
                     href={`/work/sculptures/${sculpture.slug}`}
-                    className={`group ${index > 0 ? 'mt-24' : ''}`}
+                    className={`group mb-8 ${index > 0 ? 'mt-24' : ''}`}
                   >
                     <div className="aspect-w-4 aspect-h-5 overflow-hidden">
                       <Image
