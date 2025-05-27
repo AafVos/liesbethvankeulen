@@ -113,14 +113,14 @@ export default function PageTitleDropdown({ color, items, themeName = 'dark' }) 
 
   return (
     <div 
-      className="relative" 
+      className="relative z-30" 
       ref={dropdownRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Title that serves as dropdown button */}
       <div 
-        className="flex items-center justify-center text-2xl md:text-3xl font-normal tracking-wide"
+        className="flex items-center justify-center text-2xl md:text-3xl font-normal tracking-wide z-30"
         style={{ 
           fontFamily: theme.fontFamily,
           color
@@ -128,7 +128,7 @@ export default function PageTitleDropdown({ color, items, themeName = 'dark' }) 
       >
         {items[0]?.subItems?.length > 0 ? (
           <div 
-            className="flex items-center cursor-pointer border-b border-current"
+            className="flex items-center cursor-pointer border-b border-current z-30"
             onClick={toggleDropdown}
           >
             {title}
@@ -145,7 +145,7 @@ export default function PageTitleDropdown({ color, items, themeName = 'dark' }) 
         ) : (
           <Link 
             href={items[0]?.href || '#'}
-            className="border-b border-current"
+            className="border-b border-current z-30"
           >
             {title}
           </Link>
@@ -249,4 +249,4 @@ export default function PageTitleDropdown({ color, items, themeName = 'dark' }) 
       )}
     </div>
   );
-} 
+}

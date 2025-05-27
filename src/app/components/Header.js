@@ -123,9 +123,9 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
   };
 
   return (
-    <header className="relative w-full z-50 py-6 px-6">
+    <header className="relative w-full py-6 px-6">
       {/* Mobile layout */}
-      <div className="md:hidden w-full flex flex-col items-center justify-center gap-1 relative z-50">
+      <div className="md:hidden w-full flex flex-col items-center justify-center gap-1 relative">
         {/* Top row: Instagram + Hamburger */}
         <div className="w-full flex flex-col mb-0">
           {/* Top row: Instagram + Hamburger */}
@@ -234,7 +234,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
           </div>
         )}
         {/* Add PageTitle dropdown for mobile */}
-        <div className="flex items-center justify-center mt-3 w-full relative z-[60]">
+        <div className="flex items-center justify-center mt-3 w-full relative z-30">
           <div className="relative w-full px-4">
             <PageTitleDropdown 
               color={headerColor} 
@@ -246,7 +246,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
       </div>
 
       {/* Desktop layout */}
-      <div className="hidden md:flex items-center w-full relative z-50">
+      <div className="hidden md:flex items-center w-full relative">
         {/* Left: Title */}
         <div className="flex-shrink-0 z-50">
           <div className="text-center">
@@ -283,9 +283,9 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
         <div className="flex-grow"></div>
         
         {/* Right: Navigation, Instagram, Facebook, Email and hamburger */}
-        <div className="flex items-center gap-6 flex-shrink-0">
+        <div className="flex items-center gap-6 flex-shrink-0 z-50">
           {/* Navigation links */}
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center z-30">
             <PageTitleDropdown 
               color={headerColor} 
               items={workItems}
@@ -294,7 +294,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
           </div>
           
           {/* Social media icons */}
-          <div ref={desktopIconsRef} className="flex items-center gap-4">
+          <div ref={desktopIconsRef} className="flex items-center gap-4 z-50">
             <a 
               href="https://www.instagram.com/portretliesbeth/" 
               target="_blank" 
