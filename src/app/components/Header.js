@@ -376,7 +376,7 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
         onClick={handleOverlayClick}
       >
         <div className="absolute top-0 left-0 right-0 h-24 z-10"></div> {/* Space for header */}
-        <nav ref={navRef} className="text-center">
+        <nav ref={navRef} className="text-center mt-16">
           <ul className="space-y-8">
             <li>
               <Link 
