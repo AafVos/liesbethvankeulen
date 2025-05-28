@@ -430,6 +430,16 @@ const Header = ({ title, subtitle, themeName, currentPage, workItems = [] }) => 
             </li>
             <li>
               <Link 
+                href="/news" 
+                className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
+                style={menuLinkStyle}
+                onClick={toggleMenu}
+              >
+                Nieuws
+              </Link>
+            </li>
+            <li>
+              <Link 
                 href="/contact" 
                 className="text-3xl hover:opacity-80 transition-colors duration-300 drop-shadow-lg"
                 style={menuLinkStyle}
