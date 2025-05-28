@@ -155,15 +155,19 @@ export default async function LessonsPage() {
                     Schilderlessen
                   </h2>
                   {lessonsContent ? (
-                    <div 
-                      className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 transition-all duration-300 hover:opacity-90" 
-                      dangerouslySetInnerHTML={{ __html: lessonsContent }} 
-                    />
+                    <div className="space-y-4 transition-all duration-300 hover:opacity-90">
+                      <div 
+                        className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                        dangerouslySetInnerHTML={{ __html: lessonsContent }} 
+                      />
+                      <p>Voor meer informatie en het inplannen van lessen, bezoek <span className="text-blue-500 hover:text-blue-600 font-medium underline">www.portretschoolamsterdam.nl</span>.</p>
+                    </div>
                   ) : (
                     <div className="space-y-4 transition-all duration-300 hover:opacity-90">
                       <p>Ontdek de wereld van het schilderen in mijn atelier in Amsterdam.</p>
                       <p>Ik geef persoonlijke schilderlessen voor beginners en gevorderden. Of je nu je eerste penseel oppakt of je techniek wilt verfijnen, samen ontdekken we jouw artistieke potentieel.</p>
                       <p>De lessen zijn afgestemd op jouw niveau en interesses. We werken met verschillende technieken en materialen, van olieverf tot acryl, van landschappen tot portretten.</p>
+                      <p>Voor meer informatie en het inplannen van lessen, bezoek <span className="text-blue-500 hover:text-blue-600 font-medium underline">www.portretschoolamsterdam.nl</span>.</p>
                     </div>
                   )}
                 </div>
@@ -199,15 +203,18 @@ export default async function LessonsPage() {
                     Workshops
                   </h2>
                   {workshopInfo ? (
-                    <div 
-                      className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 transition-all duration-300 hover:opacity-90" 
-                      dangerouslySetInnerHTML={{ __html: workshopInfo }} 
-                    />
+                    <div className="space-y-4 transition-all duration-300 hover:opacity-90">
+                      <div 
+                        className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                        dangerouslySetInnerHTML={{ __html: workshopInfo }} 
+                      />
+                      <p>Kijk op <span className="text-blue-500 hover:text-blue-600 font-medium underline">www.portretschoolamsterdam.nl</span> voor meer informatie over data en beschikbaarheid.</p>
+                    </div>
                   ) : (
                     <div className="space-y-4 transition-all duration-300 hover:opacity-90">
                       <p>Naast individuele lessen organiseer ik ook groepsworkshops voor verschillende niveaus.</p>
                       <p>Deze workshops zijn perfect voor wie samen met anderen wil leren en inspiratie wil opdoen. We werken aan thematische projecten en delen kennis en ervaringen.</p>
-                      <p>Workshops worden regelmatig georganiseerd. Neem contact op voor meer informatie over data en beschikbaarheid.</p>
+                      <p>Workshops worden regelmatig georganiseerd. Kijk op <span className="text-blue-500 hover:text-blue-600 font-medium underline">www.portretschoolamsterdam.nl</span> voor meer informatie over data en beschikbaarheid.</p>
                     </div>
                   )}
                 </div>
