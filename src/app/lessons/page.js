@@ -1,9 +1,12 @@
+'use client';
+
 import Header from '../components/Header';
 import { getThemeColors } from '../styles/theme';
 import { getEntries, getClient } from '@/lib/contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 // Choose a light theme for the lessons page
 const themeName = 'light';
@@ -36,7 +39,7 @@ async function getLessonsContent() {
 async function getWorkshopInfo() {
   try {
     const response = await getEntries('textField', {
-      'fields.title': 'workshop_info'
+      'fields.title': 'workshops'
     });
     
     if (response.items.length === 0) {
@@ -107,11 +110,58 @@ const lessonsItems = [
   }
 ];
 
-export default async function LessonsPage() {
-  const lessonsContent = await getLessonsContent();
-  const workshopInfo = await getWorkshopInfo();
-  const lessonsImage = await getLessonsImage();
-  const workshopImage = await getWorkshopImage();
+export default function LessonsPage() {
+  const [lessonsContent, setLessonsContent] = useState(null);
+  const [workshopInfo, setWorkshopInfo] = useState(null);
+  const [lessonsImage, setLessonsImage] = useState(null);
+  const [workshopImage, setWorkshopImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadContent() {
+      try {
+        const [lessons, workshop, lessonImg, workshopImg] = await Promise.all([
+          getLessonsContent(),
+          getWorkshopInfo(),
+          getLessonsImage(),
+          getWorkshopImage()
+        ]);
+        
+        setLessonsContent(lessons);
+        setWorkshopInfo(workshop);
+        setLessonsImage(lessonImg);
+        setWorkshopImage(workshopImg);
+      } catch (error) {
+        console.error('Error loading content:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadContent();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col animate-fade-in" style={{ backgroundColor: theme.background }}>
+        <Header 
+          title="Liesbeth van Keulen" 
+          subtitle="In search of unexpected beauty" 
+          themeName={themeName} 
+          PageTitle="Lessen"
+          currentPage="lessons"
+          workItems={lessonsItems}
+        />
+        <main className="flex-1 px-4 md:px-8 py-6 max-w-5xl mx-auto">
+          <div className="space-y-16">
+            <div className="text-center py-12">
+              <p style={{ color: theme.text }}>Loading...</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col animate-fade-in" style={{ backgroundColor: theme.background }}>
@@ -154,20 +204,12 @@ export default async function LessonsPage() {
                   }}>
                     Schilderlessen
                   </h2>
-                  {lessonsContent ? (
+                  {lessonsContent && (
                     <div className="space-y-4 transition-all duration-300 hover:opacity-90">
                       <div 
-                        className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                        className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 [&_a]:text-blue-600 [&_a]:underline [&_a:hover]:text-blue-800" 
                         dangerouslySetInnerHTML={{ __html: lessonsContent }} 
                       />
-                      <p>Voor meer informatie en het inplannen van lessen, bezoek <span className="text-blue-500 hover:text-blue-600 font-medium underline">www.portretschoolamsterdam.nl</span>.</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 transition-all duration-300 hover:opacity-90">
-                      <p>Ontdek de wereld van het schilderen in mijn atelier in Amsterdam.</p>
-                      <p>Ik geef persoonlijke schilderlessen voor beginners en gevorderden. Of je nu je eerste penseel oppakt of je techniek wilt verfijnen, samen ontdekken we jouw artistieke potentieel.</p>
-                      <p>De lessen zijn afgestemd op jouw niveau en interesses. We werken met verschillende technieken en materialen, van olieverf tot acryl, van landschappen tot portretten.</p>
-                      <p>Voor meer informatie en het inplannen van lessen, bezoek <span className="text-blue-500 hover:text-blue-600 font-medium underline">www.portretschoolamsterdam.nl</span>.</p>
                     </div>
                   )}
                 </div>
@@ -202,19 +244,12 @@ export default async function LessonsPage() {
                   }}>
                     Workshops
                   </h2>
-                  {workshopInfo ? (
+                  {workshopInfo && (
                     <div className="space-y-4 transition-all duration-300 hover:opacity-90">
                       <div 
-                        className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0" 
+                        className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 [&_a]:text-blue-600 [&_a]:underline [&_a:hover]:text-blue-800" 
                         dangerouslySetInnerHTML={{ __html: workshopInfo }} 
                       />
-                      <p>Kijk op <span className="text-blue-500 hover:text-blue-600 font-medium underline">www.portretschoolamsterdam.nl</span> voor meer informatie over data en beschikbaarheid.</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 transition-all duration-300 hover:opacity-90">
-                      <p>Naast individuele lessen organiseer ik ook groepsworkshops voor verschillende niveaus.</p>
-                      <p>Deze workshops zijn perfect voor wie samen met anderen wil leren en inspiratie wil opdoen. We werken aan thematische projecten en delen kennis en ervaringen.</p>
-                      <p>Workshops worden regelmatig georganiseerd. Kijk op <span className="text-blue-500 hover:text-blue-600 font-medium underline">www.portretschoolamsterdam.nl</span> voor meer informatie over data en beschikbaarheid.</p>
                     </div>
                   )}
                 </div>

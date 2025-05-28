@@ -52,6 +52,14 @@ async function getNewsItems() {
   }
 }
 
+// News page navigation items
+const newsNavItems = [
+  {
+    label: 'Nieuws',
+    href: '/news'
+  }
+];
+
 export default async function News() {
   let newsItems = [];
   
@@ -64,7 +72,14 @@ export default async function News() {
   
   return (
     <div className="min-h-screen" style={{ backgroundColor: theme.background }}>
-      <Header title="Liesbeth van Keulen" subtitle="In search of unexpected beauty" themeName={themeName} showNavigation={true} PageTitle="News" />
+      <Header 
+        title="Liesbeth van Keulen" 
+        subtitle="In search of unexpected beauty" 
+        themeName={themeName} 
+        PageTitle="Nieuws"
+        currentPage="news"
+        workItems={newsNavItems}
+      />
       <div className="container mx-auto px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {Array.isArray(newsItems) && newsItems.length > 0 ? (
