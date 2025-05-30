@@ -206,10 +206,10 @@ export default function LessonsPage() {
                   </h2>
                   {lessonsContent && (
                     <div className="space-y-4 transition-all duration-300 hover:opacity-90">
-                      <div 
+                    <div 
                         className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 [&_a]:text-blue-600 [&_a]:underline [&_a:hover]:text-blue-800" 
-                        dangerouslySetInnerHTML={{ __html: lessonsContent }} 
-                      />
+                      dangerouslySetInnerHTML={{ __html: lessonsContent }} 
+                    />
                     </div>
                   )}
                 </div>
@@ -246,10 +246,10 @@ export default function LessonsPage() {
                   </h2>
                   {workshopInfo && (
                     <div className="space-y-4 transition-all duration-300 hover:opacity-90">
-                      <div 
+                    <div 
                         className="prose prose-sm max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 [&_a]:text-blue-600 [&_a]:underline [&_a:hover]:text-blue-800" 
-                        dangerouslySetInnerHTML={{ __html: workshopInfo }} 
-                      />
+                      dangerouslySetInnerHTML={{ __html: workshopInfo }} 
+                    />
                     </div>
                   )}
                 </div>
