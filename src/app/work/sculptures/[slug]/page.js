@@ -134,7 +134,11 @@ export default async function SculptureDetail({ params }) {
                       {typeof fields.prijs === 'object' && fields.prijs.nodeType ? (
                         <span dangerouslySetInnerHTML={{ __html: renderFieldContent(fields.prijs) }} />
                       ) : (
-                        fields.prijs === 0 ? 'In opdracht gemaakt' : (typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs)
+                        fields.prijs === 1 ? "Verkocht" :
+                        fields.prijs === 2 ? "In opdracht" :
+                        fields.prijs === 0 ? "Niet te koop" : 
+                        fields.prijs === undefined ? "Op aanvraag" : 
+                        typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs
                       )}
                     </p>
                   </div>

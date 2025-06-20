@@ -185,7 +185,9 @@ export default async function LandscapePainting({ params }) {
                   <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.prijs === 0 ? "Niet te koop" : 
+                      {fields.prijs === 1 ? "Verkocht" :
+                       fields.prijs === 2 ? "In opdracht" :
+                       fields.prijs === 0 ? "Niet te koop" : 
                        fields.prijs === undefined ? "Op aanvraag" : 
                        typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs}
                     </p>
@@ -245,7 +247,9 @@ export default async function LandscapePainting({ params }) {
                   <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.prijs === 0 ? "Niet te koop" : 
+                      {fields.prijs === 1 ? "Verkocht" :
+                       fields.prijs === 2 ? "In opdracht" :
+                       fields.prijs === 0 ? "Niet te koop" : 
                        fields.prijs === undefined ? "Op aanvraag" : 
                        typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs}
                     </p>
