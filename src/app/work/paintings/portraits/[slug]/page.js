@@ -1,5 +1,6 @@
 import { getThemeColors } from '../../../../styles/theme';
 import { getEntries } from '@/lib/contentful';
+import { formatPrice } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -180,11 +181,7 @@ export default async function PortraitPainting({ params }) {
                   <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.prijs === 1 ? "Verkocht" :
-                       fields.prijs === 2 ? "In opdracht" :
-                       fields.prijs === 0 ? "Niet te koop" : 
-                       fields.prijs === undefined ? "Op aanvraag" : 
-                       typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs}
+                      {formatPrice(fields.prijs)}
                     </p>
                   </div>
                 </div>
@@ -242,11 +239,7 @@ export default async function PortraitPainting({ params }) {
                   <div className="transition-all duration-300 hover:opacity-80">
                     <h3 className="text-sm uppercase tracking-wider mb-1" style={{ color: theme.text, opacity: 0.7 }}>Prijs</h3>
                     <p className="text-lg" style={{ color: theme.text }}>
-                      {fields.prijs === 1 ? "Verkocht" :
-                       fields.prijs === 2 ? "In opdracht" :
-                       fields.prijs === 0 ? "Niet te koop" : 
-                       fields.prijs === undefined ? "Op aanvraag" : 
-                       typeof fields.prijs === 'number' ? `€${fields.prijs}` : fields.prijs}
+                      {formatPrice(fields.prijs)}
                     </p>
                   </div>
                 </div>
